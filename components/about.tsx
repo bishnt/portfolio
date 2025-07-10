@@ -172,26 +172,30 @@ creative: [
               transition={{ duration: 0.3 }}
               className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4"
             >
-              {skills[activeTab as keyof typeof skills].map((skill, index) => (
-                <motion.div
-                  key={skill.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.05 }}
-                  className="border border-white/20 p-3 sm:p-4 hover:border-white/40 transition-colors duration-300 flex items-center gap-3"
-                >
-                  <img
-                    src={skill.logo || "/placeholder.svg"}
-                    alt={skill.name}
-                    className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement
-                      target.src = "/placeholder.svg?height=32&width=32"
-                    }}
-                  />
-                  <div className="font-mono text-xs sm:text-sm">{skill.name}</div>
-                </motion.div>
-              ))}
+              {skills[activeTab as keyof typeof skills]
+                .filter((skill) => skill !== undefined && skill !== null)
+                .map((skill, index) =>
+                  skill ? (
+                    <motion.div
+                      key={skill.name}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: index * 0.05 }}
+                      className="border border-white/20 p-3 sm:p-4 hover:border-white/40 transition-colors duration-300 flex items-center gap-3"
+                    >
+                      <img
+                        src={skill.logo || "/placeholder.svg"}
+                        alt={skill.name}
+                        className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement
+                          target.src = "/placeholder.svg?height=32&width=32"
+                        }}
+                      />
+                      <div className="font-mono text-xs sm:text-sm">{skill.name}</div>
+                    </motion.div>
+                  ) : null
+                )}
             </motion.div>
 
             <motion.div

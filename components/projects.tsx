@@ -80,7 +80,7 @@ export default function Projects() {
     ],
   }
 
-  const handleProjectClick = (href) => {
+  const handleProjectClick = (href: string | undefined) => {
     if (href) {
       window.open(href, '_blank', 'noopener,noreferrer')
     }
@@ -118,7 +118,7 @@ export default function Projects() {
                     : "bg-white/10 text-white hover:bg-white/20 border border-white/20"
                 }`}
               >
-                <span className="mr-2">{tab.icon}</span>
+                {/* No icon for this tab */}
                 <span className="hidden sm:inline">{tab.label}</span>
                 <span className="sm:hidden">{tab.label.split(" ")[0]}</span>
               </button>
