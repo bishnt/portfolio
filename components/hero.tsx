@@ -260,8 +260,9 @@ export default function Hero() {
               <RotatingText />
             </motion.div>
 
-            <LocationBadge />
-
+<div className="flex justify-center sm:justify-start">
+  <LocationBadge />
+</div>
             <motion.p
               className="text-base sm:text-lg lg:text-xl text-white/70 max-w-2xl leading-relaxed"
               initial={{ opacity: 0, y: 20 }}
@@ -299,15 +300,14 @@ export default function Hero() {
 
             
 
-            {/* Social Links */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1 }}
-              className="pt-4"
-            >
-              <SocialLinks />
-            </motion.div>
+<motion.div
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ delay: 1 }}
+  className="pt-4 flex justify-center sm:justify-start"
+>
+  <SocialLinks />
+</motion.div>
 
 
             
