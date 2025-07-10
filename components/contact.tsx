@@ -16,7 +16,7 @@ export default function Contact() {
   const [formStatus, setFormStatus] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData(prev => ({
       ...prev,
@@ -24,7 +24,7 @@ export default function Contact() {
     }))
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault()
     setIsSubmitting(true)
     setFormStatus('')
@@ -85,7 +85,7 @@ export default function Contact() {
             CONTACT<span className="text-white/60">.ME</span>
           </h2>
           <p className="text-lg sm:text-xl text-white/70 max-w-3xl mx-auto">
-            Let's collaborate on something amazing. Whether it's a project, opportunity, or just a conversation about
+            Let&apos;s collaborate on something amazing. Whether it&apos;s a project, opportunity, or just a conversation about
             technology.
           </p>
         </motion.div>
@@ -138,13 +138,13 @@ export default function Contact() {
             >
               <h4 className="font-mono text-base sm:text-lg mb-3 sm:mb-4">Current Status</h4>
               <p className="text-sm sm:text-base text-white/80 mb-3 sm:mb-4">
-                 > Studying Electrical Engineering at IOE Pulchowk
+                 {'>'} Studying Electrical Engineering at IOE Pulchowk
               </p>
               <p className="text-sm sm:text-base text-white/80 mb-3 sm:mb-4">
-                 > Open to internships,work and project collaboration opportunities
+                 {'>'} Open to internships,work and project collaboration opportunities
               </p>
               <p className="text-sm sm:text-base text-white/80">
-                > Always excited to discuss innovative ideas and solutions
+                {'>'} Always excited to discuss innovative ideas and solutions
               </p>
             </motion.div>
           </motion.div>
@@ -205,19 +205,19 @@ export default function Contact() {
 
               {formStatus === 'success' && (
                 <div className="p-3 border border-green-400 bg-green-400/10 text-green-400 font-mono text-sm">
-                  > Message sent successfully! I'll get back to you soon.
+                  {'>'} Message sent successfully! I&apos;ll get back to you soon.
                 </div>
               )}
 
               {formStatus === 'error' && (
                 <div className="p-3 border border-red-400 bg-red-400/10 text-red-400 font-mono text-sm">
-                  > Error sending message. Please try again or email me directly.
+                  {'>'} Error sending message. Please try again or email me directly.
                 </div>
               )}
 
               {formStatus && formStatus !== 'success' && formStatus !== 'error' && (
                 <div className="p-3 border border-yellow-400 bg-yellow-400/10 text-yellow-400 font-mono text-sm">
-                  > {formStatus}
+                  {'>'} {formStatus}
                 </div>
               )}
 

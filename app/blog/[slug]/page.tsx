@@ -36,7 +36,7 @@ async function getBlogPost(slug: string): Promise<BlogPost | null> {
       author: data.author,
       content,
     }
-  } catch (error) {
+  } catch {
     return null
   }
 }
@@ -159,13 +159,18 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                   {children}
                 </blockquote>
               ),
-              code: ({ inline, children, ...props }) =>
+              code: ({
+                inline,
+                className,
+                children,
+                ...props
+              }: React.ComponentProps<'code'> & { inline?: boolean }) =>
                 inline ? (
-                  <code className="bg-white/10 px-2 py-1 rounded font-mono text-sm text-white" {...props}>
+                  <code className={`bg-white/10 px-2 py-1 rounded font-mono text-sm text-white ${className ?? ''}`} {...props}>
                     {children}
                   </code>
                 ) : (
-                  <code className="block bg-gray-900 p-4 rounded-lg overflow-x-auto font-mono text-sm" {...props}>
+                  <code className={`block bg-gray-900 p-4 rounded-lg overflow-x-auto font-mono text-sm ${className ?? ''}`} {...props}>
                     {children}
                   </code>
                 ),
