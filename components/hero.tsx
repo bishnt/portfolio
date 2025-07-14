@@ -270,7 +270,7 @@ export default function Hero() {
               transition={{ delay: 0.6 }}
             >
               Currently pursuing Electrical Engineering. A tech-savvy individual passionate about
-              solving problems through innovative solutions.
+              solving problems through innovative solutions. Currently focused on full stack development.
             </motion.p>
 
             <motion.div

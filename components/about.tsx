@@ -121,16 +121,15 @@ creative: [
 <h3 className="text-xl sm:text-2xl font-bold mb-4 lg:mb-6 font-mono">{"> WHO AM I?"}</h3>
 
 <p className="text-base sm:text-lg text-white/80 leading-relaxed">
-  I’m an Electrical Engineering student at IOE Pulchowk with a strong passion for technology and problem-solving.  
-  My journey started with video editing, where I spent 2 years creating visual stories, and has now grown into working with software as well as hardware development.
+ I'm an Electrical Engineering student at IOE Pulchowk with a background in both creative and technical work. I started with video editing, spent 2 years creating content, and gradually shifted toward software development.
 </p>
 
 <p className="text-base sm:text-lg text-white/80 leading-relaxed">
-  I see myself as a builder — someone who loves breaking down complex problems into simple, useful solutions. Whether it’s designing circuits or building web applications, I face every challenge with curiosity and determination.
+  Right now, I'm focused on full stack web development, building practical applications that solve real problems. I enjoy working on projects from start to finish and learning through building.
 </p>
 
 <p className="text-base sm:text-lg text-white/80 leading-relaxed">
-  You might wonder why an Electrical Engineering student is drawn to software and video editing. A few years ago, video editing was my way to express creativity and tell stories. Today, I view software and web development as powerful tools to solve real-world problems and make a positive impact.
+ In the long run, I’m interested in combining my understanding of Electricals & Electronics with software to create systems that bridge both fields.
 </p>
 
 
