@@ -37,8 +37,8 @@ export default function Contact() {
     }
 
     try {
-      // Using Formspree service - you'll need to sign up at formspree.io and get your form ID
-      const response = await fetch('https://formspree.io/f/bishrant150@gmail.com', {
+ 
+      const response = await fetch('https://formspree.io/f/myzppdlb', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
