@@ -20,7 +20,6 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
-        <Navbar />
         {children}
       </body>
     </html>

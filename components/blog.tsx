@@ -53,7 +53,7 @@ export default function Blog() {
   ]
 
   return (
-    <section id="blog" className="py-16 sm:py-20 lg:py-24 bg-gray-900" ref={ref}>
+    <section id="blog" className="py-16 sm:py-20 lg:py-24 bg-black" ref={ref}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 50 }}

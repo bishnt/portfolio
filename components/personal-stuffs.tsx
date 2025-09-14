@@ -286,7 +286,7 @@ export default function PersonalStuffs() {
 
 
   return (
-    <section className="py-16 sm:py-20 lg:py-24 bg-gray-900 text-white" ref={sectionRef}>
+    <section className="py-16 sm:py-20 lg:py-24 bg-black text-white" ref={sectionRef}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Title */}
         <motion.div
@@ -308,10 +308,10 @@ export default function PersonalStuffs() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="lg:col-span-1 bg-black border border-white/20 rounded-lg overflow-hidden shadow-lg hover:border-white/40 transition-all duration-300"
           >
-            {/* Spotify Header */}
-            <div className="bg-gradient-to-b from-gray-800 to-black p-4">
+            {/* Music Player Header */}
+            <div className="bg-black border-b border-white/10 p-4">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
                   <span className="text-black font-bold text-sm">♪</span>
                 </div>
                 <h3 className="text-lg font-bold">My Playlist</h3>
@@ -362,7 +362,7 @@ export default function PersonalStuffs() {
                   <div className="flex-1 min-w-0">
                     <div
                       className={`text-sm font-medium truncate ${
-                        currentlyPlaying === track.id ? "text-green-400" : ""
+                        currentlyPlaying === track.id ? "text-white" : ""
                       }`}
                     >
                       {track.title}
@@ -370,7 +370,7 @@ export default function PersonalStuffs() {
                     <div className="text-xs text-white/60 truncate">{track.artist}</div>
                   </div>
                   <div className="flex items-center gap-2">
-                    {track.liked && <Heart className="w-4 h-4 fill-green-500 text-green-500" />}
+                    {track.liked && <Heart className="w-4 h-4 fill-white text-white" />}
                     <MoreHorizontal className="w-4 h-4 text-white/40 opacity-0 group-hover:opacity-100 transition-opacity" />
                     <div className="text-xs text-white/40 font-mono w-8 text-right">{track.duration}</div>
                   </div>
@@ -385,7 +385,7 @@ export default function PersonalStuffs() {
                 <SkipBack className="w-4 h-4 text-white/60 hover:text-white cursor-pointer transition-colors" />
                 <button
                   onClick={handleMainPlayPause} // Use the unified main play/pause handler
-                  className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center hover:scale-105 transition-transform cursor-pointer shadow-md"
+                  className="w-10 h-10 bg-white rounded-full flex items-center justify-center hover:scale-105 transition-transform cursor-pointer shadow-md"
                   aria-label={currentlyPlaying ? "Pause" : "Play"}
                 >
                   {isLoading && currentlyPlaying ? (
@@ -412,7 +412,7 @@ export default function PersonalStuffs() {
                   }}
                 >
                   <div
-                    className="h-full bg-green-500 rounded-full transition-all duration-100"
+                    className="h-full bg-white rounded-full transition-all duration-100"
                     style={{ width: duration ? `${(currentTime / duration) * 100}%` : "0%" }}
                   />
                   <div
@@ -434,7 +434,7 @@ export default function PersonalStuffs() {
                     onChange={(e) => handleVolumeChange(Number.parseFloat(e.target.value))}
                     className="w-16 h-1 bg-white/20 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:shadow-md [&::-webkit-slider-thumb]:transition-all [&::-webkit-slider-thumb]:duration-150 [&::-webkit-slider-thumb]:hover:scale-110"
                     style={{
-                      background: `linear-gradient(to right, #22C55E 0%, #22C55E ${volume * 100}%, rgba(255,255,255,0.2) ${volume * 100}%, rgba(255,255,255,0.2) 100%)`,
+                      background: `linear-gradient(to right, #FFFFFF 0%, #FFFFFF ${volume * 100}%, rgba(255,255,255,0.2) ${volume * 100}%, rgba(255,255,255,0.2) 100%)`,
                     }}
                   />
                 </div>
@@ -449,10 +449,10 @@ export default function PersonalStuffs() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="lg:col-span-2 bg-black border border-white/20 rounded-lg overflow-hidden shadow-lg hover:border-white/40 transition-all duration-300"
           >
-            {/* IMDB Header */}
-            <div className="bg-gradient-to-r from-yellow-600/20 to-yellow-500/10 p-4 border-b border-white/10">
+            {/* Movies Header */}
+            <div className="bg-black border-b border-white/10 p-4">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-yellow-500 rounded flex items-center justify-center">
+                <div className="w-8 h-8 bg-white rounded flex items-center justify-center">
                   <span className="text-black font-bold text-sm">M</span>
                 </div>
                 <h3 className="text-lg font-bold">Movies I Love</h3>
@@ -497,16 +497,16 @@ export default function PersonalStuffs() {
                           </div>
                           <div className="text-xs text-white/50">{movie.genre}</div>
                         </div>
-                        <div className="flex items-center gap-1 bg-yellow-500/20 px-2 py-1 rounded">
-                          <Star className="w-3 h-3 fill-yellow-500 text-yellow-500" />
-                          <span className="text-xs font-mono text-yellow-500">{movie.rating}</span>
+                        <div className="flex items-center gap-1 bg-white/20 px-2 py-1 rounded">
+                          <Star className="w-3 h-3 fill-white text-white" />
+                          <span className="text-xs font-mono text-white">{movie.rating}</span>
                         </div>
                       </div>
 
                       <p className="text-sm text-white/70 leading-relaxed line-clamp-3">{movie.description}</p>
 
                       <div className="flex items-center gap-4 mt-3">
-                        <button className="text-xs text-blue-400 hover:text-blue-300 transition-colors font-medium">
+                        <button className="text-xs text-white/80 hover:text-white transition-colors font-medium">
                           + Watchlist
                         </button>
                         <button className="text-xs text-white/60 hover:text-white/80 transition-colors font-medium">Rate</button>
@@ -528,7 +528,7 @@ export default function PersonalStuffs() {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.6 + index * 0.05 }}
-              className="border border-white/20 p-4 hover:border-white/40 transition-all duration-300 text-center rounded-lg shadow-md bg-gray-800"
+              className="border border-white/20 p-4 hover:border-white/40 transition-all duration-300 text-center rounded-lg shadow-md bg-black"
             >
               <p className="text-sm text-white/80 leading-relaxed">{fact}</p>
             </motion.div>

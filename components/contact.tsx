@@ -204,19 +204,19 @@ export default function Contact() {
               </div>
 
               {formStatus === 'success' && (
-                <div className="p-3 border border-green-400 bg-green-400/10 text-green-400 font-mono text-sm">
+                <div className="p-3 border border-white/40 bg-white/10 text-white font-mono text-sm">
                   {'>'} Message sent successfully! I&apos;ll get back to you soon.
                 </div>
               )}
 
               {formStatus === 'error' && (
-                <div className="p-3 border border-red-400 bg-red-400/10 text-red-400 font-mono text-sm">
+                <div className="p-3 border border-white/20 bg-white/5 text-white/80 font-mono text-sm">
                   {'>'} Error sending message. Please try again or email me directly.
                 </div>
               )}
 
               {formStatus && formStatus !== 'success' && formStatus !== 'error' && (
-                <div className="p-3 border border-yellow-400 bg-yellow-400/10 text-yellow-400 font-mono text-sm">
+                <div className="p-3 border border-white/30 bg-white/5 text-white/70 font-mono text-sm">
                   {'>'} {formStatus}
                 </div>
               )}

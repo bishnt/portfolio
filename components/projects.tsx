@@ -87,7 +87,7 @@ export default function Projects() {
   }
 
   return (
-    <section id="projects" className="py-16 sm:py-20 lg:py-24 bg-gray-900" ref={ref}>
+    <section id="projects" className="py-16 sm:py-20 lg:py-24 bg-black" ref={ref}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -152,10 +152,10 @@ export default function Projects() {
                 <span
                   className={`text-xs px-2 py-1 rounded font-mono self-start ${
                     project.status === "Completed"
-                      ? "bg-green-500/20 text-green-400"
+                      ? "bg-white/20 text-white"
                       : project.status === "In Progress"
-                        ? "bg-yellow-500/20 text-yellow-400"
-                        : "bg-blue-500/20 text-blue-400"
+                        ? "bg-white/10 text-white/80"
+                        : "bg-white/5 text-white/60"
                   }`}
                 >
                   {project.status}

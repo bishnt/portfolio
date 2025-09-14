@@ -68,15 +68,15 @@ export default function Education() {
                   <div className="flex-1">
                     <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
                       <h3 className="text-lg font-bold font-mono">{edu.level}</h3>
-                      <span
-                        className={`text-xs px-2 py-1 rounded font-mono self-start ${
-                          edu.status === "Completed"
-                            ? "bg-green-500/20 text-green-400"
-                            : "bg-yellow-500/20 text-yellow-400"
-                        }`}
-                      >
-                        {edu.status}
-                      </span>
+                <span
+                  className={`text-xs px-2 py-1 rounded font-mono self-start ${
+                    edu.status === "Completed"
+                      ? "bg-white/20 text-white"
+                      : "bg-white/10 text-white/80"
+                  }`}
+                >
+                  {edu.status}
+                </span>
                     </div>
                     <h4 className="text-sm text-white/80 mt-1">{edu.degree}</h4>
                     <p className="text-white/60 font-mono text-xs">{edu.institution}</p>
