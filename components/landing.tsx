@@ -14,9 +14,15 @@ export default function Landing() {
     setSelectedOption(option)
     setIsTransitioning(true)
     
-    // Longer transition to main page
+    // Route to specific page based on selection
     setTimeout(() => {
-      router.push('/main')
+      if (option === 'cs') {
+        router.push('/cs')
+      } else if (option === 'ee') {
+        router.push('/ee')
+      } else if (option === 'creatives') {
+        router.push('/creatives')
+      }
     }, 3000)
   }
 
