@@ -5,8 +5,38 @@ import { motion } from "framer-motion"
 import { Github, Linkedin, Instagram, MapPin } from "lucide-react"
 
 function AnimatedSineWave() {
+  const [amplitude, setAmplitude] = useState(100)
+  const [isDragging, setIsDragging] = useState(false)
+  const [dragStart, setDragStart] = useState({ y: 0, initialAmplitude: 100 })
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true)
+    setDragStart({ 
+      y: e.clientY, 
+      initialAmplitude: amplitude 
+    })
+  }
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return
+    
+    const deltaY = dragStart.y - e.clientY
+    const newAmplitude = Math.max(20, Math.min(150, dragStart.initialAmplitude + deltaY * 0.5))
+    setAmplitude(newAmplitude)
+  }
+
+  const handleMouseUp = () => {
+    setIsDragging(false)
+  }
+
   return (
-    <div className="w-full h-full flex items-center justify-center relative">
+    <div 
+      className="w-full h-full flex items-center justify-center relative cursor-ns-resize select-none"
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+    >
       <svg width="100%" height="100%" viewBox="0 0 500 400" className="max-w-2xl">
         <defs>
           <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -34,20 +64,32 @@ function AnimatedSineWave() {
         <line x1="250" y1="50" x2="250" y2="350" stroke="white" strokeWidth="1" opacity="0.3" />
 
         {/* Main sine wave */}
-        <path d="M50,200 Q150,100 250,200 T450,200" stroke="url(#waveGradient)" strokeWidth="4" fill="none">
+        <path 
+          d={`M50,200 C100,${200 - amplitude * 0.8} 125,${200 - amplitude} 150,${200 - amplitude} C175,${200 - amplitude} 200,${200 + amplitude} 225,${200 + amplitude} C250,${200 + amplitude} 275,${200 - amplitude} 300,${200 - amplitude} C325,${200 - amplitude} 350,${200 + amplitude} 375,${200 + amplitude} C400,${200 + amplitude} 425,${200 - amplitude * 0.8} 450,200`} 
+          stroke="url(#waveGradient)" 
+          strokeWidth="4" 
+          fill="none"
+          style={{ transition: isDragging ? 'none' : 'all 0.3s ease' }}
+        >
           <animate
             attributeName="d"
-            values="M50,200 Q150,100 250,200 T450,200;M50,200 Q150,300 250,200 T450,200;M50,200 Q150,100 250,200 T450,200"
+            values={`M50,200 C100,${200 - amplitude * 0.8} 125,${200 - amplitude} 150,${200 - amplitude} C175,${200 - amplitude} 200,${200 + amplitude} 225,${200 + amplitude} C250,${200 + amplitude} 275,${200 - amplitude} 300,${200 - amplitude} C325,${200 - amplitude} 350,${200 + amplitude} 375,${200 + amplitude} C400,${200 + amplitude} 425,${200 - amplitude * 0.8} 450,200;M50,200 C100,${200 + amplitude * 0.8} 125,${200 + amplitude} 150,${200 + amplitude} C175,${200 + amplitude} 200,${200 - amplitude} 225,${200 - amplitude} C250,${200 - amplitude} 275,${200 + amplitude} 300,${200 + amplitude} C325,${200 + amplitude} 350,${200 - amplitude} 375,${200 - amplitude} C400,${200 - amplitude} 425,${200 + amplitude * 0.8} 450,200;M50,200 C100,${200 - amplitude * 0.8} 125,${200 - amplitude} 150,${200 - amplitude} C175,${200 - amplitude} 200,${200 + amplitude} 225,${200 + amplitude} C250,${200 + amplitude} 275,${200 - amplitude} 300,${200 - amplitude} C325,${200 - amplitude} 350,${200 + amplitude} 375,${200 + amplitude} C400,${200 + amplitude} 425,${200 - amplitude * 0.8} 450,200`}
             dur="4s"
             repeatCount="indefinite"
           />
         </path>
 
         {/* Secondary wave */}
-        <path d="M50,200 Q150,150 250,200 T450,200" stroke="url(#waveGradient2)" strokeWidth="2" fill="none">
+        <path 
+          d={`M50,200 C100,${200 - amplitude * 0.4} 125,${200 - amplitude * 0.5} 150,${200 - amplitude * 0.5} C175,${200 - amplitude * 0.5} 200,${200 + amplitude * 0.5} 225,${200 + amplitude * 0.5} C250,${200 + amplitude * 0.5} 275,${200 - amplitude * 0.5} 300,${200 - amplitude * 0.5} C325,${200 - amplitude * 0.5} 350,${200 + amplitude * 0.5} 375,${200 + amplitude * 0.5} C400,${200 + amplitude * 0.5} 425,${200 - amplitude * 0.4} 450,200`} 
+          stroke="url(#waveGradient2)" 
+          strokeWidth="2" 
+          fill="none"
+          style={{ transition: isDragging ? 'none' : 'all 0.3s ease' }}
+        >
           <animate
             attributeName="d"
-            values="M50,200 Q150,150 250,200 T450,200;M50,200 Q150,250 250,200 T450,200;M50,200 Q150,150 250,200 T450,200"
+            values={`M50,200 C100,${200 - amplitude * 0.4} 125,${200 - amplitude * 0.5} 150,${200 - amplitude * 0.5} C175,${200 - amplitude * 0.5} 200,${200 + amplitude * 0.5} 225,${200 + amplitude * 0.5} C250,${200 + amplitude * 0.5} 275,${200 - amplitude * 0.5} 300,${200 - amplitude * 0.5} C325,${200 - amplitude * 0.5} 350,${200 + amplitude * 0.5} 375,${200 + amplitude * 0.5} C400,${200 + amplitude * 0.5} 425,${200 - amplitude * 0.4} 450,200;M50,200 C100,${200 + amplitude * 0.4} 125,${200 + amplitude * 0.5} 150,${200 + amplitude * 0.5} C175,${200 + amplitude * 0.5} 200,${200 - amplitude * 0.5} 225,${200 - amplitude * 0.5} C250,${200 - amplitude * 0.5} 275,${200 + amplitude * 0.5} 300,${200 + amplitude * 0.5} C325,${200 + amplitude * 0.5} 350,${200 - amplitude * 0.5} 375,${200 - amplitude * 0.5} C400,${200 - amplitude * 0.5} 425,${200 + amplitude * 0.4} 450,200;M50,200 C100,${200 - amplitude * 0.4} 125,${200 - amplitude * 0.5} 150,${200 - amplitude * 0.5} C175,${200 - amplitude * 0.5} 200,${200 + amplitude * 0.5} 225,${200 + amplitude * 0.5} C250,${200 + amplitude * 0.5} 275,${200 - amplitude * 0.5} 300,${200 - amplitude * 0.5} C325,${200 - amplitude * 0.5} 350,${200 + amplitude * 0.5} 375,${200 + amplitude * 0.5} C400,${200 + amplitude * 0.5} 425,${200 - amplitude * 0.4} 450,200`}
             dur="3s"
             repeatCount="indefinite"
           />
@@ -61,11 +103,11 @@ function AnimatedSineWave() {
           y
         </text>
 
-        {/* Amplitude markers */}
-        <text x="25" y="105" fill="white" fontSize="10" fontFamily="monospace" opacity="0.5">
+        {/* Dynamic Amplitude markers */}
+        <text x="25" y={200 - amplitude + 5} fill="white" fontSize="10" fontFamily="monospace" opacity="0.5">
           A
         </text>
-        <text x="25" y="305" fill="white" fontSize="10" fontFamily="monospace" opacity="0.5">
+        <text x="25" y={200 + amplitude + 15} fill="white" fontSize="10" fontFamily="monospace" opacity="0.5">
           -A
         </text>
 
@@ -114,6 +156,16 @@ function AnimatedSineWave() {
       >
         T = 2π/ω
       </motion.div>
+
+      {/* Interactive instruction */}
+      <div className="absolute top-4 left-4 text-white/60 font-mono text-xs">
+        Drag to stretch amplitude
+      </div>
+      
+      {/* Amplitude value display */}
+      <div className="absolute bottom-4 right-4 text-white/60 font-mono text-xs">
+        A = {(amplitude / 100).toFixed(1)}
+      </div>
     </div>
   )
 }
@@ -145,7 +197,7 @@ function RippleText({ children }: { children: string }) {
 }
 
 function RotatingText() {
-  const roles = ["Circuit Designer", "Signal Processor", "Hardware Engineer", "System Architect"]
+  const roles = ["EE Student", "Circuit Learner", "Hardware Explorer"]
   const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {

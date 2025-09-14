@@ -7,7 +7,28 @@ import { Github, Linkedin, Instagram, MapPin } from "lucide-react"
 function WaterRippleEffect() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const ripplesRef = useRef<Array<{x: number, y: number, radius: number, opacity: number}>>([])
+  const leavesRef = useRef<Array<{x: number, y: number, vx: number, vy: number, rotation: number, rotationSpeed: number, size: number, color: string}>>([])
   const animationRef = useRef<number>()
+
+  // Initialize leaf particles
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    // Create initial leaf particles - mix of green and orange
+    for (let i = 0; i < 12; i++) {
+      leavesRef.current.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        rotation: Math.random() * 360,
+        rotationSpeed: (Math.random() - 0.5) * 3,
+        size: 8 + Math.random() * 8,
+        color: Math.random() > 0.5 ? 'green' : 'orange'
+      })
+    }
+  }, [])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -28,6 +49,83 @@ function WaterRippleEffect() {
       gradient.addColorStop(1, 'rgba(255, 255, 255, 0.02)')
       ctx.fillStyle = gradient
       ctx.fillRect(0, 0, width, height)
+
+      // Update and draw leaves
+      leavesRef.current.forEach((leaf) => {
+        // Apply ripple forces to leaves - much more sensitive
+        let forceX = 0
+        let forceY = 0
+        ripplesRef.current.forEach((ripple) => {
+          const dx = leaf.x - ripple.x
+          const dy = leaf.y - ripple.y
+          const distance = Math.sqrt(dx * dx + dy * dy)
+          
+          // Much larger effect area and stronger forces
+          if (distance < ripple.radius + 80 && distance > Math.max(0, ripple.radius - 40)) {
+            const force = (ripple.opacity * 2) / Math.max(distance * 0.01, 0.1)
+            const normalizedDx = dx / Math.max(distance, 1)
+            const normalizedDy = dy / Math.max(distance, 1)
+            forceX += normalizedDx * force * 50
+            forceY += normalizedDy * force * 50
+          }
+        })
+
+        // Update leaf position with ripple forces - much more responsive
+        leaf.vx += forceX * 0.3
+        leaf.vy += forceY * 0.3
+        
+        // Apply lighter damping for more movement
+        leaf.vx *= 0.95
+        leaf.vy *= 0.95
+        
+        // Update position
+        leaf.x += leaf.vx
+        leaf.y += leaf.vy
+        
+        // Bounce off edges
+        if (leaf.x < 0 || leaf.x > width) {
+          leaf.vx *= -0.7
+          leaf.x = Math.max(0, Math.min(width, leaf.x))
+        }
+        if (leaf.y < 0 || leaf.y > height) {
+          leaf.vy *= -0.7
+          leaf.y = Math.max(0, Math.min(height, leaf.y))
+        }
+        
+        // Update rotation based on movement
+        leaf.rotation += leaf.rotationSpeed + Math.abs(leaf.vx + leaf.vy) * 2
+        
+        // Draw leaf
+        ctx.save()
+        ctx.translate(leaf.x, leaf.y)
+        ctx.rotate((leaf.rotation * Math.PI) / 180)
+        
+        // Draw leaf shape with color variation
+        ctx.beginPath()
+        ctx.ellipse(0, 0, leaf.size, leaf.size * 0.6, 0, 0, 2 * Math.PI)
+        
+        if (leaf.color === 'green') {
+          ctx.fillStyle = `rgba(34, 197, 94, ${0.7 + Math.sin(leaf.rotation * 0.1) * 0.2})`
+        } else {
+          ctx.fillStyle = `rgba(249, 115, 22, ${0.7 + Math.sin(leaf.rotation * 0.1) * 0.2})`
+        }
+        ctx.fill()
+        
+        // Add leaf vein
+        ctx.beginPath()
+        ctx.moveTo(0, -leaf.size * 0.6)
+        ctx.lineTo(0, leaf.size * 0.6)
+        
+        if (leaf.color === 'green') {
+          ctx.strokeStyle = `rgba(22, 163, 74, 0.9)`
+        } else {
+          ctx.strokeStyle = `rgba(194, 65, 12, 0.9)`
+        }
+        ctx.lineWidth = 1
+        ctx.stroke()
+        
+        ctx.restore()
+      })
 
       // Draw ripples
       ripplesRef.current = ripplesRef.current.filter((ripple) => {
@@ -71,8 +169,8 @@ function WaterRippleEffect() {
     <div className="w-full h-full flex items-center justify-center relative">
       <canvas
         ref={canvasRef}
-        width={360}
-        height={360}
+        width={480}
+        height={480}
         className="max-w-full max-h-full border border-white/20 rounded-lg cursor-pointer"
         onClick={handleClick}
       />
@@ -115,7 +213,7 @@ function RippleText({ children }: { children: string }) {
 }
 
 function RotatingText() {
-  const roles = ["Video Editor", "Visual Designer", "Creative Director", "Digital Artist"]
+  const roles = ["Creative Student", "Visual Learner", "Design Explorer"]
   const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {

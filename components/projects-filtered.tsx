@@ -4,6 +4,7 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
+import ProjectSlideshow from "./project-slideshow"
 
 interface ProjectsFilteredProps {
   pageType: 'cs' | 'ee' | 'creatives'
@@ -116,6 +117,16 @@ export default function ProjectsFiltered({ pageType }: ProjectsFilteredProps) {
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 font-mono">
             {getPageTitle()}<span className="text-white/60">.SHOWCASE</span>
           </h2>
+        </motion.div>
+
+        {/* Project Slideshow */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.1 }}
+          className="mb-16 sm:mb-20"
+        >
+          <ProjectSlideshow pageType={pageType} />
         </motion.div>
 
         {/* Tab Navigation - Badge Style */}

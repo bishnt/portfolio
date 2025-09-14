@@ -139,11 +139,9 @@ export default function Landing() {
                 </motion.div>
               </div>
               
-              <div className="text-center">
+              <div className="text-center flex flex-col items-center">
                 <h2 className="text-xl font-mono font-semibold mb-4">
-                  {selectedOption === 'cs' ? 'Entering Code Realm' : 
-                   selectedOption === 'ee' ? 'Initializing Circuits' : 
-                   'Loading Creative Studio'}...
+                  loading page...
                 </h2>
                 
                 <div className="w-48 h-1 bg-white/10 rounded-full overflow-hidden">

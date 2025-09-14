@@ -106,11 +106,12 @@ function MandelbrotFractal() {
 
     // Only update if mouse moved significantly
     if (Math.abs(x - lastMousePos.current.x) > 5 || Math.abs(y - lastMousePos.current.y) > 5) {
-      const newCenterX = (x - canvas.width / 2) / (0.5 * zoom * canvas.width) + centerX
-      const newCenterY = (y - canvas.height / 2) / (0.5 * zoom * canvas.height) + centerY
+      // Zoom to specific interesting point in Mandelbrot set
+      const interestingX = -0.7269 + (x - canvas.width / 2) * 0.0001
+      const interestingY = 0.1889 + (y - canvas.height / 2) * 0.0001
 
-      setCenterX(newCenterX)
-      setCenterY(newCenterY)
+      setCenterX(interestingX)
+      setCenterY(interestingY)
       lastMousePos.current = { x, y }
     }
   }
@@ -118,7 +119,7 @@ function MandelbrotFractal() {
   const handleMouseEnter = () => {
     setIsHovering(true)
     setIsZooming(true)
-    targetZoom.current = 50 // Zoom to a specific branch
+    targetZoom.current = 100 // Increased zoom for more detail
   }
 
   const handleMouseLeave = () => {
@@ -180,7 +181,7 @@ function RippleText({ children }: { children: string }) {
 }
 
 function RotatingText() {
-  const roles = ["Software Developer", "Algorithm Designer", "Problem Solver", "Tech Innovator"]
+  const roles = ["CS Student", "Code Learner", "Tech Enthusiast"]
   const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {
