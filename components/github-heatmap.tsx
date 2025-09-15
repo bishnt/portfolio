@@ -29,10 +29,16 @@ export default function GitHubHeatmap() {
         const token = process.env.NEXT_PUBLIC_GITHUB_TOKEN
         
         if (token) {
+          // Calculate proper date range for full year like GitHub
+          const today = new Date()
+          const oneYearAgo = new Date(today)
+          oneYearAgo.setFullYear(today.getFullYear() - 1)
+          oneYearAgo.setDate(oneYearAgo.getDate() + 1) // Start from day after one year ago
+          
           const query = `
             query {
               user(login: "bishnt") {
-                contributionsCollection {
+                contributionsCollection(from: "${oneYearAgo.toISOString()}", to: "${today.toISOString()}") {
                   contributionCalendar {
                     totalContributions
                     weeks {
@@ -162,7 +168,9 @@ export default function GitHubHeatmap() {
     const processGitHubEvents = (events: any[]) => {
       const contributionMap = new Map<string, number>()
       const today = new Date()
-      const oneYearAgo = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate())
+      const oneYearAgo = new Date(today)
+      oneYearAgo.setFullYear(today.getFullYear() - 1)
+      oneYearAgo.setDate(oneYearAgo.getDate() + 1)
       
       // Initialize all days with 0 contributions
       const startDate = new Date(oneYearAgo)
@@ -230,7 +238,9 @@ export default function GitHubHeatmap() {
         // Convert to weeks format
         const weeks: ContributionWeek[] = []
         const today = new Date()
-        const oneYearAgo = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate())
+        const oneYearAgo = new Date(today)
+        oneYearAgo.setFullYear(today.getFullYear() - 1)
+        oneYearAgo.setDate(oneYearAgo.getDate() + 1)
         const startDate = new Date(oneYearAgo)
         startDate.setDate(startDate.getDate() - startDate.getDay())
         
@@ -285,7 +295,9 @@ export default function GitHubHeatmap() {
     const generateRealisticMockData = () => {
       const weeks: ContributionWeek[] = []
       const today = new Date()
-      const oneYearAgo = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate())
+      const oneYearAgo = new Date(today)
+      oneYearAgo.setFullYear(today.getFullYear() - 1)
+      oneYearAgo.setDate(oneYearAgo.getDate() + 1)
       
       // Start from the Sunday of the week containing oneYearAgo
       const startDate = new Date(oneYearAgo)
@@ -355,14 +367,29 @@ export default function GitHubHeatmap() {
   const getMonthLabels = () => {
     const labels = []
     const today = new Date()
-    const startDate = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate())
+    const oneYearAgo = new Date(today)
+    oneYearAgo.setFullYear(today.getFullYear() - 1)
+    oneYearAgo.setDate(oneYearAgo.getDate() + 1)
     
-    for (let i = 0; i < 12; i++) {
-      const date = new Date(startDate)
-      date.setMonth(startDate.getMonth() + i)
-      labels.push(date.toLocaleDateString('en-US', { month: 'short' }))
+    // Start from the beginning of the week containing oneYearAgo
+    const startDate = new Date(oneYearAgo)
+    startDate.setDate(startDate.getDate() - startDate.getDay())
+    
+    // Generate month labels based on the weeks we're showing
+    const monthsShown = new Set()
+    let currentDate = new Date(startDate)
+    
+    while (currentDate <= today) {
+      const monthYear = `${currentDate.getMonth()}-${currentDate.getFullYear()}`
+      if (!monthsShown.has(monthYear)) {
+        monthsShown.add(monthYear)
+        labels.push(currentDate.toLocaleDateString('en-US', { month: 'short' }))
+      }
+      currentDate.setMonth(currentDate.getMonth() + 1)
+      currentDate.setDate(1) // First day of next month
     }
-    return labels
+    
+    return labels.slice(0, 12) // Ensure we don't show more than 12 months
   }
 
   const monthLabels = getMonthLabels()
