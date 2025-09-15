@@ -28,7 +28,8 @@ export default function GitHubHeatmap() {
         // GitHub GraphQL API approach
         const token = process.env.NEXT_PUBLIC_GITHUB_TOKEN
         
-        if (token) {
+        // Skip GraphQL API in production if no token to avoid errors
+        if (token && typeof window !== 'undefined') {
           // Calculate proper date range for full year like GitHub
           const today = new Date()
           const oneYearAgo = new Date(today)
@@ -112,9 +113,14 @@ export default function GitHubHeatmap() {
     }
 
     const fallbackFetchMethods = async () => {
-      // Method 1: GitHub Contributions API
+      // Method 1: GitHub Contributions API (most reliable for production)
       try {
-        const response1 = await fetch(`https://github-contributions-api.jogruber.de/v4/bishnt`)
+        const response1 = await fetch(`https://github-contributions-api.jogruber.de/v4/bishnt`, {
+          headers: {
+            'Accept': 'application/json',
+            'User-Agent': 'Portfolio-Website'
+          }
+        })
         if (response1.ok) {
           const data = await response1.json()
           processContributionData(data)
@@ -125,11 +131,36 @@ export default function GitHubHeatmap() {
         console.log('API 1 failed:', e)
       }
 
-      // Method 2: GitHub Events API
+      // Method 2: Alternative GitHub Contributions API
       try {
-        const response2 = await fetch(`https://api.github.com/users/bishnt/events?per_page=300`)
+        const response2 = await fetch(`https://github-contributions.vercel.app/api/v1/bishnt`, {
+          headers: {
+            'Accept': 'application/json',
+            'User-Agent': 'Portfolio-Website'
+          }
+        })
         if (response2.ok) {
-          const events = await response2.json()
+          const data = await response2.json()
+          if (data.contributions) {
+            processAlternativeAPIData(data)
+            console.log('Fetched from alternative API:', data)
+            return
+          }
+        }
+      } catch (e) {
+        console.log('Alternative API failed:', e)
+      }
+
+      // Method 3: GitHub Events API (with better error handling)
+      try {
+        const response3 = await fetch(`https://api.github.com/users/bishnt/events?per_page=300`, {
+          headers: {
+            'Accept': 'application/vnd.github.v3+json',
+            'User-Agent': 'Portfolio-Website'
+          }
+        })
+        if (response3.ok) {
+          const events = await response3.json()
           const data = processGitHubEvents(events)
           setContributionData(data)
           const total = data.reduce((sum: number, week: ContributionWeek) => {
@@ -142,26 +173,11 @@ export default function GitHubHeatmap() {
           return
         }
       } catch (e) {
-        console.log('API 2 failed:', e)
+        console.log('GitHub Events API failed:', e)
       }
 
-      // Method 3: Profile scraping
-      try {
-        const response3 = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent('https://github.com/bishnt')}`)
-        if (response3.ok) {
-          const result = await response3.json()
-          const data = scrapeGitHubProfile(result.contents)
-          if (data) {
-            processContributionData(data)
-            console.log('Fetched from scraping:', data)
-            return
-          }
-        }
-      } catch (e) {
-        console.log('Scraping failed:', e)
-      }
-
-      // If all methods fail, use mock data
+      // If all methods fail, use realistic mock data
+      console.log('All APIs failed, using mock data')
       generateRealisticMockData()
     }
 
@@ -292,6 +308,64 @@ export default function GitHubHeatmap() {
       }
     }
 
+    const processAlternativeAPIData = (data: any) => {
+      try {
+        // Handle different API response formats
+        let contributions = data.contributions || data.data || data
+        
+        if (Array.isArray(contributions)) {
+          // Convert array format to weeks format
+          const weeks: ContributionWeek[] = []
+          const today = new Date()
+          const oneYearAgo = new Date(today)
+          oneYearAgo.setFullYear(today.getFullYear() - 1)
+          oneYearAgo.setDate(oneYearAgo.getDate() + 1)
+          
+          const startDate = new Date(oneYearAgo)
+          startDate.setDate(startDate.getDate() - startDate.getDay())
+          
+          let currentDate = new Date(startDate)
+          let totalCount = 0
+          
+          while (currentDate <= today) {
+            const week: ContributionWeek = { contributionDays: [] }
+            
+            for (let i = 0; i < 7; i++) {
+              const dateStr = currentDate.toISOString().split('T')[0]
+              const contributionItem = contributions.find((item: any) => 
+                item.date === dateStr || item.day === dateStr
+              )
+              const count = contributionItem ? (contributionItem.count || contributionItem.contributions || 0) : 0
+              const level = count === 0 ? 0 : 
+                           count <= 2 ? 1 :
+                           count <= 4 ? 2 :
+                           count <= 6 ? 3 : 4
+              
+              week.contributionDays.push({
+                date: dateStr,
+                count,
+                level
+              })
+              
+              totalCount += count
+              currentDate.setDate(currentDate.getDate() + 1)
+            }
+            
+            weeks.push(week)
+          }
+          
+          setContributionData(weeks)
+          setTotalContributions(totalCount)
+        } else {
+          // Fallback to existing processing
+          processContributionData(data)
+        }
+      } catch (error) {
+        console.log('Alternative API data processing failed:', error)
+        generateRealisticMockData()
+      }
+    }
+
     const generateRealisticMockData = () => {
       const weeks: ContributionWeek[] = []
       const today = new Date()
@@ -306,16 +380,24 @@ export default function GitHubHeatmap() {
       let currentDate = new Date(startDate)
       let totalCount = 0
       
+      // Use a seeded random for consistent mock data in production
+      const seed = 12345
+      let randomSeed = seed
+      const seededRandom = () => {
+        randomSeed = (randomSeed * 9301 + 49297) % 233280
+        return randomSeed / 233280
+      }
+      
       while (currentDate <= today) {
         const week: ContributionWeek = { contributionDays: [] }
         
         for (let i = 0; i < 7; i++) {
           const dateStr = currentDate.toISOString().split('T')[0]
           
-          // More realistic contribution pattern
+          // More realistic contribution pattern with consistent seeded randomness
           let count = 0
           const dayOfWeek = currentDate.getDay()
-          const random = Math.random()
+          const random = seededRandom()
           
           // Less activity on weekends, more on weekdays
           if (dayOfWeek === 0 || dayOfWeek === 6) {
@@ -344,6 +426,7 @@ export default function GitHubHeatmap() {
       
       setContributionData(weeks)
       setTotalContributions(totalCount)
+      console.log('Using seeded mock data for production consistency')
     }
 
     fetchGitHubContributions()
