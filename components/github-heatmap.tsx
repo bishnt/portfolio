@@ -39,6 +39,7 @@ export default function GitHubHeatmap() {
             setContributionData(data.contributions)
             setTotalContributions(data.totalContributions || 0)
             console.log(`Fetched from ${data.source}:`, data)
+            setLoading(false)
             return
           }
         }
@@ -248,9 +249,9 @@ export default function GitHubHeatmap() {
                   
                   {/* Contribution squares */}
                   <div className="flex gap-1">
-                    {contributionData.map((week: ContributionWeek, weekIndex: number) => (
+                    {contributionData && contributionData.length > 0 ? contributionData.map((week: ContributionWeek, weekIndex: number) => (
                       <div key={weekIndex} className="flex flex-col gap-1">
-                        {week.contributionDays.map((day: ContributionDay, dayIndex: number) => (
+                        {week.contributionDays && week.contributionDays.map((day: ContributionDay, dayIndex: number) => (
                           <motion.div
                             key={`${weekIndex}-${dayIndex}`}
                             initial={{ opacity: 0, scale: 0 }}
@@ -261,7 +262,11 @@ export default function GitHubHeatmap() {
                           />
                         ))}
                       </div>
-                    ))}
+                    )) : (
+                      <div className="flex items-center justify-center w-full py-8">
+                        <span className="text-white/60 font-mono text-sm">No contribution data available</span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
