@@ -21,6 +21,7 @@ export default function GitHubHeatmap() {
   const [contributionData, setContributionData] = useState<ContributionWeek[]>([])
   const [totalContributions, setTotalContributions] = useState(0)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchGitHubContributions = async () => {
@@ -50,6 +51,7 @@ export default function GitHubHeatmap() {
         
       } catch (error) {
         console.log('Failed to fetch from API route, using mock data:', error)
+        setError('Failed to load GitHub data')
         generateRealisticMockData()
       } finally {
         setLoading(false)
@@ -141,29 +143,14 @@ export default function GitHubHeatmap() {
   const getMonthLabels = () => {
     const labels = []
     const today = new Date()
-    const oneYearAgo = new Date(today)
-    oneYearAgo.setFullYear(today.getFullYear() - 1)
-    oneYearAgo.setDate(oneYearAgo.getDate() + 1)
     
-    // Start from the beginning of the week containing oneYearAgo
-    const startDate = new Date(oneYearAgo)
-    startDate.setDate(startDate.getDate() - startDate.getDay())
-    
-    // Generate month labels based on the weeks we're showing
-    const monthsShown = new Set()
-    let currentDate = new Date(startDate)
-    
-    while (currentDate <= today) {
-      const monthYear = `${currentDate.getMonth()}-${currentDate.getFullYear()}`
-      if (!monthsShown.has(monthYear)) {
-        monthsShown.add(monthYear)
-        labels.push(currentDate.toLocaleDateString('en-US', { month: 'short' }))
-      }
-      currentDate.setMonth(currentDate.getMonth() + 1)
-      currentDate.setDate(1) // First day of next month
+    // Simple approach: get last 12 months
+    for (let i = 11; i >= 0; i--) {
+      const date = new Date(today.getFullYear(), today.getMonth() - i, 1)
+      labels.push(date.toLocaleDateString('en-US', { month: 'short' }))
     }
     
-    return labels.slice(0, 12) // Ensure we don't show more than 12 months
+    return labels
   }
 
   const monthLabels = getMonthLabels()
@@ -223,11 +210,11 @@ export default function GitHubHeatmap() {
               {/* Month labels */}
               <div className="mb-3 pl-10">
                 <div className="flex justify-between text-xs text-white/60 font-mono">
-                  {monthLabels.map((month, index) => (
+                  {monthLabels && monthLabels.length > 0 ? monthLabels.map((month, index) => (
                     <span key={`${month}-${index}`} className="flex-1 text-left">
                       {month}
                     </span>
-                  ))}
+                  )) : null}
                 </div>
               </div>
 
@@ -236,7 +223,7 @@ export default function GitHubHeatmap() {
                 <div className="flex gap-1">
                   {/* Day labels */}
                   <div className="flex flex-col gap-1 mr-3 pt-1">
-                    {dayLabels.map((day, index) => (
+                    {dayLabels && dayLabels.map((day, index) => (
                       <div key={day} className="h-3 flex items-center justify-end pr-2">
                         <span className="text-xs text-white/60 font-mono">{day}</span>
                       </div>
