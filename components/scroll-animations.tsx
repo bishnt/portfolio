@@ -124,9 +124,9 @@ export function FloatingElements() {
         }}
         transition={{
           duration: 5,
-          duration: 12,
           repeat: Infinity,
-          ease: "easeInOut"
+          ease: "easeInOut",
+          delay: 2
         }}
       />
     </div>
