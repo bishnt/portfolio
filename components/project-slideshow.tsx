@@ -37,7 +37,7 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
         githubUrl: "https://github.com/bishnt",
         liveUrl: "https://agriha-fe.vercel.app",
         category: "Web Development",
-        slug: "portfolio-website"
+        slug: "agriha"
       },
       {
         id: "2",
@@ -48,7 +48,7 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
         githubUrl: "https://github.com/bishnt",
         liveUrl: "https://gyanet.vercel.app",
         category: "Full Stack",
-        slug: "task-management-app"
+        slug: "gyanet"
       },
       {
         id: "3",
@@ -58,7 +58,7 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
         image: "/project3.png",
         githubUrl: "https://github.com/bishnt/webserver_in_C",
         category: "Systems Programming",
-        slug: "http-server-c"
+        slug: "http"
       }
     ],
     ee: [
@@ -70,7 +70,7 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
         image: "/proj4.jpg",
         liveUrl: "https://www.linkedin.com/posts/bishnt_electrified-to-announce-that-i-along-with-activity-7292187677238448131-OlGB?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFKPxuUBGXOij_vRx0-JJDe_KTug3Ig5y0g",
         category: "Embedded Systems",
-        slug: "fault-detection-system"
+        slug: "fault"
       },
       {
         id: "2",
@@ -92,7 +92,7 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
         image: "/hult.jpg",
         liveUrl: "https://www.instagram.com/p/DGCiAZQolJf/",
         category: "Video Production",
-        slug: "hult-prize-promotionals"
+        slug: "hult"
       },
       {
         id: "2",
