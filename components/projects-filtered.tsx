@@ -95,11 +95,11 @@ export default function ProjectsFiltered({ pageType }: ProjectsFilteredProps) {
   const getPageTitle = () => {
     switch (pageType) {
       case 'cs':
-        return "SOFTWARE PROJECTS"
+        return "PROJECTS"
       case 'ee':
-        return "HARDWARE PROJECTS"
+        return "PROJECTS"
       case 'beyond-engineering':
-        return "CREATIVE PROJECTS"
+        return "PROJECTS"
       default:
         return "PROJECTS"
     }

@@ -14,7 +14,7 @@ export default function ComputerSciencePage() {
     <>
       <ScrollProgress />
       <FloatingElements />
-      <Navbar />
+      <Navbar pageType="cs" />
       <main className="bg-black text-white pt-16">
         <HeroCS />
         <AboutFiltered pageType="cs" />

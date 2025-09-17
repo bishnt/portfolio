@@ -77,7 +77,7 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
         title: "Solar Panel Efficiency Monitor",
         description: "Real-time monitoring system for solar panel performance",
         skills: ["Raspberry Pi", "Python"],
-        image: "/highway.jpg",
+        image: "/solar.png",
         githubUrl: "https://github.com/bishnt",
         category: "IoT",
         slug: "solar-panel-monitor"
@@ -258,7 +258,7 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
                     className="flex items-center gap-2 px-4 py-2 border border-white/30 rounded-lg hover:border-white/60 hover:bg-white/10 transition-all duration-300 text-sm font-mono backdrop-blur-sm group"
                   >
                     <ExternalLink className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
-                    Demo
+                    
                   </a>
                 )}
               </div>

@@ -14,7 +14,7 @@ export default function ElectricalEngineeringPage() {
     <>
       <ScrollProgress />
       <FloatingElements />
-      <Navbar />
+      <Navbar pageType="ee" />
       
       <main className="bg-black text-white pt-16">
         <HeroEE />

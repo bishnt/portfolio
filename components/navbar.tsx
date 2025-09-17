@@ -6,7 +6,11 @@ import Link from "next/link"
 import { Menu, X } from "lucide-react"
 import { Magnetic } from "./scroll-animations"
 
-export default function Navbar() {
+interface NavbarProps {
+  pageType?: 'home' | 'cs' | 'ee' | 'beyond-engineering'
+}
+
+export default function Navbar({ pageType = 'home' }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState("home")
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -15,8 +19,15 @@ export default function Navbar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50)
       
-      // Get all sections
-      const sections = ['home', 'about', 'projects', 'education', 'blog', 'contact']
+      // Get sections based on page type
+      let sections = ['home', 'about', 'projects', 'education', 'blog', 'contact']
+      
+      if (pageType === 'cs') {
+        sections = ['home', 'about', 'projects', 'education', 'proof-of-work', 'blog', 'contact']
+      } else if (pageType === 'beyond-engineering') {
+        sections = ['home', 'about', 'projects', 'education', 'social-feed', 'blog', 'contact']
+      }
+      
       const scrollPosition = window.scrollY + 150 // Increased offset for faster detection
       
       // Find current section with better detection
@@ -53,14 +64,38 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", optimizedHandleScroll)
   }, [])
 
-  const navItems = [
-    { name: "Home", href: "#home" },
-    { name: "About", href: "#about" },
-    { name: "Projects", href: "#projects" },
-    { name: "Education", href: "#education" },
-    { name: "Blog", href: "#blog" },
-    { name: "Contact", href: "#contact" },
-  ]
+  const getNavItems = () => {
+    const baseItems = [
+      { name: "Home", href: "#home" },
+      { name: "About", href: "#about" },
+      { name: "Projects", href: "#projects" },
+      { name: "Education", href: "#education" },
+    ]
+
+    if (pageType === 'cs') {
+      return [
+        ...baseItems,
+        { name: "Proof of Work", href: "#proof-of-work" },
+        { name: "Blog", href: "#blog" },
+        { name: "Contact", href: "#contact" },
+      ]
+    } else if (pageType === 'beyond-engineering') {
+      return [
+        ...baseItems,
+        { name: "Social Feed", href: "#social-feed" },
+        { name: "Blog", href: "#blog" },
+        { name: "Contact", href: "#contact" },
+      ]
+    } else {
+      return [
+        ...baseItems,
+        { name: "Blog", href: "#blog" },
+        { name: "Contact", href: "#contact" },
+      ]
+    }
+  }
+
+  const navItems = getNavItems()
 
   return (
     <motion.nav

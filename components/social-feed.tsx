@@ -62,12 +62,12 @@ export default function SocialFeed() {
     {
       id: "1",
       platform: "instagram",
-      content: "Working on some exciting new projects! The intersection of hardware and software never ceases to amaze me. 🚀 #Engineering #Innovation",
-      image: getRandomImage(),
-      likes: 127,
-      comments: 23,
+      content: "आफ्नै पुर्खौली घरको पराई बन्न पुगेको म पछिल्लो सालहरुमा चाधपर्व अतिरिक्त अरु कुनै समयमा यहाँ पुगेको सम्झना भने आएन ; यसपल्ट घर पुग्दा मेरो अनुभव अलिक भिन्न प्रकारको हुन पुग्यो।",
+      image: "/insta1.jpg",
+      likes: 25,
+      comments: 1,
       shares: 8,
-      date: "2025-01-15",
+      date: "2024-09-29",
       url: "https://www.instagram.com/bishrant_"
     },
     {
@@ -78,23 +78,24 @@ export default function SocialFeed() {
       comments: 15,
       shares: 32,
       date: "2025-01-12",
-      url: "https://www.x.com/bishrant_"
+      url: ""
     },
     {
       id: "3",
       platform: "linkedin",
-      content: "Excited to share my latest article on building scalable web applications with Next.js. The performance improvements are incredible!",
+      content: "Electrified to announce that I, along with my team—Shishir Poudel, Adhish Paudel, Mausham Sigdel, won the “Best Emerging Team” title in the Electric Grid Hackathon held during DELTA 5.0 on the theme “Technology in Agriculture and Innovation” on Magh 18th, 19th, and 20th at IOE-Eastern Region Campus, Dharan.",
+      image: "/link1.jpg",
       likes: 156,
       comments: 41,
       shares: 67,
-      date: "2025-01-10",
-      url: "https://www.linkedin.com/in/bishnt"
+      date: "2024-07-10",
+      url: "https://www.linkedin.com/posts/bishnt_electrified-to-announce-that-i-along-with-activity-7292187677238448131-OlGB?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAFKPxuUBGXOij_vRx0-JJDe_KTug3Ig5y0g"
     },
     {
       id: "4",
       platform: "instagram",
-      content: "Behind the scenes of my latest video editing project. The creative process is just as important as the technical execution! 🎬",
-      image: getRandomImage(),
+      content: "Hacked the way through the east",
+      image: "insta2.jpg",
       likes: 203,
       comments: 34,
       shares: 12,
@@ -109,17 +110,18 @@ export default function SocialFeed() {
       comments: 78,
       shares: 91,
       date: "2025-01-05",
-      url: "https://www.x.com/bishrant_"
+      url: ""
     },
     {
       id: "6",
       platform: "linkedin",
-      content: "Reflecting on my journey from electrical engineering to full-stack development. Every challenge has been a stepping stone to growth.",
-      likes: 312,
-      comments: 56,
-      shares: 89,
+      content: "I recently developed a simple food delivery website to strengthen my skills in HTML, CSS, and JavaScript. This project helped me practice foundational concepts, test my understanding, and put my knowledge into action with real code. I incorporated React only to experiment with Particle.js and enhance the visual appeal. This projects helped to clear a lot of fundamentals.",
+      image: "link2.jpg",
+      likes: 12,
+      comments: 6,
+      shares: 8,
       date: "2025-01-03",
-      url: "https://www.linkedin.com/in/bishnt"
+      url: "https://www.linkedin.com/posts/bishnt_i-recently-developed-a-simple-food-delivery-activity-7257573751725191168-fXnQ?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAFKPxuUBGXOij_vRx0-JJDe_KTug3Ig5y0g"
     },
 
   ]
@@ -155,7 +157,7 @@ export default function SocialFeed() {
   }
 
   return (
-    <section className="py-16 sm:py-20 lg:py-24 bg-black" ref={ref}>
+    <section id="social-feed" className="py-16 sm:py-20 lg:py-24 bg-black" ref={ref}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 50 }}

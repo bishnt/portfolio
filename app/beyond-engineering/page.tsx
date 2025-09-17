@@ -15,7 +15,7 @@ export default function CreativesPage() {
     <>
       <ScrollProgress />
       <FloatingElements />
-      <Navbar />
+      <Navbar pageType="beyond-engineering" />
       <main className="bg-black text-white pt-16">
         <HeroCreatives />
         <AboutFiltered pageType="beyond-engineering" />
