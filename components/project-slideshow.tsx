@@ -151,20 +151,30 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <div className="relative aspect-[4/3] w-full max-w-2xl mx-auto">
+              <div className="relative w-full max-w-2xl mx-auto">
                 {/* Curved container with padding */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 rounded-3xl p-6 backdrop-blur-sm border border-white/20">
-                  <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl">
+                <div className="bg-gradient-to-br from-white/10 to-white/5 rounded-3xl p-6 backdrop-blur-sm border border-white/20">
+                  <div 
+                    className="project-card relative w-full aspect-[4/3] rounded-lg overflow-hidden shadow-2xl group cursor-pointer"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      const url = currentProject.liveUrl || currentProject.githubUrl
+                      if (url) {
+                        window.open(url, '_blank', 'noopener,noreferrer')
+                      }
+                    }}
+                    data-clickable="true"
+                    style={{ pointerEvents: 'auto' }}
+                  >
                     <Image
                       src={currentProject.image}
                       alt={currentProject.title}
                       fill
-                      className="object-cover transition-transform duration-700 hover:scale-105"
-                      onError={(e) => {
-                        e.currentTarget.src = "https://placehold.co/800x600/111111/FFFFFF?text=Project+Image"
-                      }}
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 80vw, 60vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
                   </div>
                 </div>
                 

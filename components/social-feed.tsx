@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
 import { Heart, MessageCircle, Share, ExternalLink } from "lucide-react"
+import Image from "next/image"
 
 // Social Media SVG Icons
 const InstagramIcon = () => (
@@ -95,7 +96,7 @@ export default function SocialFeed() {
       id: "4",
       platform: "instagram",
       content: "Hacked the way through the east",
-      image: "insta2.jpg",
+      image: "/insta2.jpg",
       likes: 203,
       comments: 34,
       shares: 12,
@@ -116,7 +117,7 @@ export default function SocialFeed() {
       id: "6",
       platform: "linkedin",
       content: "I recently developed a simple food delivery website to strengthen my skills in HTML, CSS, and JavaScript. This project helped me practice foundational concepts, test my understanding, and put my knowledge into action with real code. I incorporated React only to experiment with Particle.js and enhance the visual appeal. This projects helped to clear a lot of fundamentals.",
-      image: "link2.jpg",
+      image: "/link2.jpg",
       likes: 12,
       comments: 6,
       shares: 8,
@@ -179,7 +180,7 @@ export default function SocialFeed() {
           </motion.p>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {socialPosts.map((post, index) => (
             <motion.article
               key={post.id}
@@ -191,8 +192,9 @@ export default function SocialFeed() {
                 type: "spring",
                 stiffness: 200
               }}
-              className={`bg-gradient-to-br ${getPlatformColor(post.platform)} border rounded-lg p-4 sm:p-6 hover:scale-105 hover:shadow-xl hover:shadow-white/10 transition-all duration-300 group cursor-pointer`}
+              className={`social-post bg-gradient-to-br ${getPlatformColor(post.platform)} border rounded-lg p-4 sm:p-5 lg:p-6 hover:scale-[1.02] sm:hover:scale-105 hover:shadow-xl hover:shadow-white/10 transition-all duration-300 group cursor-pointer`}
               onClick={() => window.open(post.url, '_blank', 'noopener,noreferrer')}
+              data-clickable="true"
             >
               {/* Header */}
               <div className="flex items-center justify-between mb-4">
@@ -217,11 +219,13 @@ export default function SocialFeed() {
 
               {/* Image if available */}
               {post.image && (
-                <div className="mb-4 rounded-lg overflow-hidden">
-                  <img
+                <div className="mb-4 rounded-lg overflow-hidden bg-white/5 relative aspect-video">
+                  <Image
                     src={post.image}
                     alt="Social media post"
-                    className="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-300"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                 </div>
               )}

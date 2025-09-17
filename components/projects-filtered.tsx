@@ -88,7 +88,10 @@ export default function ProjectsFiltered({ pageType }: ProjectsFilteredProps) {
 
   const handleProjectClick = (href: string | undefined) => {
     if (href) {
+      console.log('Opening project:', href) // Debug log
       window.open(href, '_blank', 'noopener,noreferrer')
+    } else {
+      console.log('No href provided for project') // Debug log
     }
   }
 
@@ -186,10 +189,26 @@ export default function ProjectsFiltered({ pageType }: ProjectsFilteredProps) {
                 type: "spring",
                 stiffness: 250
               }}
-              className={`border border-white/20 p-4 sm:p-6 hover:border-white/40 hover:scale-105 hover:shadow-xl hover:shadow-white/10 transition-all duration-300 group ${
+              className={`project-card border border-white/20 p-4 sm:p-6 hover:border-white/40 transition-all duration-300 group ${
                 project.href ? "cursor-pointer" : ""
               }`}
-              onClick={() => handleProjectClick(project.href)}
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                handleProjectClick(project.href)
+              }}
+              onMouseDown={(e) => {
+                // Fallback for touch/mobile
+                if (e.button === 0) { // Left click only
+                  handleProjectClick(project.href)
+                }
+              }}
+              data-clickable="true"
+              style={{ 
+                pointerEvents: 'auto',
+                cursor: project.href ? 'pointer' : 'default',
+                userSelect: 'none'
+              }}
             >
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-2">
                 <h3 className="text-lg sm:text-xl font-bold font-mono group-hover:text-white/80 transition-colors">

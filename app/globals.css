@@ -63,17 +63,33 @@ html, body {
   background: #555555;
 }
 
-/* Smooth animations - removed global transitions that cause dull hover effects */
-
-/* Brighter hover effects - more specific selectors to avoid conflicts */
-button:hover:not([disabled]),
-a:hover:not([aria-disabled="true"]),
-[role="button"]:hover:not([aria-disabled="true"]) {
-  filter: brightness(1.1);
-  transition: filter 0.2s ease;
+/* Smooth animations and performance optimizations */
+* {
+  box-sizing: border-box;
 }
 
-/* Ensure clickable elements remain interactive */
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Performance optimizations */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Critical fix for clickable elements */
 button,
 a,
 [role="button"],
@@ -81,23 +97,151 @@ input,
 textarea,
 select {
   pointer-events: auto !important;
-  cursor: pointer;
+  cursor: pointer !important;
+  position: relative;
+  z-index: 1;
 }
 
-/* Fix for any z-index issues */
+/* Specific clickable elements */
+.project-card,
+.social-post,
+[data-clickable="true"] {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  position: relative;
+  z-index: 2;
+}
+
+/* Prevent overlay interference - more specific targeting */
+.project-card .overlay,
+.social-post .overlay,
+[data-clickable="true"] .overlay {
+  pointer-events: none;
+}
+
+/* Ensure text and content don't block clicks */
+.project-card p,
+.project-card h1,
+.project-card h2,
+.project-card h3,
+.project-card h4,
+.project-card h5,
+.project-card h6,
+.project-card span:not([role="button"]),
+.social-post p,
+.social-post h1,
+.social-post h2,
+.social-post h3,
+.social-post h4,
+.social-post h5,
+.social-post h6,
+.social-post span:not([role="button"]) {
+  pointer-events: none;
+}
+
+/* Re-enable pointer events for interactive children */
+.project-card button,
+.project-card a,
+.social-post button,
+.social-post a,
+[data-clickable="true"] button,
+[data-clickable="true"] a {
+  pointer-events: auto !important;
+}
+
+/* Navigation always on top */
 nav,
 .navbar,
 [role="navigation"] {
-  position: relative;
-  z-index: 9999;
+  z-index: 9999 !important;
 }
 
-/* Ensure interactive elements are above other content */
+/* Enhanced button and card interactions */
 button,
 a,
 [role="button"] {
-  position: relative;
-  z-index: 1;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateZ(0);
+  will-change: transform, opacity, filter;
+}
+
+/* Smooth hover effects */
+button:hover:not([disabled]),
+a:hover:not([aria-disabled="true"]),
+[role="button"]:hover:not([aria-disabled="true"]) {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: auto !important;
+}
+
+/* Active states for better feedback */
+button:active:not([disabled]),
+a:active:not([aria-disabled="true"]),
+[role="button"]:active:not([aria-disabled="true"]) {
+  transform: translateY(0px);
+  filter: brightness(0.95);
+  transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Card optimizations - less aggressive transforms */
+.project-card,
+.social-post,
+[data-clickable="true"] {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.project-card:hover,
+.social-post:hover,
+[data-clickable="true"]:hover {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Focus states for accessibility */
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 2px;
+  transform: translateY(-1px);
+}
+
+/* Responsive optimizations */
+@media (max-width: 768px) {
+  /* Reduce animations on mobile for better performance */
+  .project-card:hover,
+  .social-post:hover,
+  [data-clickable="true"]:hover {
+    transform: translateY(-1px) scale(1.01);
+  }
+  
+  /* Better touch targets */
+  button,
+  a,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Optimize text for mobile */
+  body {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Crisp images on retina displays */
+  img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
 }
 
 /* Focus styles */
