@@ -89,56 +89,41 @@ export function BlurReveal({ children, className = "", delay = 0 }: BlurRevealPr
 
 export function FloatingElements() {
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden">
-      {/* Floating geometric shapes */}
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" style={{ zIndex: -1 }}>
       <motion.div
-        className="absolute top-20 left-10 w-4 h-4 border border-white/10 rotate-45"
+        className="absolute top-20 left-10 w-2 h-2 bg-white/20 rounded-full"
         animate={{
-          y: [-20, 20, -20],
-          rotate: [45, 135, 45],
-          opacity: [0.3, 0.6, 0.3]
+          y: [0, -20, 0],
+          opacity: [0.2, 0.5, 0.2],
         }}
         transition={{
-          duration: 8,
+          duration: 4,
           repeat: Infinity,
-          ease: "easeInOut"
+          ease: "easeInOut",
         }}
       />
-      
       <motion.div
-        className="absolute top-1/3 right-20 w-6 h-6 border border-white/5 rounded-full"
+        className="absolute top-40 right-20 w-1 h-1 bg-white/30 rounded-full"
         animate={{
-          y: [30, -30, 30],
-          x: [-10, 10, -10],
-          scale: [1, 1.2, 1]
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      />
-      
-      <motion.div
-        className="absolute bottom-1/4 left-1/4 w-2 h-2 bg-white/5 rounded-full"
-        animate={{
-          y: [-40, 40, -40],
-          opacity: [0.2, 0.8, 0.2]
+          y: [0, 15, 0],
+          x: [0, -10, 0],
+          opacity: [0.3, 0.6, 0.3],
         }}
         transition={{
           duration: 6,
           repeat: Infinity,
-          ease: "easeInOut"
+          ease: "easeInOut",
+          delay: 1,
         }}
       />
-      
       <motion.div
-        className="absolute top-2/3 right-1/3 w-8 h-1 bg-white/5"
+        className="absolute bottom-40 left-1/4 w-1.5 h-1.5 bg-white/25 rounded-full"
         animate={{
-          rotate: [0, 180, 360],
-          y: [-15, 15, -15]
+          y: [0, -25, 0],
+          opacity: [0.25, 0.5, 0.25],
         }}
         transition={{
+          duration: 5,
           duration: 12,
           repeat: Infinity,
           ease: "easeInOut"
@@ -178,7 +163,12 @@ export function Magnetic({ children, className = "", strength = 0.3 }: MagneticP
       className={className}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{ transition: 'transform 0.3s ease-out' }}
+      style={{ 
+        transition: 'transform 0.3s ease-out',
+        pointerEvents: 'auto',
+        position: 'relative',
+        zIndex: 'auto'
+      }}
     >
       {children}
     </div>

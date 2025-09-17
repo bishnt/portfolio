@@ -65,25 +65,39 @@ html, body {
 
 /* Smooth animations - removed global transitions that cause dull hover effects */
 
-/* Brighter hover effects */
-* {
-  transition: none;
+/* Brighter hover effects - more specific selectors to avoid conflicts */
+button:hover:not([disabled]),
+a:hover:not([aria-disabled="true"]),
+[role="button"]:hover:not([aria-disabled="true"]) {
+  filter: brightness(1.1);
+  transition: filter 0.2s ease;
 }
 
-/* Specific bright hover effects */
-button:hover,
-a:hover,
-[role="button"]:hover {
-  filter: brightness(1.2) !important;
-  transition: filter 0.2s ease !important;
+/* Ensure clickable elements remain interactive */
+button,
+a,
+[role="button"],
+input,
+textarea,
+select {
+  pointer-events: auto !important;
+  cursor: pointer;
 }
 
-/* Reset brightness on non-hover */
-button:not(:hover),
-a:not(:hover),
-[role="button"]:not(:hover) {
-  filter: brightness(1) !important;
-  transition: filter 0.2s ease !important;
+/* Fix for any z-index issues */
+nav,
+.navbar,
+[role="navigation"] {
+  position: relative;
+  z-index: 9999;
+}
+
+/* Ensure interactive elements are above other content */
+button,
+a,
+[role="button"] {
+  position: relative;
+  z-index: 1;
 }
 
 /* Focus styles */

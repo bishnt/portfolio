@@ -33,7 +33,7 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
         title: "Agriha",
         description: "Leading the Frontend for a platform made for solving hostels, rentals and real-estate problems in Nepal",
         skills: ["Next.js", "TypeScript", "React", "Tailwind"],
-        image: "/black.png",
+        image: "/project1.png",
         githubUrl: "https://github.com/bishnt",
         liveUrl: "https://agriha-fe.vercel.app",
         category: "Web Development",
@@ -44,7 +44,7 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
         title: "Gyanet",
         description: "A peer to peer learning platform for students, where they can share knowledge and resources and earn pocket money",
         skills: ["React", "Node.js", "Socket.io", "MongoDB"],
-        image: "/dark-knight.jpg",
+        image: "/project2.png",
         githubUrl: "https://github.com/bishnt",
         liveUrl: "https://gyanet.vercel.app",
         category: "Full Stack",
@@ -55,7 +55,7 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
         title: "HTTP server in C",
         description: "A simple HTTP server built from scratch in C, supporting basic GET and POST requests, serves static files",
         skills: ["C", "HTTP", "Sockets"],
-        image: "/wolf.jpg",
+        image: "/project3.png",
         githubUrl: "https://github.com/bishnt/webserver_in_C",
         category: "Systems Programming",
         slug: "http-server-c"
@@ -67,7 +67,7 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
         title: "Fault Detection System",
         description: "A simple L2GS system for detecting faults in electrical systems using Arduino and sensors",
         skills: ["Arduino", "proteus", "sensors"],
-        image: "/socialnetwork.jpg",
+        image: "/proj4.jpg",
         liveUrl: "https://www.linkedin.com/posts/bishnt_electrified-to-announce-that-i-along-with-activity-7292187677238448131-OlGB?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFKPxuUBGXOij_vRx0-JJDe_KTug3Ig5y0g",
         category: "Embedded Systems",
         slug: "fault-detection-system"
@@ -89,7 +89,7 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
         title: "Promotionals for Hult Prize at IOE",
         description: "Assisted on making promotional videos for the Hult Prize at IOE, showcasing the event and its impact",
         skills: ["Premiere Pro"],
-        image: "/sweet.jpg",
+        image: "/hult.jpg",
         liveUrl: "https://www.instagram.com/p/DGCiAZQolJf/",
         category: "Video Production",
         slug: "hult-prize-promotionals"
@@ -99,19 +99,10 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
         title: "Multiple Freelance Projects",
         description: "Worked on various freelance video editing projects, including social media content, documentaries, and promotional videos",
         skills: ["Premiere Pro", "After Effects", "Photoshop"],
-        image: "/oppenheimer.jpg",
+        image: "/freelance.png",
         liveUrl: "https://drive.google.com/drive/u/2/folders/11TkRiysg6Tqhd41-JNV7g03V8gEkWV9R",
         category: "Freelance Work",
         slug: "freelance-video-projects"
-      },
-      {
-        id: "3",
-        title: "Documentary Project",
-        description: "Short documentary on career options in Nepal",
-        skills: ["Premiere Pro", "After Effects", "Audition"],
-        image: "/halka.jpg",
-        category: "Documentary",
-        slug: "documentary-project"
       }
     ]
   }

@@ -39,14 +39,14 @@ export default function Education() {
 
   // Random images for bento grid
   const bentoImages = [
-    "/black.png",
-    "/dark-knight.jpg",
-    "/wolf.jpg",
-    "/socialnetwork.jpg",
-    "/oppenheimer.jpg",
-    "/highway.jpg",
-    "/sweet.jpg",
-    "/halka.jpg"
+    "/edu1.jpg",
+    "/edu2.jpg",
+    "/edu3.png",
+    "/edu4.png",
+    "/edu5.jpg",
+    "/edu6.jpg",
+    "/edu7.jpg",
+    "/edu8.jpg"
   ]
 
   return (
@@ -152,8 +152,8 @@ export default function Education() {
                       <span
                         className={`text-xs px-2 py-1 rounded font-mono transition-all duration-300 ${
                           edu.status === "Completed"
-                            ? "bg-green-500/20 text-green-400 border border-green-500/30 group-hover:bg-green-500/30"
-                            : "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 group-hover:bg-yellow-500/30"
+                            ? "bg-white/10 text-white/80 border border-white/30 group-hover:bg-white/20 group-hover:text-white"
+                            : "bg-white/5 text-white/60 border border-white/20 group-hover:bg-white/15 group-hover:text-white/80"
                         }`}
                       >
                         {edu.status}
@@ -208,7 +208,7 @@ export default function Education() {
                 delay: 0.2,
                 ease: "easeOut"
               }}
-              className="col-span-2 row-span-2 bg-gradient-to-br from-white/10 to-white/5 rounded-lg overflow-hidden border border-white/20 hover:border-white hover:bg-white/20 transition-all duration-200 hover:shadow-xl hover:shadow-white/20 group"
+              className="col-span-2 row-span-2 bg-white/5 rounded-lg overflow-hidden border border-white/20 hover:border-white/40 hover:bg-white/10 transition-all duration-200 group"
             >
               <motion.img
                 initial={{ scale: 1.1 }}
@@ -240,7 +240,7 @@ export default function Education() {
                   delay: 0.3 + index * 0.03,
                   ease: "easeOut"
                 }}
-                className="bg-gradient-to-br from-white/10 to-white/5 rounded-lg overflow-hidden border border-white/20 hover:border-white hover:bg-white/20 transition-all duration-200 hover:scale-105 group cursor-pointer"
+                className="bg-white/5 rounded-lg overflow-hidden border border-white/20 hover:border-white/40 hover:bg-white/10 transition-all duration-200 hover:scale-105 group cursor-pointer"
               >
                 <motion.img
                   initial={{ scale: 1.1 }}
@@ -263,7 +263,7 @@ export default function Education() {
                 delay: 0.5,
                 ease: "easeOut"
               }}
-              className="col-span-2 bg-gradient-to-br from-white/10 to-white/5 rounded-lg overflow-hidden border border-white/20 hover:border-white hover:bg-white/20 transition-all duration-200 hover:shadow-lg hover:shadow-white/20 group"
+              className="col-span-2 bg-white/5 rounded-lg overflow-hidden border border-white/20 hover:border-white/40 hover:bg-white/10 transition-all duration-200 group"
             >
               <motion.img
                 initial={{ scale: 1.1 }}
