@@ -19,7 +19,7 @@ interface Project {
 }
 
 interface ProjectSlideshowProps {
-  pageType: "cs" | "ee" | "creatives"
+  pageType: "cs" | "ee" | "beyond-engineering"
 }
 
 export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
@@ -83,7 +83,7 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
         slug: "solar-panel-monitor"
       }
     ],
-    creatives: [
+    "beyond-engineering": [
       {
         id: "1",
         title: "Promotionals for Hult Prize at IOE",

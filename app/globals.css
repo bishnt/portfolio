@@ -21,10 +21,24 @@ body {
   background-color: #000000;
   color: #ffffff;
   font-family: var(--font-inter);
-  transform: scale(0.9);
-  transform-origin: top left;
-  width: 111.11%;
-  height: 111.11%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Scale content but not fixed elements like navbar */
+main {
+  transform: scale(0.90);
+  transform-origin: top center;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* Ensure no extra whitespace */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .font-mono {
@@ -49,9 +63,27 @@ body {
   background: #555555;
 }
 
-/* Smooth animations */
+/* Smooth animations - removed global transitions that cause dull hover effects */
+
+/* Brighter hover effects */
 * {
-  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  transition: none;
+}
+
+/* Specific bright hover effects */
+button:hover,
+a:hover,
+[role="button"]:hover {
+  filter: brightness(1.2) !important;
+  transition: filter 0.2s ease !important;
+}
+
+/* Reset brightness on non-hover */
+button:not(:hover),
+a:not(:hover),
+[role="button"]:not(:hover) {
+  filter: brightness(1) !important;
+  transition: filter 0.2s ease !important;
 }
 
 /* Focus styles */

@@ -1,30 +1,33 @@
 import Navbar from "@/components/navbar"
-import HeroEE from "@/components/hero-ee"
+import HeroCreatives from "@/components/hero-creatives"
 import AboutFiltered from "@/components/about-filtered"
 import ProjectsFiltered from "@/components/projects-filtered"
 import Education from "@/components/education"
+import SocialFeed from "@/components/social-feed"
 import Blog from "@/components/blog"
 import Contact from "@/components/contact"
+import PersonalStuffs from "@/components/personal-stuffs"
 import NavigationButton from "@/components/navigation-button"
 import { ScrollProgress, FloatingElements } from "@/components/scroll-animations"
 
-
-export default function ElectricalEngineeringPage() {
+export default function CreativesPage() {
   return (
     <>
       <ScrollProgress />
       <FloatingElements />
       <Navbar />
-      
       <main className="bg-black text-white pt-16">
-        <HeroEE />
-        <AboutFiltered pageType="ee" />
-        <ProjectsFiltered pageType="ee" />
+        <HeroCreatives />
+        <AboutFiltered pageType="beyond-engineering" />
+        <ProjectsFiltered pageType="beyond-engineering" />
         <Education />
+        <SocialFeed />
         <Blog />
         <Contact />
         
-        {/* Cross-page navigation */}
+        <PersonalStuffs />
+        
+        {/* Cross-page navigation (above footer) */}
         <div className="py-16 sm:py-20 lg:py-24 bg-black border-t border-white/20">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
@@ -37,8 +40,8 @@ export default function ElectricalEngineeringPage() {
                 <p className="text-white/60 font-mono text-sm">Explore other perspectives</p>
               </div>
               <NavigationButton 
-                href="/beyond-engineering"
-                label="Beyond Engineering →"
+                href="/ee"
+                label="Electrical Engineering →"
                 className="px-8 py-4 text-lg font-mono border-2 border-white/30 hover:border-white hover:bg-white hover:text-black transition-all duration-300 rounded-lg"
               />
             </div>

@@ -4,6 +4,9 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
+import { ScrollReveal, BlurReveal, Magnetic } from "./scroll-animations"
+import { fadeInUp, staggerContainer, staggerItem, liquidClick, breatheHover } from "@/lib/animations"
+import { RippleEffect, ShakeClick, FloatClick } from "./click-effects"
 
 export default function Projects() {
   const ref = useRef(null)
@@ -89,66 +92,96 @@ export default function Projects() {
   return (
     <section id="projects" className="py-16 sm:py-20 lg:py-24 bg-black" ref={ref}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-12 sm:mb-16 lg:mb-20"
-        >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 font-mono">
+        <BlurReveal className="text-center mb-12 sm:mb-16 lg:mb-20">
+          <motion.h2 
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 font-mono"
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
             PROJECTS<span className="text-white/60">.SHOWCASE</span>
-          </h2>
-        </motion.div>
+          </motion.h2>
+        </BlurReveal>
 
         {/* Tab Navigation - Badge Style */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex justify-center mb-8 sm:mb-12"
-        >
-          <div className="flex flex-wrap gap-3 justify-center">
+        <ScrollReveal variants={fadeInUp} delay={0.2} className="flex justify-center mb-8 sm:mb-12">
+          <motion.div 
+            className="flex flex-wrap gap-3 justify-center"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
             {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`px-4 sm:px-6 py-2 sm:py-3 rounded-full font-mono text-xs sm:text-sm transition-all duration-300 ${
-                  activeTab === tab.id
-                    ? "bg-white text-black shadow-lg"
-                    : "bg-white/10 text-white hover:bg-white/20 border border-white/20"
-                }`}
-              >
-                {/* No icon for this tab */}
-                <span className="hidden sm:inline">{tab.label}</span>
-                <span className="sm:hidden">{tab.label.split(" ")[0]}</span>
-              </button>
+              <Magnetic key={tab.id} strength={0.2}>
+                <RippleEffect>
+                  <motion.button
+                    variants={staggerItem}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`px-4 sm:px-6 py-2 sm:py-3 rounded-full font-mono text-xs sm:text-sm transition-all duration-300 ${
+                      activeTab === tab.id
+                        ? "bg-white text-black shadow-lg"
+                        : "bg-white/10 text-white hover:bg-white/20 border border-white/20"
+                    }`}
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap="clicked"
+                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                  >
+                    <span className="hidden sm:inline">{tab.label}</span>
+                    <span className="sm:hidden">{tab.label.split(" ")[0]}</span>
+                  </motion.button>
+                </RippleEffect>
+              </Magnetic>
             ))}
-          </div>
-        </motion.div>
+          </motion.div>
+        </ScrollReveal>
 
         {/* Projects Grid */}
         <motion.div
           key={activeTab}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
+          initial={{ opacity: 0, filter: "blur(10px)" }}
+          animate={{ opacity: 1, filter: "blur(0px)" }}
+          transition={{ duration: 0.5 }}
           className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
         >
           {projects[activeTab as keyof typeof projects].map((project, index) => (
-            <div
-              key={project.title}
-              className={`border border-white/20 p-4 sm:p-6 hover:border-white/40 transition-all duration-300 group ${
-                project.href ? "cursor-pointer" : ""
-              }`}
-              onClick={() => handleProjectClick(project.href)}
-            >
+            <FloatClick key={project.title}>
+              <motion.div
+                initial={{ opacity: 0, y: 30, filter: "blur(5px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ 
+                  duration: 0.4, 
+                  delay: index * 0.1,
+                  ease: [0.25, 0.46, 0.45, 0.94]
+                }}
+                className={`border border-white/20 p-4 sm:p-6 hover:border-white/40 transition-all duration-300 group ${
+                  project.href ? "cursor-pointer" : ""
+                }`}
+                onClick={() => handleProjectClick(project.href)}
+                variants={breatheHover}
+                whileHover="hover"
+                whileTap={{ 
+                  scale: 0.98,
+                  filter: "blur(2px)",
+                  transition: { duration: 0.1 }
+                }}
+              >
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-2">
-                <h3 className="text-lg sm:text-xl font-bold font-mono group-hover:text-white/80 transition-colors">
+                <motion.h3 
+                  className="text-lg sm:text-xl font-bold font-mono group-hover:text-white/80 transition-colors"
+                  whileHover={{ x: 5 }}
+                  transition={{ duration: 0.2 }}
+                >
                   {project.title}
                   {project.href && (
-                    <span className="ml-2 text-sm opacity-60">↗</span>
+                    <motion.span 
+                      className="ml-2 text-sm opacity-60"
+                      whileHover={{ rotate: 45, scale: 1.2 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      ↗
+                    </motion.span>
                   )}
-                </h3>
+                </motion.h3>
                 <span
                   className={`text-xs px-2 py-1 rounded font-mono self-start ${
                     project.status === "Completed"
@@ -162,16 +195,24 @@ export default function Projects() {
                 </span>
               </div>
 
-              <p className="text-white/70 mb-4 text-sm sm:text-base leading-relaxed">{project.description}</p>
+              <p className="text-white/70 mb-4 text-sm sm:text-base leading-relaxed group-hover:text-white/90 transition-colors">{project.description}</p>
 
               <div className="flex flex-wrap gap-2">
-                {project.tech.map((tech) => (
-                  <span key={tech} className="text-xs px-2 py-1 border border-white/20 text-white/60 font-mono">
+                {project.tech.map((tech, techIndex) => (
+                  <motion.span 
+                    key={tech} 
+                    className="text-xs px-2 py-1 border border-white/20 text-white/60 font-mono hover:border-white/40 hover:text-white/80 transition-colors cursor-default"
+                    whileHover={{ scale: 1.05, y: -1 }}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 + techIndex * 0.05 }}
+                  >
                     {tech}
-                  </span>
+                  </motion.span>
                 ))}
               </div>
-            </div>
+              </motion.div>
+            </FloatClick>
           ))}
         </motion.div>
       </div>

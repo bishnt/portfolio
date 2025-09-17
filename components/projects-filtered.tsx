@@ -7,13 +7,13 @@ import { useRef } from "react"
 import ProjectSlideshow from "./project-slideshow"
 
 interface ProjectsFilteredProps {
-  pageType: 'cs' | 'ee' | 'creatives'
+  pageType: 'cs' | 'ee' | 'beyond-engineering'
 }
 
 export default function ProjectsFiltered({ pageType }: ProjectsFilteredProps) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true })
-  const [activeTab, setActiveTab] = useState(pageType === 'creatives' ? 'video' : pageType)
+  const [activeTab, setActiveTab] = useState(pageType === 'beyond-engineering' ? 'video' : pageType)
 
   const tabs = pageType === 'cs' ? [
     { id: "cs", label: "Computer Science"},
@@ -98,7 +98,7 @@ export default function ProjectsFiltered({ pageType }: ProjectsFilteredProps) {
         return "SOFTWARE PROJECTS"
       case 'ee':
         return "HARDWARE PROJECTS"
-      case 'creatives':
+      case 'beyond-engineering':
         return "CREATIVE PROJECTS"
       default:
         return "PROJECTS"
@@ -117,6 +117,19 @@ export default function ProjectsFiltered({ pageType }: ProjectsFilteredProps) {
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 font-mono">
             {getPageTitle()}<span className="text-white/60">.SHOWCASE</span>
           </h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="text-white/70 font-mono text-sm max-w-2xl mx-auto leading-relaxed"
+          >
+            {pageType === 'cs' 
+              ? "A collection of software projects showcasing my expertise in full-stack development, algorithms, and system design."
+              : pageType === 'ee' 
+              ? "Hardware and embedded systems projects demonstrating my skills in circuit design, IoT, and electrical engineering."
+              : "Creative projects spanning video production, graphic design, and visual storytelling that bring ideas to life."
+            }
+          </motion.p>
         </motion.div>
 
         {/* Project Slideshow */}
@@ -159,13 +172,21 @@ export default function ProjectsFiltered({ pageType }: ProjectsFilteredProps) {
           key={activeTab}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
           className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
         >
           {projects[activeTab as keyof typeof projects].map((project, index) => (
-            <div
+            <motion.div
               key={project.title}
-              className={`border border-white/20 p-4 sm:p-6 hover:border-white/40 transition-all duration-300 group ${
+              initial={{ opacity: 0, y: 40, scale: 0.8, rotateX: -30 }}
+              animate={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
+              transition={{
+                duration: 0.4,
+                delay: index * 0.05,
+                type: "spring",
+                stiffness: 250
+              }}
+              className={`border border-white/20 p-4 sm:p-6 hover:border-white/40 hover:scale-105 hover:shadow-xl hover:shadow-white/10 transition-all duration-300 group ${
                 project.href ? "cursor-pointer" : ""
               }`}
               onClick={() => handleProjectClick(project.href)}
@@ -199,7 +220,7 @@ export default function ProjectsFiltered({ pageType }: ProjectsFilteredProps) {
                   </span>
                 ))}
               </div>
-            </div>
+            </motion.div>
           ))}
         </motion.div>
       </div>

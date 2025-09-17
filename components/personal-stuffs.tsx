@@ -535,18 +535,6 @@ export default function PersonalStuffs() {
           ))}
         </div>
 
-        {/* Footer */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 1.2 }}
-          className="pt-8 border-t border-white/20 text-center"
-        >
-          <p className="text-white/60 font-mono text-xs sm:text-sm">
-            @ 2025 Bishrant Ghimire. 
-          </p>
-        </motion.div>
-
         {/* Mathematical formula overlay (decorative) */}
         <motion.div
           initial={{ opacity: 0 }}

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Code2, Cpu, Palette, ArrowRight } from 'lucide-react'
+import { Code2, Cpu, Palette, ArrowRight, VideoIcon } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export default function Landing() {
@@ -20,8 +20,8 @@ export default function Landing() {
         router.push('/cs')
       } else if (option === 'ee') {
         router.push('/ee')
-      } else if (option === 'creatives') {
-        router.push('/creatives')
+      } else if (option === 'beyond-engineering') {
+        router.push('/beyond-engineering')
       }
     }, 3000)
   }
@@ -40,9 +40,9 @@ export default function Landing() {
       description: 'Hardware, Circuits & Systems'
     },
     {
-      id: 'creatives',
-      title: 'Creatives',
-      icon: Palette,
+      id: 'beyond-engineering',
+      title: 'Beyond Engineering',
+      icon: VideoIcon,
       description: 'Visual Stories & Digital Art'
     }
   ]

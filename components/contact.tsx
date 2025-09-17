@@ -84,17 +84,22 @@ export default function Contact() {
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 font-mono">
             CONTACT<span className="text-white/60">.ME</span>
           </h2>
-          <p className="text-lg sm:text-xl text-white/70 max-w-3xl mx-auto">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="text-white/70 font-mono text-sm max-w-2xl mx-auto leading-relaxed"
+          >
             Let&apos;s collaborate on something amazing. Whether it&apos;s a project, opportunity, or just a conversation about
-            technology.
-          </p>
+            technology, engineering, or creative ideas - I&apos;d love to hear from you.
+          </motion.p>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            initial={{ opacity: 0, x: -100, scale: 0.8 }}
+            animate={isInView ? { opacity: 1, x: 0, scale: 1 } : {}}
+            transition={{ duration: 0.4, delay: 0.1, type: "spring", stiffness: 200 }}
           >
             <h3 className="text-xl sm:text-2xl font-bold mb-6 sm:mb-8 font-mono">{"> GET IN TOUCH"}</h3>
 
@@ -150,9 +155,9 @@ export default function Contact() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            initial={{ opacity: 0, x: 100, scale: 0.8 }}
+            animate={isInView ? { opacity: 1, x: 0, scale: 1 } : {}}
+            transition={{ duration: 0.4, delay: 0.2, type: "spring", stiffness: 200 }}
           >
             <div className="space-y-4 sm:space-y-6">
               <div>

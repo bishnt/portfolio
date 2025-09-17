@@ -64,19 +64,30 @@ export default function Blog() {
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 font-mono">
             BLOG<span className="text-white/60">.POSTS</span>
           </h2>
-          <p className="text-lg sm:text-xl text-white/70 max-w-3xl mx-auto">
-            Thoughts, insights, and experiences from my journey and explorations in technology, engineering, and creativity.
-          </p>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="text-white/70 font-mono text-sm max-w-2xl mx-auto leading-relaxed"
+          >
+            Thoughts, insights, and experiences from my journey in technology, engineering, and creativity. 
+            Sharing knowledge through detailed articles and personal reflections.
+          </motion.p>
         </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {blogPosts.map((post, index) => (
             <motion.article
               key={post.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
-              className="border border-white/20 p-4 sm:p-6 hover:border-white/40 transition-all duration-300 group cursor-pointer"
+              initial={{ opacity: 0, y: 50, scale: 0.8, rotateY: -15 }}
+              animate={{ opacity: 1, y: 0, scale: 1, rotateY: 0 }}
+              transition={{ 
+                duration: 0.4, 
+                delay: 0.1 + index * 0.05,
+                type: "spring",
+                stiffness: 200
+              }}
+              className="border border-white/20 p-4 sm:p-6 hover:border-white/40 hover:scale-105 hover:shadow-xl hover:shadow-white/10 transition-all duration-300 group cursor-pointer"
             >
               <Link href={typeof post.id === "string" ? `/blog/${post.id}` : "#"}>
                 <div className="mb-4">

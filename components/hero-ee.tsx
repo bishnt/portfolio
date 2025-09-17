@@ -1,8 +1,9 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
+import { motion, useScroll, useTransform } from "framer-motion"
 import { Github, Linkedin, Instagram, MapPin } from "lucide-react"
+import { ParallaxElement, FloatingElements } from "./scroll-animations"
 
 function AnimatedSineWave() {
   const [amplitude, setAmplitude] = useState(100)
@@ -277,11 +278,17 @@ function SocialLinks() {
 }
 
 export default function HeroEE() {
+  const { scrollY } = useScroll()
+  const y1 = useTransform(scrollY, [0, 1000], [0, -200])
+  const y2 = useTransform(scrollY, [0, 1000], [0, -100])
+  const opacity = useTransform(scrollY, [0, 300], [1, 0])
+
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 px-4 lg:px-8">
       <div className="absolute inset-0 bg-black" />
+      <FloatingElements />
 
-      <div className="relative z-10 max-w-6xl mx-auto">
+      <motion.div className="relative z-10 max-w-6xl mx-auto" style={{ y: y2 }}>
         <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 items-center min-h-[70vh]">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -369,25 +376,32 @@ export default function HeroEE() {
             <AnimatedSineWave />
           </motion.div>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Mathematical formulas */}
-      <motion.div
-        className="absolute top-20 right-4 lg:right-20 text-white/15 font-mono text-lg lg:text-2xl"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
-      >
-        y = A sin(ωt + φ)
-      </motion.div>
-      <motion.div
-        className="absolute bottom-32 left-4 lg:left-16 text-white/15 font-mono text-base lg:text-xl"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-      >
-        ∇²V = 0
-      </motion.div>
+      {/* Mathematical formulas with parallax */}
+      <ParallaxElement speed={0.3}>
+        <motion.div
+          className="absolute top-20 right-4 lg:right-20 text-white/15 font-mono text-lg lg:text-2xl"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
+          style={{ opacity }}
+        >
+          y = A sin(ωt + φ)
+        </motion.div>
+      </ParallaxElement>
+      
+      <ParallaxElement speed={0.5}>
+        <motion.div
+          className="absolute bottom-32 left-4 lg:left-16 text-white/15 font-mono text-base lg:text-xl"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2 }}
+          style={{ opacity }}
+        >
+          ∇²V = 0
+        </motion.div>
+      </ParallaxElement>
 
       {/* Scroll indicator */}
       <motion.div

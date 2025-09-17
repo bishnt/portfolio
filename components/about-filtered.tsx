@@ -6,20 +6,20 @@ import { useInView } from "framer-motion"
 import { useRef } from "react"
 
 interface AboutFilteredProps {
-  pageType: 'cs' | 'ee' | 'creatives'
+  pageType: 'cs' | 'ee' | 'beyond-engineering'
 }
 
 export default function AboutFiltered({ pageType }: AboutFilteredProps) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true })
-  const [activeTab, setActiveTab] = useState(pageType === 'creatives' ? 'creative' : pageType)
+  const [activeTab, setActiveTab] = useState(pageType === 'beyond-engineering' ? 'creative' : pageType)
 
   const skillTabs = pageType === 'cs' ? [
     { id: "cs", label: "Computer Science", icon: "" },
   ] : pageType === 'ee' ? [
     { id: "ee", label: "Electrical Engineering", icon: "" },
   ] : [
-    { id: "creative", label: "Creatives", icon: "" },
+    { id: "creative", label: "Beyond Engineering", icon: "" },
   ]
 
   const skills = {
@@ -107,7 +107,7 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
         return "I'm a Computer Science enthusiast with a strong foundation in algorithms, data structures, and software development. I enjoy solving complex problems through code and building scalable applications that make a difference."
       case 'ee':
         return "I'm an Electrical Engineering student passionate about circuit design, signal processing, and hardware systems. I love working with electronics and exploring the intersection of hardware and software."
-      case 'creatives':
+      case 'beyond-engineering':
         return "I'm a creative professional with expertise in video editing, graphic design, and visual storytelling. I bring ideas to life through compelling visuals and engaging content that resonates with audiences."
       default:
         return "I'm a multidisciplinary professional with expertise across technology, engineering, and creative fields."
@@ -120,7 +120,7 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
         return "Currently focused on full-stack web development, exploring machine learning algorithms, and building efficient software solutions. Interested in system design and performance optimization."
       case 'ee':
         return "Exploring embedded systems, IoT applications, and power electronics. Interested in renewable energy systems and the integration of hardware with software solutions."
-      case 'creatives':
+      case 'beyond-engineering':
         return "Working on video production projects, developing visual content strategies, and exploring new creative technologies. Passionate about storytelling through multimedia."
       default:
         return "Exploring the intersection of technology, engineering, and creativity to solve real-world problems."
@@ -139,13 +139,26 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 lg:mb-12 font-mono">
             ABOUT<span className="text-white/60">.ME</span>
           </h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="text-white/70 font-mono text-sm max-w-2xl mx-auto leading-relaxed"
+          >
+            {pageType === 'cs' 
+              ? "Passionate about algorithms, software architecture, and building scalable solutions that solve real-world problems."
+              : pageType === 'ee' 
+              ? "Exploring the intersection of hardware and software, from circuit design to embedded systems and IoT applications."
+              : "Bringing ideas to life through visual storytelling, video production, and creative digital experiences."
+            }
+          </motion.p>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 xl:gap-20 items-start">
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            initial={{ opacity: 0, x: -100, scale: 0.8 }}
+            animate={isInView ? { opacity: 1, x: 0, scale: 1 } : {}}
+            transition={{ duration: 0.4, delay: 0.1, type: "spring", stiffness: 200 }}
             className="space-y-6 lg:space-y-8"
           >
             <h3 className="text-xl sm:text-2xl font-bold mb-4 lg:mb-6 font-mono">{"> WHO AM I?"}</h3>
@@ -168,9 +181,9 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            initial={{ opacity: 0, x: 100, scale: 0.8 }}
+            animate={isInView ? { opacity: 1, x: 0, scale: 1 } : {}}
+            transition={{ duration: 0.4, delay: 0.2, type: "spring", stiffness: 200 }}
             className="space-y-6 lg:space-y-8"
           >
             <h3 className="text-xl sm:text-2xl font-bold mb-4 lg:mb-6 font-mono">{"> SKILLS & TECHNOLOGIES"}</h3>
@@ -180,7 +193,7 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
               {skillTabs.map((tab) => (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id as 'cs' | 'ee' | 'creatives')}
+                  onClick={() => setActiveTab(tab.id as 'cs' | 'ee' | 'creative')}
                   className={`px-4 py-2 rounded-full font-mono text-xs sm:text-sm transition-all duration-300 ${
                     activeTab === tab.id
                       ? "bg-white text-black shadow-lg"
@@ -199,7 +212,7 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
               key={activeTab}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.2 }}
               className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4"
             >
               {skills[activeTab as keyof typeof skills]
@@ -208,10 +221,15 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
                   skill ? (
                     <motion.div
                       key={skill.name}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3, delay: index * 0.05 }}
-                      className="border border-white/20 p-3 sm:p-4 hover:border-white/40 transition-colors duration-300 flex items-center gap-3"
+                      initial={{ opacity: 0, y: 30, scale: 0.8, rotateX: -45 }}
+                      animate={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
+                      transition={{ 
+                        duration: 0.3, 
+                        delay: index * 0.03,
+                        type: "spring",
+                        stiffness: 300
+                      }}
+                      className="border border-white/20 p-3 sm:p-4 hover:border-white/40 hover:scale-105 hover:shadow-lg hover:shadow-white/10 transition-all duration-300 flex items-center gap-3 group"
                     >
                       <img
                         src={skill.logo || "/placeholder.svg"}
