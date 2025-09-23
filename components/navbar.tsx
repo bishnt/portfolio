@@ -115,11 +115,11 @@ export default function Navbar({ pageType = 'home' }: NavbarProps) {
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
+        <div className="flex justify-between items-center py-3 sm:py-4">
           <Magnetic strength={0.4}>
             <motion.div 
-              className="text-2xl font-bold font-mono cursor-pointer" 
+              className="text-xl sm:text-2xl font-bold font-mono cursor-pointer"
               whileHover={{ 
                 scale: 1.05,
                 rotate: [0, -2, 2, 0],
@@ -134,7 +134,7 @@ export default function Navbar({ pageType = 'home' }: NavbarProps) {
             </motion.div>
           </Magnetic>
 
-          <div className="hidden md:flex space-x-8">
+          <div className="hidden md:flex space-x-6 lg:space-x-8">
             {navItems.map((item, index) => {
               const isActive = activeSection === item.href.substring(1)
               return (
@@ -155,7 +155,7 @@ export default function Navbar({ pageType = 'home' }: NavbarProps) {
                     >
                       <Link
                         href={item.href}
-                        className={`relative font-mono text-sm tracking-wider transition-all duration-300 ${
+                        className={`relative font-mono text-xs sm:text-sm tracking-wider transition-all duration-300 ${
                           isActive 
                             ? "text-white" 
                             : "text-white/60 hover:text-white/90"
@@ -202,11 +202,11 @@ export default function Navbar({ pageType = 'home' }: NavbarProps) {
           <div className="md:hidden">
             <motion.button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-white hover:text-white/80 transition-colors"
+              className="p-1.5 sm:p-2 text-white hover:text-white/80 transition-colors rounded-md"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
             </motion.button>
           </div>
         </div>
@@ -219,9 +219,9 @@ export default function Navbar({ pageType = 'home' }: NavbarProps) {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className="md:hidden border-t border-white/10 bg-black/95 backdrop-blur-md"
+              className="md:hidden border-t border-white/10 bg-black/98 backdrop-blur-md"
             >
-              <div className="px-4 py-4 space-y-2">
+              <div className="px-3 sm:px-4 py-3 sm:py-4 space-y-1 sm:space-y-2">
                 {navItems.map((item, index) => {
                   const isActive = activeSection === item.href.substring(1)
                   return (
@@ -233,12 +233,19 @@ export default function Navbar({ pageType = 'home' }: NavbarProps) {
                     >
                       <Link
                         href={item.href}
-                        className={`block py-3 px-4 font-mono text-sm tracking-wider transition-all duration-300 rounded-lg ${
+                        className={`block py-2.5 sm:py-3 px-3 sm:px-4 font-mono text-sm tracking-wider transition-all duration-300 rounded-lg touch-manipulation ${
                           isActive 
                             ? "text-white bg-white/10" 
-                            : "text-white/60 hover:text-white/90 hover:bg-white/5"
+                            : "text-white/60 hover:text-white/90 hover:bg-white/5 active:bg-white/10"
                         }`}
-                        onClick={() => setMobileMenuOpen(false)}
+                        onClick={(e) => {
+                          e.preventDefault()
+                          setMobileMenuOpen(false)
+                          const element = document.getElementById(item.href.substring(1))
+                          if (element) {
+                            element.scrollIntoView({ behavior: 'smooth' })
+                          }
+                        }}
                       >
                         {item.name}
                       </Link>

@@ -109,22 +109,22 @@ export default function Blog() {
   return (
     <>
       <PageLoader isLoading={isLoading} loadingText="Loading blog post..." />
-      <section id="blog" className="py-16 sm:py-20 lg:py-24 bg-black" ref={ref}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="blog" className="py-12 sm:py-16 lg:py-20 xl:py-24 bg-black" ref={ref}>
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-12 sm:mb-16 lg:mb-20"
+          className="text-center mb-8 sm:mb-12 lg:mb-16 xl:mb-20"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 font-mono">
+          <h2 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 lg:mb-8 font-mono">
             BLOG<span className="text-white/60">.POSTS</span>
           </h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-white/70 font-mono text-sm max-w-2xl mx-auto leading-relaxed"
+            className="text-white/70 font-mono text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed px-2 sm:px-0"
           >
             Thoughts, insights, and experiences from my journey in technology, engineering, and creativity. 
             Sharing knowledge through detailed articles and personal reflections.
@@ -138,7 +138,7 @@ export default function Blog() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
-            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8"
           >
             {getCurrentPosts().map((post, index) => (
               <motion.article
@@ -151,7 +151,7 @@ export default function Blog() {
                   type: "spring",
                   stiffness: 200
                 }}
-                className="border border-white/20 p-4 sm:p-6 hover:border-white/40 hover:scale-105 hover:shadow-xl hover:shadow-white/10 transition-all duration-300 group cursor-pointer"
+                className="border border-white/20 p-3 sm:p-4 lg:p-6 hover:border-white/40 hover:shadow-xl hover:shadow-white/10 transition-all duration-300 group cursor-pointer touch-manipulation"
               >
               <Link 
                 href={typeof post.id === "string" ? `/blog/${post.id}` : "#"}
@@ -173,13 +173,13 @@ export default function Blog() {
                       <span className="text-xs text-white/50 font-mono">{post.readTime}</span>
                     </div>
 
-                    <h3 className="text-lg sm:text-xl font-bold font-mono mb-3 group-hover:text-white/80 transition-colors">
+                    <h3 className="text-base sm:text-lg lg:text-xl font-bold font-mono mb-2 sm:mb-3 group-hover:text-white/80 transition-colors">
                       {post.title}
                     </h3>
 
-                    <p className="text-white/70 text-sm leading-relaxed mb-4">{post.excerpt}</p>
+                    <p className="text-white/70 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4">{post.excerpt}</p>
 
-                    <div className="flex flex-wrap gap-2 mb-4">
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
                       {post.tags.map((tag) => (
                         <span key={tag} className="text-xs px-2 py-1 bg-white/5 text-white/50 font-mono">
                           #{tag}
@@ -210,19 +210,19 @@ export default function Blog() {
             <>
               <button
                 onClick={prevPage}
-                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 w-10 h-10 border border-white/20 flex items-center justify-center rounded-full"
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-8 sm:-translate-x-12 w-8 h-8 sm:w-10 sm:h-10 border border-white/20 flex items-center justify-center rounded-full touch-manipulation"
               >
-                <ChevronLeft className="w-5 h-5" />
+                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
               <button
                 onClick={nextPage}
-                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 w-10 h-10 border border-white/20 flex items-center justify-center rounded-full"
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-8 sm:translate-x-12 w-8 h-8 sm:w-10 sm:h-10 border border-white/20 flex items-center justify-center rounded-full touch-manipulation"
               >
-                <ChevronRight className="w-5 h-5" />
+                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
               
               {/* Page Indicators */}
-              <div className="flex justify-center gap-3 mt-8">
+              <div className="flex justify-center gap-2 sm:gap-3 mt-6 sm:mt-8">
                 {Array.from({ length: totalPages }, (_, index) => (
                   <button
                     key={index}
@@ -230,9 +230,9 @@ export default function Blog() {
                       setCurrentPage(index)
                       resetAutoSlide()
                     }}
-                    className={`w-3 h-3 rounded-full ${
+                    className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full touch-manipulation ${
                       currentPage === index
-                        ? "bg-white scale-125"
+                        ? "bg-white scale-110 sm:scale-125"
                         : "bg-white/30"
                     }`}
                   />
@@ -240,8 +240,8 @@ export default function Blog() {
               </div>
               
               {/* Page Counter */}
-              <div className="text-center mt-4">
-                <span className="text-white/60 font-mono text-sm">
+              <div className="text-center mt-3 sm:mt-4">
+                <span className="text-white/60 font-mono text-xs sm:text-sm">
                   Page {currentPage + 1} of {totalPages}
                 </span>
               </div>

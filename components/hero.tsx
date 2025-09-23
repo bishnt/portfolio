@@ -158,14 +158,14 @@ function RotatingText() {
   }, [])
 
   return (
-    <div className="h-8 overflow-hidden">
+    <div className="h-6 sm:h-8 overflow-hidden">
       <motion.div
         key={currentIndex}
-        initial={{ y: 30, opacity: 0 }}
+        initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        exit={{ y: -30, opacity: 0 }}
+        exit={{ y: -20, opacity: 0 }}
         transition={{ duration: 0.5 }}
-        className="font-mono text-xl md:text-2xl text-white/80"
+        className="font-mono text-lg sm:text-xl md:text-2xl text-white/80"
       >
         {"> " + roles[currentIndex]}
       </motion.div>
@@ -204,14 +204,14 @@ function SocialLinks() {
   ]
 
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-3 sm:gap-4">
       {socialLinks.map((social, index) => (
         <motion.a
           key={social.label}
           href={social.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="w-10 h-10 border border-white/20 flex items-center justify-center hover:border-white/40 hover:bg-white/5 transition-all duration-300"
+          className="w-8 h-8 sm:w-10 sm:h-10 border border-white/20 flex items-center justify-center hover:border-white/40 hover:bg-white/5 transition-all duration-300"
           whileHover={{ 
             scale: 1.1,
             boxShadow: "0 0 15px rgba(255,255,255,0.3)",
@@ -222,7 +222,7 @@ function SocialLinks() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1 + index * 0.1 }}
         >
-          <social.icon className="w-5 h-5" />
+          <social.icon className="w-4 h-4 sm:w-5 sm:h-5" />
         </motion.a>
       ))}
     </div>
@@ -235,15 +235,15 @@ export default function Hero() {
       <div className="absolute inset-0 bg-black" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[80vh]">
+        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center min-h-[80vh]">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center lg:text-left space-y-6 lg:space-y-8"
+            className="text-center lg:text-left space-y-4 sm:space-y-6 lg:space-y-8">
           >
             <motion.h1
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold font-mono leading-tight"
+              className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold font-mono leading-tight"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
@@ -259,7 +259,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="py-2 lg:py-4"
+              className="py-1 sm:py-2 lg:py-4"
             >
               <RotatingText />
             </motion.div>
@@ -268,7 +268,7 @@ export default function Hero() {
   <LocationBadge />
 </div>
             <motion.p
-              className="text-base sm:text-lg lg:text-xl text-white/70 max-w-2xl leading-relaxed"
+              className="text-sm sm:text-base lg:text-lg xl:text-xl text-white/70 max-w-2xl leading-relaxed px-2 sm:px-0"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
@@ -278,40 +278,40 @@ export default function Hero() {
             </motion.p>
 
             <motion.div
-              className="flex flex-col sm:flex-row gap-4 lg:gap-6 pt-2 lg:pt-4"
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 lg:gap-6 pt-2 lg:pt-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
             >
               <motion.button
-                className="px-6 sm:px-8 lg:px-10 py-3 lg:py-4 border-2 border-white text-white hover:bg-white hover:text-black transition-all duration-300 font-mono text-xs sm:text-sm tracking-wider"
+                className="px-4 sm:px-6 lg:px-8 xl:px-10 py-2.5 sm:py-3 lg:py-4 border-2 border-white text-white hover:bg-white hover:text-black transition-all duration-300 font-mono text-xs sm:text-sm tracking-wider"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => (window.location.href = "#projects")}
               >
                 VIEW PROJECTS
               </motion.button>
-<motion.button
-  className="px-6 sm:px-8 lg:px-10 py-3 lg:py-4 bg-white text-black hover:bg-white/90 transition-all duration-300 font-mono text-xs sm:text-sm tracking-wider"
-  whileHover={{ scale: 1.05 }}
-  whileTap={{ scale: 0.95 }}
-  onClick={() => (window.location.href = "#contact")}
->
-  CONTACT ME
-</motion.button>
+              <motion.button
+                className="px-4 sm:px-6 lg:px-8 xl:px-10 py-2.5 sm:py-3 lg:py-4 bg-white text-black hover:bg-white/90 transition-all duration-300 font-mono text-xs sm:text-sm tracking-wider"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => (window.location.href = "#contact")}
+              >
+                CONTACT ME
+              </motion.button>
 
             </motion.div>
 
             
 
-<motion.div
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ delay: 1 }}
-  className="pt-4 flex justify-center sm:justify-start"
->
-  <SocialLinks />
-</motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1 }}
+              className="pt-2 sm:pt-4 flex justify-center sm:justify-start"
+            >
+              <SocialLinks />
+            </motion.div>
 
 
             
@@ -329,9 +329,9 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Mathematical formulas - repositioned */}
+      {/* Mathematical formulas - repositioned for mobile */}
       <motion.div
-        className="absolute top-20 right-4 lg:right-20 text-white/15 font-mono text-lg lg:text-2xl"
+        className="absolute top-16 sm:top-20 right-2 sm:right-4 lg:right-20 text-white/15 font-mono text-sm sm:text-base lg:text-lg xl:text-2xl"
         initial={{ opacity: 0 }}
         animate={{ 
           opacity: [0, 1, 1, 1],
@@ -346,7 +346,7 @@ export default function Hero() {
         y = A sin(ωt + φ)
       </motion.div>
       <motion.div
-        className="absolute bottom-32 left-4 lg:left-16 text-white/15 font-mono text-base lg:text-xl"
+        className="absolute bottom-24 sm:bottom-32 left-2 sm:left-4 lg:left-16 text-white/15 font-mono text-xs sm:text-sm lg:text-base xl:text-xl"
         initial={{ opacity: 0 }}
         animate={{ 
           opacity: [0, 1, 1, 1],
@@ -363,15 +363,15 @@ export default function Hero() {
 
       {/* Scroll indicator */}
       <motion.div
-        className="absolute bottom-8 lg:bottom-12 left-1/2 transform -translate-x-1/2"
+        className="absolute bottom-4 sm:bottom-8 lg:bottom-12 left-1/2 transform -translate-x-1/2"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.5 }}
       >
-        <div className="w-5 lg:w-6 h-10 lg:h-12 border-2 border-white/40 rounded-full flex justify-center">
+        <div className="w-4 sm:w-5 lg:w-6 h-8 sm:h-10 lg:h-12 border-2 border-white/40 rounded-full flex justify-center">
           <motion.div
-            className="w-1 h-2 lg:h-3 bg-white/40 rounded-full mt-2 lg:mt-3"
-            animate={{ y: [0, 12, 0] }}
+            className="w-0.5 sm:w-1 h-1.5 sm:h-2 lg:h-3 bg-white/40 rounded-full mt-1.5 sm:mt-2 lg:mt-3"
+            animate={{ y: [0, 8, 0] }}
             transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
           />
         </div>

@@ -193,22 +193,22 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
   }
 
   return (
-    <section id="about" className="py-16 sm:py-20 lg:py-24 bg-black" ref={ref}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="about" className="py-12 sm:py-16 lg:py-20 xl:py-24 bg-black" ref={ref}>
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-12 sm:mb-16 lg:mb-20"
+          className="text-center mb-8 sm:mb-12 lg:mb-16 xl:mb-20"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 lg:mb-12 font-mono">
+          <h2 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 lg:mb-8 xl:mb-12 font-mono">
             ABOUT<span className="text-white/60">.ME</span>
           </h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-white/70 font-mono text-sm max-w-2xl mx-auto leading-relaxed"
+            className="text-white/70 font-mono text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed px-2 sm:px-0"
           >
             {pageType === 'cs' 
               ? "A self-taught developer who learns by building. My foundations might be unconventional, but my enthusiasm for exploring new tech and creating interesting projects is unwavering."
@@ -219,26 +219,26 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
           </motion.p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 xl:gap-20 items-start">
+        <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 xl:gap-16 xxl:gap-20 items-start">
           <motion.div
             initial={{ opacity: 0, x: -100, scale: 0.8 }}
             animate={isInView ? { opacity: 1, x: 0, scale: 1 } : {}}
             transition={{ duration: 0.4, delay: 0.1, type: "spring", stiffness: 200 }}
-            className="space-y-6 lg:space-y-8"
+            className="space-y-4 sm:space-y-6 lg:space-y-8"
           >
-            <h3 className="text-xl sm:text-2xl font-bold mb-4 lg:mb-6 font-mono">{"> WHO AM I?"}</h3>
+            <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 lg:mb-6 font-mono">{"> WHO AM I?"}</h3>
 
-            <p className="text-base sm:text-lg text-white/80 leading-relaxed">
+            <p className="text-sm sm:text-base lg:text-lg text-white/80 leading-relaxed">
               {getPageDescription()}
             </p>
 
-            <p className="text-base sm:text-lg text-white/80 leading-relaxed">
+            <p className="text-sm sm:text-base lg:text-lg text-white/80 leading-relaxed">
               Right now, I&apos;m focused on {pageType === 'cs' ? 'full stack web development' : 
                                        pageType === 'ee' ? 'circuit design and embedded systems' : 
                                        'video production and visual design'}, building practical applications that solve real problems.
             </p>
 
-            <p className="text-base sm:text-lg text-white/80 leading-relaxed">
+            <p className="text-sm sm:text-base lg:text-lg text-white/80 leading-relaxed">
               In the long run, I&apos;m interested in {pageType === 'cs' ? 'exploring AI/ML applications and system architecture' : 
                                                 pageType === 'ee' ? 'renewable energy systems and IoT integration' : 
                                                 'expanding into motion graphics and 3D design'} to create innovative solutions.
@@ -249,23 +249,23 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
             initial={{ opacity: 0, x: 100, scale: 0.8 }}
             animate={isInView ? { opacity: 1, x: 0, scale: 1 } : {}}
             transition={{ duration: 0.4, delay: 0.2, type: "spring", stiffness: 200 }}
-            className="space-y-6 lg:space-y-8"
+            className="space-y-4 sm:space-y-6 lg:space-y-8"
           >
-            <h3 className="text-xl sm:text-2xl font-bold mb-4 lg:mb-6 font-mono">{"> SKILLS & TECHNOLOGIES"}</h3>
+            <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 lg:mb-6 font-mono">{"> SKILLS & TECHNOLOGIES"}</h3>
 
             {/* Skills Tab Navigation - Badge Style */}
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2 sm:gap-3">
               {skillTabs.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as 'cs' | 'ee' | 'creative')}
-                  className={`px-4 py-2 rounded-full font-mono text-xs sm:text-sm ${
+                  className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full font-mono text-xs sm:text-sm touch-manipulation ${
                     activeTab === tab.id
                       ? "bg-white text-black shadow-lg"
                       : "bg-white/10 text-white border border-white/20"
                   }`}
                 >
-                  <span className="mr-2">{tab.icon}</span>
+                  <span className="mr-1 sm:mr-2">{tab.icon}</span>
                   <span className="hidden sm:inline">{tab.label}</span>
                   <span className="sm:hidden">{tab.label.split(" ")[0]}</span>
                 </button>
@@ -279,7 +279,7 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.3 }}
-                className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4"
+                className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3 lg:gap-4"
               >
                 {getCurrentSkills()[currentSkillPage]
                   ?.filter((skill) => skill !== undefined && skill !== null)
@@ -295,18 +295,18 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
                           type: "spring",
                           stiffness: 300
                         }}
-                        className="border border-white/20 p-3 sm:p-4 flex items-center gap-3"
+                        className="border border-white/20 p-2 sm:p-3 lg:p-4 flex items-center gap-2 sm:gap-3 min-h-[48px] touch-manipulation"
                       >
                         <img
                           src={skill.logo || "/placeholder.svg"}
                           alt={skill.name}
-                          className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
+                          className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 object-contain flex-shrink-0"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement
                             target.src = "/placeholder.svg?height=32&width=32"
                           }}
                         />
-                        <div className="font-mono text-xs sm:text-sm">{skill.name}</div>
+                        <div className="font-mono text-xs sm:text-sm flex-grow min-w-0 truncate">{skill.name}</div>
                       </motion.div>
                     ) : null
                   )}
@@ -317,26 +317,26 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
                 <>
                   <button
                     onClick={prevPage}
-                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-8 w-8 h-8 border border-white/20 flex items-center justify-center rounded-full"
+                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 sm:-translate-x-8 w-6 h-6 sm:w-8 sm:h-8 border border-white/20 flex items-center justify-center rounded-full touch-manipulation"
                   >
-                    <ChevronLeft className="w-4 h-4" />
+                    <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4" />
                   </button>
                   <button
                     onClick={nextPage}
-                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-8 w-8 h-8 border border-white/20 flex items-center justify-center rounded-full"
+                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-6 sm:translate-x-8 w-6 h-6 sm:w-8 sm:h-8 border border-white/20 flex items-center justify-center rounded-full touch-manipulation"
                   >
-                    <ChevronRight className="w-4 h-4" />
+                    <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
                   </button>
                   
                   {/* Page Indicators */}
-                  <div className="flex justify-center gap-2 mt-4">
+                  <div className="flex justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-4">
                     {getCurrentSkills().map((_, index) => (
                       <button
                         key={index}
                         onClick={() => {
                           setCurrentSkillPage(index)
                         }}
-                        className={`w-2 h-2 rounded-full ${
+                        className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full touch-manipulation ${
                           currentSkillPage === index
                             ? "bg-white"
                             : "bg-white/30"
@@ -352,10 +352,10 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 1 }}
-              className="p-4 sm:p-6 border border-white/20 bg-white/5"
+              className="p-3 sm:p-4 lg:p-6 border border-white/20 bg-white/5"
             >
-              <h4 className="font-mono text-base sm:text-lg mb-3 sm:mb-4">Current Focus</h4>
-              <p className="text-sm sm:text-base text-white/80 leading-relaxed">
+              <h4 className="font-mono text-sm sm:text-base lg:text-lg mb-2 sm:mb-3 lg:mb-4">Current Focus</h4>
+              <p className="text-xs sm:text-sm lg:text-base text-white/80 leading-relaxed">
                 {getCurrentFocus()}
               </p>
             </motion.div>

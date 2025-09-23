@@ -137,7 +137,7 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
   return (
     <>
       <PageLoader isLoading={isLoading} loadingText="Loading project details..." />
-      <div className="relative w-full bg-black py-12 px-4">
+      <div className="relative w-full bg-black py-8 sm:py-10 lg:py-12 px-3 sm:px-4">
       <div className="w-full max-w-6xl mx-auto">
         <AnimatePresence mode="wait">
           <motion.div
@@ -146,7 +146,7 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.05 }}
             transition={{ duration: 0.6, ease: "easeInOut" }}
-            className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center"
+            className="grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 xl:gap-20 items-center"
           >
             {/* Image Section */}
             <motion.div 
@@ -157,9 +157,9 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
             >
               <div className="relative w-full max-w-2xl mx-auto">
                 {/* Curved container with padding */}
-                <div className="bg-gradient-to-br from-white/10 to-white/5 rounded-3xl p-6 backdrop-blur-sm border border-white/20">
+                <div className="bg-gradient-to-br from-white/10 to-white/5 rounded-2xl sm:rounded-3xl p-4 sm:p-6 backdrop-blur-sm border border-white/20">
                   <div 
-                    className="project-card relative w-full aspect-[4/3] rounded-lg overflow-hidden shadow-2xl group cursor-pointer"
+                    className="project-card relative w-full aspect-[4/3] rounded-lg overflow-hidden shadow-2xl group cursor-pointer touch-manipulation"
                     onClick={(e) => {
                       e.preventDefault()
                       e.stopPropagation()
@@ -183,21 +183,21 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
                 </div>
                 
                 {/* Decorative elements */}
-                <div className="absolute -top-4 -right-4 w-24 h-24 bg-white/5 rounded-full blur-xl" />
-                <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-white/3 rounded-full blur-2xl" />
+                <div className="absolute -top-2 sm:-top-4 -right-2 sm:-right-4 w-16 sm:w-24 h-16 sm:h-24 bg-white/5 rounded-full blur-xl" />
+                <div className="absolute -bottom-4 sm:-bottom-6 -left-4 sm:-left-6 w-20 sm:w-32 h-20 sm:h-32 bg-white/3 rounded-full blur-2xl" />
               </div>
             </motion.div>
 
             {/* Content Section */}
             <motion.div 
-              className="space-y-6 order-1 lg:order-2 text-center lg:text-left"
+              className="space-y-4 sm:space-y-6 order-1 lg:order-2 text-center lg:text-left"
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               {/* Category Badge */}
               <motion.span 
-                className="inline-flex items-center px-3 py-1 bg-white/10 border border-white/20 rounded-full text-xs font-mono text-white/80 uppercase tracking-wider backdrop-blur-sm"
+                className="inline-flex items-center px-2 sm:px-3 py-1 bg-white/10 border border-white/20 rounded-full text-xs font-mono text-white/80 uppercase tracking-wider backdrop-blur-sm"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
@@ -207,7 +207,7 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
 
               {/* Title */}
               <motion.h3 
-                className="text-3xl lg:text-4xl xl:text-5xl font-bold font-mono leading-tight"
+                className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold font-mono leading-tight px-2 sm:px-0"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.7 }}
@@ -217,7 +217,7 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
 
               {/* Description */}
               <motion.p 
-                className="text-base lg:text-lg text-white/80 leading-relaxed max-w-xl mx-auto lg:mx-0"
+                className="text-sm sm:text-base lg:text-lg text-white/80 leading-relaxed max-w-xl mx-auto lg:mx-0 px-2 sm:px-0"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.8 }}
@@ -226,15 +226,15 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
               </motion.p>
 
               {/* Skills */}
-              <div className="space-y-3">
+              <div className="space-y-2 sm:space-y-3">
                 <h4 className="text-xs font-mono text-white/60 uppercase tracking-wider">
                   Tech Stack
                 </h4>
-                <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
+                <div className="flex flex-wrap gap-1.5 sm:gap-2 justify-center lg:justify-start">
                   {currentProject.skills.map((skill) => (
                     <span
                       key={skill}
-                      className="px-3 py-1 bg-white/10 border border-white/20 rounded-lg font-mono text-sm backdrop-blur-sm"
+                      className="px-2 sm:px-3 py-1 bg-white/10 border border-white/20 rounded-lg font-mono text-xs sm:text-sm backdrop-blur-sm"
                     >
                       {skill}
                     </span>
@@ -243,18 +243,18 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
               </div>
 
               {/* Links */}
-              <div className="flex flex-wrap gap-3 justify-center lg:justify-start pt-2">
+              <div className="flex flex-wrap gap-2 sm:gap-3 justify-center lg:justify-start pt-1 sm:pt-2">
                 {currentProject.slug && (
                   <Link
                     href={`/projects/${currentProject.slug}`}
-                    className="flex items-center gap-3 px-6 py-3 bg-white text-black rounded-xl text-sm font-mono shadow-lg"
+                    className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-3 bg-white text-black rounded-xl text-xs sm:text-sm font-mono shadow-lg touch-manipulation"
                     onClick={() => {
                       startLoading()
                       // Stop loading after a short delay to allow for page transition
                       setTimeout(() => stopLoading(), 500)
                     }}
                   >
-                    <BookOpen className="w-5 h-5" />
+                    <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />
                     Learn More
                   </Link>
                 )}
@@ -263,9 +263,9 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
                     href={currentProject.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 border border-white/30 rounded-lg text-sm font-mono backdrop-blur-sm"
+                    className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 border border-white/30 rounded-lg text-xs sm:text-sm font-mono backdrop-blur-sm touch-manipulation"
                   >
-                    <Github className="w-4 h-4" />
+                    <Github className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     Code
                   </a>
                 )}
@@ -274,10 +274,10 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
                     href={currentProject.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 border border-white/30 rounded-lg text-sm font-mono backdrop-blur-sm"
+                    className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 border border-white/30 rounded-lg text-xs sm:text-sm font-mono backdrop-blur-sm touch-manipulation"
                   >
-                    <ExternalLink className="w-4 h-4" />
-                    
+                    <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    Live
                   </a>
                 )}
               </div>
@@ -288,27 +288,27 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
         {/* Navigation Arrows */}
         <button
           onClick={prevSlide}
-          className="absolute left-2 sm:left-4 lg:left-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-black/60 border border-white/20 rounded-full flex items-center justify-center z-10 backdrop-blur-sm"
+          className="absolute left-1 sm:left-2 lg:left-4 xl:left-8 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-black/60 border border-white/20 rounded-full flex items-center justify-center z-10 backdrop-blur-sm touch-manipulation"
           aria-label="Previous project"
         >
-          <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+          <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
         </button>
 
         <button
           onClick={nextSlide}
-          className="absolute right-2 sm:right-4 lg:right-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-black/60 border border-white/20 rounded-full flex items-center justify-center z-10 backdrop-blur-sm"
+          className="absolute right-1 sm:right-2 lg:right-4 xl:right-8 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-black/60 border border-white/20 rounded-full flex items-center justify-center z-10 backdrop-blur-sm touch-manipulation"
           aria-label="Next project"
         >
-          <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+          <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
         </button>
 
         {/* Dots Indicator */}
-        <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex gap-1.5 sm:gap-2">
+        <div className="absolute bottom-4 sm:bottom-6 lg:bottom-8 left-1/2 -translate-x-1/2 flex gap-1 sm:gap-1.5 lg:gap-2">
           {currentProjects.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              className={`w-1.5 h-1.5 sm:w-2 sm:h-2 lg:w-3 lg:h-3 rounded-full ${
+              className={`w-2 h-2 sm:w-2.5 sm:h-2.5 lg:w-3 lg:h-3 rounded-full touch-manipulation ${
                 index === currentIndex ? "bg-white shadow-lg" : "bg-white/40"
               }`}
               aria-label={`Go to project ${index + 1}`}

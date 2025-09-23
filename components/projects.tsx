@@ -90,11 +90,11 @@ export default function Projects() {
   }
 
   return (
-    <section id="projects" className="py-16 sm:py-20 lg:py-24 bg-black" ref={ref}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <BlurReveal className="text-center mb-12 sm:mb-16 lg:mb-20">
+    <section id="projects" className="py-12 sm:py-16 lg:py-20 xl:py-24 bg-black" ref={ref}>
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 xl:px-8">
+        <BlurReveal className="text-center mb-8 sm:mb-12 lg:mb-16 xl:mb-20">
           <motion.h2 
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 font-mono"
+            className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 lg:mb-8 font-mono"
             whileHover={{ scale: 1.02 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
@@ -103,9 +103,9 @@ export default function Projects() {
         </BlurReveal>
 
         {/* Tab Navigation - Badge Style */}
-        <ScrollReveal variants={fadeInUp} delay={0.2} className="flex justify-center mb-8 sm:mb-12">
+        <ScrollReveal variants={fadeInUp} delay={0.2} className="flex justify-center mb-6 sm:mb-8 lg:mb-12">
           <motion.div 
-            className="flex flex-wrap gap-3 justify-center"
+            className="flex flex-wrap gap-2 sm:gap-3 justify-center"
             variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
@@ -117,7 +117,7 @@ export default function Projects() {
                   <motion.button
                     variants={staggerItem}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`px-4 sm:px-6 py-2 sm:py-3 rounded-full font-mono text-xs sm:text-sm ${
+                    className={`px-3 sm:px-4 lg:px-6 py-1.5 sm:py-2 lg:py-3 rounded-full font-mono text-xs sm:text-sm touch-manipulation ${
                       activeTab === tab.id
                         ? "bg-white text-black shadow-lg"
                         : "bg-white/10 text-white border border-white/20"
@@ -139,7 +139,7 @@ export default function Projects() {
           initial={{ opacity: 0, filter: "blur(10px)" }}
           animate={{ opacity: 1, filter: "blur(0px)" }}
           transition={{ duration: 0.5 }}
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8"
         >
           {projects[activeTab as keyof typeof projects].map((project, index) => (
             <FloatClick key={project.title}>
@@ -151,7 +151,7 @@ export default function Projects() {
                   delay: index * 0.1,
                   ease: [0.25, 0.46, 0.45, 0.94]
                 }}
-                className={`border border-white/20 p-4 sm:p-6 hover:border-white/40 transition-all duration-300 group ${
+                className={`border border-white/20 p-3 sm:p-4 lg:p-6 hover:border-white/40 transition-all duration-300 group touch-manipulation ${
                   project.href ? "cursor-pointer" : ""
                 }`}
                 onClick={() => handleProjectClick(project.href)}
@@ -163,16 +163,16 @@ export default function Projects() {
                   transition: { duration: 0.1 }
                 }}
               >
-              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-2">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-3 sm:mb-4 gap-2">
                 <motion.h3 
-                  className="text-lg sm:text-xl font-bold font-mono group-hover:text-white/80 transition-colors"
+                  className="text-base sm:text-lg lg:text-xl font-bold font-mono group-hover:text-white/80 transition-colors"
                   whileHover={{ x: 5 }}
                   transition={{ duration: 0.2 }}
                 >
                   {project.title}
                   {project.href && (
                     <motion.span 
-                      className="ml-2 text-sm opacity-60"
+                      className="ml-1 sm:ml-2 text-sm opacity-60"
                       whileHover={{ rotate: 45, scale: 1.2 }}
                       transition={{ duration: 0.2 }}
                     >
@@ -181,7 +181,7 @@ export default function Projects() {
                   )}
                 </motion.h3>
                 <span
-                  className={`text-xs px-2 py-1 rounded font-mono self-start ${
+                  className={`text-xs px-2 py-1 rounded font-mono self-start flex-shrink-0 ${
                     project.status === "Completed"
                       ? "bg-white/20 text-white"
                       : project.status === "In Progress"
@@ -193,13 +193,13 @@ export default function Projects() {
                 </span>
               </div>
 
-              <p className="text-white/70 mb-4 text-sm sm:text-base leading-relaxed group-hover:text-white/90 transition-colors">{project.description}</p>
+              <p className="text-white/70 mb-3 sm:mb-4 text-xs sm:text-sm lg:text-base leading-relaxed group-hover:text-white/90 transition-colors">{project.description}</p>
 
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 {project.tech.map((tech, techIndex) => (
                   <motion.span 
                     key={tech} 
-                    className="text-xs px-2 py-1 border border-white/20 text-white/60 font-mono hover:border-white/40 hover:text-white/80 transition-colors cursor-default"
+                    className="text-xs px-2 py-1 border border-white/20 text-white/60 font-mono hover:border-white/40 hover:text-white/80 transition-colors cursor-default touch-manipulation"
                     whileHover={{ scale: 1.05, y: -1 }}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
