@@ -1,9 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 interface AboutFilteredProps {
   pageType: 'cs' | 'ee' | 'beyond-engineering'
@@ -13,6 +14,62 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true })
   const [activeTab, setActiveTab] = useState(pageType === 'beyond-engineering' ? 'creative' : pageType)
+  const [currentSkillPage, setCurrentSkillPage] = useState(0)
+  const autoSlideRef = useRef<NodeJS.Timeout | null>(null)
+
+  // Get current skills array based on active tab
+  const getCurrentSkills = () => {
+    const skillsArray = skills[activeTab as keyof typeof skills]
+    return Array.isArray(skillsArray[0]) ? skillsArray : [skillsArray]
+  }
+
+  // Auto-slide functionality
+  const startAutoSlide = () => {
+    if (autoSlideRef.current) {
+      clearTimeout(autoSlideRef.current)
+    }
+    const currentSkills = getCurrentSkills()
+    if (currentSkills.length > 1) {
+      autoSlideRef.current = setTimeout(() => {
+        setCurrentSkillPage((prev) => (prev + 1) % currentSkills.length)
+      }, 8000)
+    }
+  }
+
+  const resetAutoSlide = () => {
+    if (autoSlideRef.current) {
+      clearTimeout(autoSlideRef.current)
+    }
+    startAutoSlide()
+  }
+
+  // Navigation functions
+  const nextPage = () => {
+    const currentSkills = getCurrentSkills()
+    setCurrentSkillPage((prev) => (prev + 1) % currentSkills.length)
+    resetAutoSlide()
+  }
+
+  const prevPage = () => {
+    const currentSkills = getCurrentSkills()
+    setCurrentSkillPage((prev) => (prev - 1 + currentSkills.length) % currentSkills.length)
+    resetAutoSlide()
+  }
+
+  // Effect for auto-slide
+  useEffect(() => {
+    startAutoSlide()
+    return () => {
+      if (autoSlideRef.current) {
+        clearTimeout(autoSlideRef.current)
+      }
+    }
+  }, [currentSkillPage, activeTab])
+
+  // Reset page when tab changes
+  useEffect(() => {
+    setCurrentSkillPage(0)
+  }, [activeTab])
 
   const skillTabs = pageType === 'cs' ? [
     { id: "cs", label: "Computer Science", icon: "" },
@@ -24,96 +81,114 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
 
   const skills = {
     cs: [
-      {
-        name: "TypeScript",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
-      },
-      {
-        name: "Node.js",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
-      },
-      {
-        name: "React",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
-      },
-      { name: "Next.js", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" },
-      {
-        name: "Tailwind CSS",
-        logo: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg",
-      },
-      {
-        name: "PostgreSQL",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
-      },
-      {
-        name: "MongoDB",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
-      },
-      {
-        name: "C",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg",
-      },
-      {
-        name: "Python",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
-      },
-      {
-        name: "Docker",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
-      },
+      // Page 1 - 9 skills (3x3)
+      [
+        {
+          name: "TypeScript",
+          logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
+        },
+        {
+          name: "Node.js",
+          logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
+        },
+        {
+          name: "React",
+          logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+        },
+        { name: "Next.js", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" },
+        {
+          name: "Tailwind CSS",
+          logo: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg",
+        },
+        {
+          name: "PostgreSQL",
+          logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
+        },
+        {
+          name: "MongoDB",
+          logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
+        },
+        {
+          name: "C",
+          logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg",
+        },
+        {
+          name: "Python",
+          logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+        },
+      ],
+      // Page 2 - 4 additional skills
+      [
+        {
+          name: "Git",
+          logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
+        },
+        {
+          name: "Docker",
+          logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
+        },
+        {
+          name: "NumPy",
+          logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg",
+        },
+        {
+          name: "GraphQL",
+          logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg",
+        },
+      ],
     ],
 
     ee: [
-      {
-        name: "Proteus",
-        logo: "/proteus.png",
-      },
-      {
-        name: "KiCad",
-        logo: "https://avatars.githubusercontent.com/u/3374914?s=200&v=4",
-      },
-      {
-        name: "Arduino",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/arduino/arduino-original.svg",
-      },
-      {
-        name: "MATLAB",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matlab/matlab-original.svg",
-      },
-      {
-        name: "Simulink",
-        logo: "https://upload.wikimedia.org/wikipedia/commons/3/36/Simulink_Logo_%28non-wordmark%29.png",
-      },
-      {
-        name: "Simscape",
-        logo: "https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/products/simscape/simscape-icon.svg",
-      },
+      [
+        {
+          name: "Proteus",
+          logo: "/proteus.png",
+        },
+        {
+          name: "KiCad",
+          logo: "https://avatars.githubusercontent.com/u/3374914?s=200&v=4",
+        },
+        {
+          name: "Arduino",
+          logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/arduino/arduino-original.svg",
+        },
+        {
+          name: "MATLAB",
+          logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matlab/matlab-original.svg",
+        },
+        {
+          name: "Simulink",
+          logo: "https://upload.wikimedia.org/wikipedia/commons/3/36/Simulink_Logo_%28non-wordmark%29.png",
+        },
+      ],
     ],
     creative: [
-      {
-        name: "Premiere Pro",
-        logo: "https://img.icons8.com/color/48/adobe-premiere-pro.png",
-      },
-      {
-        name: "Sony Vegas",
-        logo: "https://img.icons8.com/color/48/sony-vegas-pro.png",
-      },
-      {
-        name: "Figma",
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
-      },
-      {
-        name: "Photoshop",
-        logo: "https://img.icons8.com/color/48/adobe-photoshop.png",
-      },
-      {
-        name: "After Effects",
-        logo: "https://img.icons8.com/color/48/adobe-after-effects.png",
-      },
-      {
-        name: "DaVinci Resolve",
-        logo: "https://img.icons8.com/color/48/davinci-resolve.png",
-      },
+      [
+        {
+          name: "Premiere Pro",
+          logo: "https://img.icons8.com/color/48/adobe-premiere-pro.png",
+        },
+        {
+          name: "Sony Vegas",
+          logo: "https://img.icons8.com/color/48/sony-vegas-pro.png",
+        },
+        {
+          name: "Figma",
+          logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
+        },
+        {
+          name: "Photoshop",
+          logo: "https://img.icons8.com/color/48/adobe-photoshop.png",
+        },
+        {
+          name: "After Effects",
+          logo: "https://img.icons8.com/color/48/adobe-after-effects.png",
+        },
+        {
+          name: "DaVinci Resolve",
+          logo: "https://img.icons8.com/color/48/davinci-resolve.png",
+        },
+      ],
     ],
   }
 
@@ -223,44 +298,82 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
               ))}
             </div>
 
-            {/* Skills Grid */}
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2 }}
-              className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4"
-            >
-              {skills[activeTab as keyof typeof skills]
-                .filter((skill) => skill !== undefined && skill !== null)
-                .map((skill, index) =>
-                  skill ? (
-                    <motion.div
-                      key={skill.name}
-                      initial={{ opacity: 0, y: 30, scale: 0.8, rotateX: -45 }}
-                      animate={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
-                      transition={{ 
-                        duration: 0.3, 
-                        delay: index * 0.03,
-                        type: "spring",
-                        stiffness: 300
-                      }}
-                      className="border border-white/20 p-3 sm:p-4 hover:border-white/40 hover:scale-105 hover:shadow-lg hover:shadow-white/10 transition-all duration-300 flex items-center gap-3 group"
-                    >
-                      <img
-                        src={skill.logo || "/placeholder.svg"}
-                        alt={skill.name}
-                        className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement
-                          target.src = "/placeholder.svg?height=32&width=32"
+            {/* Skills Grid with Pagination */}
+            <div className="relative">
+              <motion.div
+                key={`${activeTab}-${currentSkillPage}`}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3 }}
+                className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4"
+              >
+                {getCurrentSkills()[currentSkillPage]
+                  ?.filter((skill) => skill !== undefined && skill !== null)
+                  .map((skill, index) =>
+                    skill ? (
+                      <motion.div
+                        key={skill.name}
+                        initial={{ opacity: 0, y: 30, scale: 0.8, rotateX: -45 }}
+                        animate={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
+                        transition={{ 
+                          duration: 0.3, 
+                          delay: index * 0.03,
+                          type: "spring",
+                          stiffness: 300
                         }}
+                        className="border border-white/20 p-3 sm:p-4 hover:border-white/40 hover:scale-105 hover:shadow-lg hover:shadow-white/10 transition-all duration-300 flex items-center gap-3 group"
+                      >
+                        <img
+                          src={skill.logo || "/placeholder.svg"}
+                          alt={skill.name}
+                          className="w-6 h-6 sm:w-8 sm:h-8 object-contain"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement
+                            target.src = "/placeholder.svg?height=32&width=32"
+                          }}
+                        />
+                        <div className="font-mono text-xs sm:text-sm">{skill.name}</div>
+                      </motion.div>
+                    ) : null
+                  )}
+              </motion.div>
+              
+              {/* Navigation Arrows - Only show if there are multiple pages */}
+              {getCurrentSkills().length > 1 && (
+                <>
+                  <button
+                    onClick={prevPage}
+                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-8 w-8 h-8 border border-white/20 flex items-center justify-center hover:border-white/40 hover:bg-white/5 transition-all duration-300 rounded-full"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={nextPage}
+                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-8 w-8 h-8 border border-white/20 flex items-center justify-center hover:border-white/40 hover:bg-white/5 transition-all duration-300 rounded-full"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                  
+                  {/* Page Indicators */}
+                  <div className="flex justify-center gap-2 mt-4">
+                    {getCurrentSkills().map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => {
+                          setCurrentSkillPage(index)
+                          resetAutoSlide()
+                        }}
+                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                          currentSkillPage === index
+                            ? "bg-white scale-125"
+                            : "bg-white/30 hover:bg-white/50"
+                        }`}
                       />
-                      <div className="font-mono text-xs sm:text-sm">{skill.name}</div>
-                    </motion.div>
-                  ) : null
-                )}
-            </motion.div>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}

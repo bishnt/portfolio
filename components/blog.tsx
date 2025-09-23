@@ -2,12 +2,16 @@
 
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
-import { useRef } from "react"
+import { useRef, useState, useEffect } from "react"
 import Link from "next/link"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 export default function Blog() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true })
+  const [currentPage, setCurrentPage] = useState(0)
+  const autoSlideRef = useRef<NodeJS.Timeout | null>(null)
+  const POSTS_PER_PAGE = 6 // 2 rows × 3 columns
 
   const blogPosts = [
     {
@@ -52,6 +56,54 @@ export default function Blog() {
 
   ]
 
+  // Pagination helper functions
+  const totalPages = Math.ceil(blogPosts.length / POSTS_PER_PAGE)
+  const getCurrentPosts = () => {
+    const startIndex = currentPage * POSTS_PER_PAGE
+    const endIndex = startIndex + POSTS_PER_PAGE
+    return blogPosts.slice(startIndex, endIndex)
+  }
+
+  // Auto-slide functionality
+  const startAutoSlide = () => {
+    if (autoSlideRef.current) {
+      clearTimeout(autoSlideRef.current)
+    }
+    if (totalPages > 1) {
+      autoSlideRef.current = setTimeout(() => {
+        setCurrentPage((prev) => (prev + 1) % totalPages)
+      }, 8000)
+    }
+  }
+
+  const resetAutoSlide = () => {
+    if (autoSlideRef.current) {
+      clearTimeout(autoSlideRef.current)
+    }
+    startAutoSlide()
+  }
+
+  // Navigation functions
+  const nextPage = () => {
+    setCurrentPage((prev) => (prev + 1) % totalPages)
+    resetAutoSlide()
+  }
+
+  const prevPage = () => {
+    setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages)
+    resetAutoSlide()
+  }
+
+  // Effect for auto-slide
+  useEffect(() => {
+    startAutoSlide()
+    return () => {
+      if (autoSlideRef.current) {
+        clearTimeout(autoSlideRef.current)
+      }
+    }
+  }, [currentPage])
+
   return (
     <section id="blog" className="py-16 sm:py-20 lg:py-24 bg-black" ref={ref}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -75,59 +127,111 @@ export default function Blog() {
           </motion.p>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {blogPosts.map((post, index) => (
-            <motion.article
-              key={post.id}
-              initial={{ opacity: 0, y: 50, scale: 0.8, rotateY: -15 }}
-              animate={{ opacity: 1, y: 0, scale: 1, rotateY: 0 }}
-              transition={{ 
-                duration: 0.4, 
-                delay: 0.1 + index * 0.05,
-                type: "spring",
-                stiffness: 200
-              }}
-              className="border border-white/20 p-4 sm:p-6 hover:border-white/40 hover:scale-105 hover:shadow-xl hover:shadow-white/10 transition-all duration-300 group cursor-pointer"
-            >
-              <Link href={typeof post.id === "string" ? `/blog/${post.id}` : "#"}>
-                <div className="mb-4">
-                  <div className="flex justify-between items-center mb-3">
-                    <span className="text-xs px-2 py-1 border border-white/20 text-white/60 font-mono">
-                      {post.category}
-                    </span>
-                    <span className="text-xs text-white/50 font-mono">{post.readTime}</span>
-                  </div>
-
-                  <h3 className="text-lg sm:text-xl font-bold font-mono mb-3 group-hover:text-white/80 transition-colors">
-                    {post.title}
-                  </h3>
-
-                  <p className="text-white/70 text-sm leading-relaxed mb-4">{post.excerpt}</p>
-
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {post.tags.map((tag) => (
-                      <span key={tag} className="text-xs px-2 py-1 bg-white/5 text-white/50 font-mono">
-                        #{tag}
+        {/* Blog Grid with Pagination */}
+        <div className="relative">
+          <motion.div
+            key={currentPage}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3 }}
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
+          >
+            {getCurrentPosts().map((post, index) => (
+              <motion.article
+                key={post.id}
+                initial={{ opacity: 0, y: 50, scale: 0.8, rotateY: -15 }}
+                animate={{ opacity: 1, y: 0, scale: 1, rotateY: 0 }}
+                transition={{ 
+                  duration: 0.4, 
+                  delay: 0.1 + index * 0.05,
+                  type: "spring",
+                  stiffness: 200
+                }}
+                className="border border-white/20 p-4 sm:p-6 hover:border-white/40 hover:scale-105 hover:shadow-xl hover:shadow-white/10 transition-all duration-300 group cursor-pointer"
+              >
+                <Link href={typeof post.id === "string" ? `/blog/${post.id}` : "#"}>
+                  <div className="mb-4">
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="text-xs px-2 py-1 border border-white/20 text-white/60 font-mono">
+                        {post.category}
                       </span>
-                    ))}
-                  </div>
+                      <span className="text-xs text-white/50 font-mono">{post.readTime}</span>
+                    </div>
 
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs text-white/50 font-mono">
-                      {new Date(post.date).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}
-                    </span>
-                    <span className="text-sm font-mono group-hover:text-white transition-colors">
-                      {typeof post.id === "string" ? "READ MORE →" : "COMING SOON"}
-                    </span>
+                    <h3 className="text-lg sm:text-xl font-bold font-mono mb-3 group-hover:text-white/80 transition-colors">
+                      {post.title}
+                    </h3>
+
+                    <p className="text-white/70 text-sm leading-relaxed mb-4">{post.excerpt}</p>
+
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {post.tags.map((tag) => (
+                        <span key={tag} className="text-xs px-2 py-1 bg-white/5 text-white/50 font-mono">
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-white/50 font-mono">
+                        {new Date(post.date).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
+                      </span>
+                      <span className="text-sm font-mono group-hover:text-white transition-colors">
+                        {typeof post.id === "string" ? "READ MORE →" : "COMING SOON"}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            </motion.article>
-          ))}
+                </Link>
+              </motion.article>
+            ))}
+          </motion.div>
+          
+          {/* Navigation Controls - Only show if there are multiple pages */}
+          {totalPages > 1 && (
+            <>
+              <button
+                onClick={prevPage}
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 w-10 h-10 border border-white/20 flex items-center justify-center hover:border-white/40 hover:bg-white/5 transition-all duration-300 rounded-full"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                onClick={nextPage}
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 w-10 h-10 border border-white/20 flex items-center justify-center hover:border-white/40 hover:bg-white/5 transition-all duration-300 rounded-full"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+              
+              {/* Page Indicators */}
+              <div className="flex justify-center gap-3 mt-8">
+                {Array.from({ length: totalPages }, (_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      setCurrentPage(index)
+                      resetAutoSlide()
+                    }}
+                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                      currentPage === index
+                        ? "bg-white scale-125"
+                        : "bg-white/30 hover:bg-white/50"
+                    }`}
+                  />
+                ))}
+              </div>
+              
+              {/* Page Counter */}
+              <div className="text-center mt-4">
+                <span className="text-white/60 font-mono text-sm">
+                  Page {currentPage + 1} of {totalPages}
+                </span>
+              </div>
+            </>
+          )}
         </div>
 
 
