@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
@@ -20,56 +20,25 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
   const isInView = useInView(ref, { once: true })
   const [activeTab, setActiveTab] = useState(pageType === 'beyond-engineering' ? 'creative' : pageType)
   const [currentSkillPage, setCurrentSkillPage] = useState(0)
-  const autoSlideRef = useRef<NodeJS.Timeout | null>(null)
 
   // Get current skills array based on active tab
-  const getCurrentSkills = useCallback((): Skill[][] => {
+  const getCurrentSkills = (): Skill[][] => {
     const skillsArray = skills[activeTab as keyof typeof skills]
     return skillsArray as Skill[][]
-  }, [activeTab])
-
-  // Auto-slide functionality
-  const startAutoSlide = useCallback(() => {
-    if (autoSlideRef.current) {
-      clearTimeout(autoSlideRef.current)
-    }
-    const currentSkills = getCurrentSkills()
-    if (currentSkills.length > 1) {
-      autoSlideRef.current = setTimeout(() => {
-        setCurrentSkillPage((prev) => (prev + 1) % currentSkills.length)
-      }, 8000)
-    }
-  }, [getCurrentSkills])
-
-  const resetAutoSlide = () => {
-    if (autoSlideRef.current) {
-      clearTimeout(autoSlideRef.current)
-    }
-    startAutoSlide()
   }
+
 
   // Navigation functions
   const nextPage = () => {
     const currentSkills = getCurrentSkills()
     setCurrentSkillPage((prev) => (prev + 1) % currentSkills.length)
-    resetAutoSlide()
   }
 
   const prevPage = () => {
     const currentSkills = getCurrentSkills()
     setCurrentSkillPage((prev) => (prev - 1 + currentSkills.length) % currentSkills.length)
-    resetAutoSlide()
   }
 
-  // Effect for auto-slide
-  useEffect(() => {
-    startAutoSlide()
-    return () => {
-      if (autoSlideRef.current) {
-        clearTimeout(autoSlideRef.current)
-      }
-    }
-  }, [currentSkillPage, activeTab, startAutoSlide])
 
   // Reset page when tab changes
   useEffect(() => {
@@ -366,7 +335,6 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
                         key={index}
                         onClick={() => {
                           setCurrentSkillPage(index)
-                          resetAutoSlide()
                         }}
                         className={`w-2 h-2 rounded-full transition-all duration-300 ${
                           currentSkillPage === index

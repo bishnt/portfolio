@@ -48,7 +48,19 @@ export default function ProofOfWork() {
   const fetchRecentCommits = async () => {
     try {
       setCommitsLoading(true)
-      const response = await fetch('https://api.github.com/users/bishnt/events/public?per_page=100')
+      // Use the same token approach as the heatmap API
+      const token = process.env.NEXT_PUBLIC_GITHUB_TOKEN
+      const headers: HeadersInit = {
+        'Accept': 'application/vnd.github.v3+json',
+        'User-Agent': 'Portfolio-Website'
+      }
+      
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`
+      }
+      
+      const response = await fetch('https://api.github.com/users/bishnt/events/public?per_page=100', { headers })
+      
       if (response.ok) {
         const events = await response.json()
         const pushEvents = events
@@ -67,7 +79,7 @@ export default function ProofOfWork() {
         
         setGithubStats(prev => prev ? { ...prev, recentCommits: pushEvents } : null)
       } else {
-        // Fallback to mock commits
+        console.log('GitHub API failed, using mock commits')
         setGithubStats(prev => prev ? { ...prev, recentCommits: getMockCommits() } : null)
       }
     } catch (error) {
