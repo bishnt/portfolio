@@ -198,7 +198,7 @@ function RippleText({ children }: { children: string }) {
 }
 
 function RotatingText() {
-  const roles = ["EE Student", "Circuit Learner", "Hardware Explorer"]
+  const roles = ["EE Student", "Systems Learner", "Circuit Explorer"]
   const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {
@@ -328,8 +328,8 @@ export default function HeroEE() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
             >
-              Designing circuits, analyzing signals, and building electrical systems. 
-              Passionate about power systems, electronics, and the intersection of hardware and software.
+              I'm no expert, just an EE student who loves to understand how systems work. 
+              Fascinated by power systems, circuits, and the beautiful complexity of electrical engineering.
             </motion.p>
 
             <motion.div

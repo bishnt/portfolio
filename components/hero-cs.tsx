@@ -181,7 +181,7 @@ function RippleText({ children }: { children: string }) {
 }
 
 function RotatingText() {
-  const roles = ["CS Student", "Code Learner", "Tech Enthusiast"]
+  const roles = ["Self-taught CS Student", "Tech Explorer", "Code Experimenter"]
   const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {
@@ -305,8 +305,8 @@ export default function HeroCS() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
             >
-              Exploring the intersection of algorithms, data structures, and software engineering. 
-              Passionate about building scalable solutions and solving complex computational problems.
+              A self-taught CS student whose foundations may not be crystal clear, but I love exploring new technologies 
+              and building interesting stuff. Always experimenting with code and learning through hands-on projects.
             </motion.p>
 
             <motion.div

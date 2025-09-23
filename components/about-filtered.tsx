@@ -57,6 +57,10 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
         name: "Python",
         logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
       },
+      {
+        name: "Docker",
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
+      },
     ],
 
     ee: [
@@ -71,6 +75,18 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
       {
         name: "Arduino",
         logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/arduino/arduino-original.svg",
+      },
+      {
+        name: "MATLAB",
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/matlab/matlab-original.svg",
+      },
+      {
+        name: "Simulink",
+        logo: "https://upload.wikimedia.org/wikipedia/commons/3/36/Simulink_Logo_%28non-wordmark%29.png",
+      },
+      {
+        name: "Simscape",
+        logo: "https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/products/simscape/simscape-icon.svg",
       },
     ],
     creative: [
@@ -104,9 +120,9 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
   const getPageDescription = () => {
     switch (pageType) {
       case 'cs':
-        return "I'm a Computer Science enthusiast with a strong foundation in algorithms, data structures, and software development. I enjoy solving complex problems through code and building scalable applications that make a difference."
+        return "I'm a self-taught Computer Science student whose foundations may not be crystal clear, but I have a genuine passion for exploring new technologies and building interesting projects. I learn best by doing and experimenting with code."
       case 'ee':
-        return "I'm an Electrical Engineering student passionate about circuit design, signal processing, and hardware systems. I love working with electronics and exploring the intersection of hardware and software."
+        return "I'm an Electrical Engineering student - no expert, just someone who loves understanding how systems work. Fascinated by circuits, power systems, and the intricate world of electrical engineering."
       case 'beyond-engineering':
         return "I'm a creative professional with expertise in video editing, graphic design, and visual storytelling. I bring ideas to life through compelling visuals and engaging content that resonates with audiences."
       default:
@@ -117,9 +133,9 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
   const getCurrentFocus = () => {
     switch (pageType) {
       case 'cs':
-        return "Currently focused on full-stack web development, exploring machine learning algorithms, and building efficient software solutions. Interested in system design and performance optimization."
+        return "Currently diving into full-stack web development and exploring new frameworks and technologies. I'm always experimenting with different approaches and learning from hands-on projects, even if my theoretical background isn't perfect."
       case 'ee':
-        return "Exploring embedded systems, IoT applications, and power electronics. Interested in renewable energy systems and the integration of hardware with software solutions."
+        return "Learning about embedded systems, power electronics, and circuit design. As a student, I'm constantly amazed by how electrical systems power our world and eager to understand the fundamentals better."
       case 'beyond-engineering':
         return "Working on video production projects, developing visual content strategies, and exploring new creative technologies. Passionate about storytelling through multimedia."
       default:
@@ -146,9 +162,9 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
             className="text-white/70 font-mono text-sm max-w-2xl mx-auto leading-relaxed"
           >
             {pageType === 'cs' 
-              ? "Passionate about algorithms, software architecture, and building scalable solutions that solve real-world problems."
+              ? "A self-taught developer who learns by building. My foundations might be unconventional, but my enthusiasm for exploring new tech and creating interesting projects is unwavering."
               : pageType === 'ee' 
-              ? "Exploring the intersection of hardware and software, from circuit design to embedded systems and IoT applications."
+              ? "An EE student fascinated by how systems work, from basic circuits to complex power systems. Learning through curiosity and hands-on exploration."
               : "Bringing ideas to life through visual storytelling, video production, and creative digital experiences."
             }
           </motion.p>
