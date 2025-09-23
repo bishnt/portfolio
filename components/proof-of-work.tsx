@@ -44,6 +44,20 @@ export default function ProofOfWork() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    // Auto-scroll heatmap to the right on mobile after data loads
+    if (githubStats) {
+      const timer = setTimeout(() => {
+        const heatmapContainer = document.querySelector('.heatmap-container')
+        if (heatmapContainer && window.innerWidth < 768) {
+          heatmapContainer.scrollLeft = heatmapContainer.scrollWidth - heatmapContainer.clientWidth
+        }
+      }, 500)
+      
+      return () => clearTimeout(timer)
+    }
+  }, [githubStats])
+
 
   const getMockCommits = (): GitHubCommit[] => [
     {
@@ -243,14 +257,14 @@ export default function ProofOfWork() {
           transition={{ duration: 0.8 }}
           className="text-center mb-12 sm:mb-16 lg:mb-20"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 font-mono">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-6 sm:mb-8 font-mono">
             PROOF<span className="text-white/60">.OF.WORK</span>
           </h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-white/70 font-mono text-sm max-w-2xl mx-auto leading-relaxed mb-6"
+            className="hidden sm:block text-white/70 font-mono text-sm max-w-2xl mx-auto leading-relaxed mb-6"
           >
             A visual representation of my coding journey and contributions. Every green square represents 
             hours of problem-solving, learning, and building innovative solutions.
@@ -284,7 +298,8 @@ export default function ProofOfWork() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={isInView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="bg-white/5 border border-white/20 rounded-lg p-6 overflow-x-auto"
+          className="bg-white/5 border border-white/20 rounded-lg p-6 overflow-x-auto heatmap-container"
+          style={{ scrollbarWidth: 'thin' }}
         >
 
           <div className="flex gap-1 min-w-max">
@@ -366,7 +381,7 @@ export default function ProofOfWork() {
         >
           <div className="bg-white/5 border border-white/20 rounded-lg p-6">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold font-mono text-white">
+              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-mono text-white">
                 Recent Commits
               </h3>
               <motion.a

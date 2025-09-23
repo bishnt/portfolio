@@ -128,21 +128,21 @@ creative: [
                 variants={staggerItem}
                 className="text-base sm:text-lg text-white/80 leading-relaxed"
               >
-                I'm an Electrical Engineering student at IOE Pulchowk with a background in both creative and technical work. I started with video editing, spent 2 years creating content, and gradually shifted toward software development.
+                I&apos;m an Electrical Engineering student at IOE Pulchowk with a background in both creative and technical work. I started with video editing, spent 2 years creating content, and gradually shifted toward software development.
               </motion.p>
 
               <motion.p 
                 variants={staggerItem}
                 className="text-base sm:text-lg text-white/80 leading-relaxed"
               >
-                Right now, I'm focused on full stack web development, building practical applications that solve real problems. I enjoy working on projects from start to finish and learning through building.
+                Right now, I&apos;m focused on full stack web development, building practical applications that solve real problems. I enjoy working on projects from start to finish and learning through building.
               </motion.p>
 
               <motion.p 
                 variants={staggerItem}
                 className="text-base sm:text-lg text-white/80 leading-relaxed"
               >
-                In the long run, I'm interested in combining my understanding of Electricals & Electronics with software to create systems that bridge both fields.
+                In the long run, I&apos;m interested in combining my understanding of Electricals & Electronics with software to create systems that bridge both fields.
               </motion.p>
             </motion.div>
           </ScrollReveal>

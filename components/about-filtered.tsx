@@ -5,6 +5,7 @@ import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import Image from "next/image"
 
 interface Skill {
   name: string
@@ -201,14 +202,14 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
           transition={{ duration: 0.8 }}
           className="text-center mb-8 sm:mb-12 lg:mb-16 xl:mb-20"
         >
-          <h2 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 lg:mb-8 xl:mb-12 font-mono">
+          <h2 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 sm:mb-6 lg:mb-8 xl:mb-12 font-mono">
             ABOUT<span className="text-white/60">.ME</span>
           </h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-white/70 font-mono text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed px-2 sm:px-0"
+            className="hidden sm:block text-white/70 font-mono text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed px-2 sm:px-0"
           >
             {pageType === 'cs' 
               ? "A self-taught developer who learns by building. My foundations might be unconventional, but my enthusiasm for exploring new tech and creating interesting projects is unwavering."
@@ -226,7 +227,7 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
             transition={{ duration: 0.4, delay: 0.1, type: "spring", stiffness: 200 }}
             className="space-y-4 sm:space-y-6 lg:space-y-8"
           >
-            <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 lg:mb-6 font-mono">{"> WHO AM I?"}</h3>
+            <h3 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold mb-3 sm:mb-4 lg:mb-6 font-mono">{"> WHO AM I?"}</h3>
 
             <p className="text-sm sm:text-base lg:text-lg text-white/80 leading-relaxed">
               {getPageDescription()}
@@ -251,7 +252,7 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
             transition={{ duration: 0.4, delay: 0.2, type: "spring", stiffness: 200 }}
             className="space-y-4 sm:space-y-6 lg:space-y-8"
           >
-            <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 lg:mb-6 font-mono">{"> SKILLS & TECHNOLOGIES"}</h3>
+            <h3 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold mb-3 sm:mb-4 lg:mb-6 font-mono">{"> SKILLS & TECHNOLOGIES"}</h3>
 
             {/* Skills Tab Navigation - Badge Style */}
             <div className="flex flex-wrap gap-2 sm:gap-3">
@@ -297,15 +298,18 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
                         }}
                         className="border border-white/20 p-2 sm:p-3 lg:p-4 flex items-center gap-2 sm:gap-3 min-h-[48px] touch-manipulation"
                       >
-                        <img
-                          src={skill.logo || "/placeholder.svg"}
-                          alt={skill.name}
-                          className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 object-contain flex-shrink-0"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement
-                            target.src = "/placeholder.svg?height=32&width=32"
-                          }}
-                        />
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 flex-shrink-0 relative">
+                          <Image
+                            src={skill.logo || "/placeholder.svg"}
+                            alt={skill.name}
+                            fill
+                            className="object-contain"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement
+                              target.src = "/placeholder.svg?height=32&width=32"
+                            }}
+                          />
+                        </div>
                         <div className="font-mono text-xs sm:text-sm flex-grow min-w-0 truncate">{skill.name}</div>
                       </motion.div>
                     ) : null
@@ -336,7 +340,7 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
                         onClick={() => {
                           setCurrentSkillPage(index)
                         }}
-                        className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full touch-manipulation ${
+                        className={`w-1 h-1 sm:w-2.5 sm:h-2.5 rounded-full touch-manipulation ${
                           currentSkillPage === index
                             ? "bg-white"
                             : "bg-white/30"

@@ -207,7 +207,7 @@ function RotatingText() {
     }, 2000)
 
     return () => clearInterval(interval)
-  }, [])
+  }, [roles.length])
 
   return (
     <div className="h-8 overflow-hidden">
@@ -328,7 +328,7 @@ export default function HeroEE() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
             >
-              I'm no expert, just an EE student who loves to understand how systems work. 
+              I&apos;m no expert, just an EE student who loves to understand how systems work.
               Fascinated by power systems, circuits, and the beautiful complexity of electrical engineering.
             </motion.p>
 

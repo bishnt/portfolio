@@ -81,7 +81,7 @@ export default function Contact() {
           transition={{ duration: 0.8 }}
           className="text-center mb-8 sm:mb-12 lg:mb-16 xl:mb-20"
         >
-          <h2 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 lg:mb-8 font-mono">
+          <h2 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 sm:mb-6 lg:mb-8 font-mono">
             CONTACT<span className="text-white/60">.ME</span>
           </h2>
           <motion.p
@@ -101,7 +101,7 @@ export default function Contact() {
             animate={isInView ? { opacity: 1, x: 0, scale: 1 } : {}}
             transition={{ duration: 0.4, delay: 0.1, type: "spring", stiffness: 200 }}
           >
-            <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-4 sm:mb-6 lg:mb-8 font-mono">{"> GET IN TOUCH"}</h3>
+            <h3 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold mb-4 sm:mb-6 lg:mb-8 font-mono">{"> GET IN TOUCH"}</h3>
 
             <div className="space-y-3 sm:space-y-4 lg:space-y-6">
               <motion.div 

@@ -62,7 +62,7 @@ export default function Navbar({ pageType = 'home' }: NavbarProps) {
     window.addEventListener("scroll", optimizedHandleScroll, { passive: true })
     handleScroll() // Call once to set initial state
     return () => window.removeEventListener("scroll", optimizedHandleScroll)
-  }, [])
+  }, [pageType])
 
   const getNavItems = () => {
     const baseItems = [

@@ -10,6 +10,7 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://bishrant.com'),
   title: "Bishrant Ghimire | Portfolio",
   description: "Electrical Engineering student at IOE Pulchowk, passionate about technology and problem-solving.",
   keywords: ["Bishrant Ghimire", "Portfolio", "Electrical Engineering", "IOE Pulchowk", "Web Developer", "Engineer"],

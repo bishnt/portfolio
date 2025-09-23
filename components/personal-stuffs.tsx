@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react"
 import { motion, useInView } from "framer-motion"
 import { Play, Pause, Star, MoreHorizontal, Heart, Repeat, Shuffle, SkipBack, SkipForward, Volume2 } from "lucide-react"
+import Image from "next/image"
 
 // Define the Track interface for music data
 interface Track {
@@ -88,7 +89,7 @@ export default function PersonalStuffs() {
   // Set music tracks to initial data on component mount
   useEffect(() => {
     setMusicTracks(initialMusicTracks)
-  }, []) // Empty dependency array means this runs once on component mount
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Movie data
   const movies: Movie[] = [
@@ -295,7 +296,7 @@ export default function PersonalStuffs() {
           transition={{ duration: 0.8 }}
           className="text-center mb-12 sm:mb-16 lg:mb-20"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 font-mono">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-6 sm:mb-8 font-mono">
             PERSONAL<span className="text-white/60">.STUFFS</span>
           </h2>
         </motion.div>
@@ -335,13 +336,15 @@ export default function PersonalStuffs() {
                   <div className="relative flex-shrink-0">
                     <div className="w-10 h-10 bg-gradient-to-br from-gray-600 to-gray-800 rounded flex items-center justify-center overflow-hidden">
                       {track.image ? (
-                        <img
+                        <Image
                           src={track.image}
                           alt={track.album}
-                          className="w-full h-full object-cover"
+                          fill
+                          className="object-cover"
                           onError={(e) => {
                             // Fallback to placeholder if image fails to load
-                            e.currentTarget.src = "https://placehold.co/100x100/000000/FFFFFF?text=Album"
+                            const target = e.target as HTMLImageElement
+                            target.src = "https://placehold.co/100x100/000000/FFFFFF?text=Album"
                           }}
                         />
                       ) : (
@@ -471,15 +474,17 @@ export default function PersonalStuffs() {
                 >
                   <div className="flex gap-4">
                     {/* Movie Poster */}
-                    <div className="w-20 h-28 bg-gradient-to-b from-gray-600 to-gray-800 rounded flex items-center justify-center flex-shrink-0 overflow-hidden shadow-md">
+                    <div className="w-20 h-28 bg-gradient-to-b from-gray-600 to-gray-800 rounded flex items-center justify-center flex-shrink-0 overflow-hidden shadow-md relative">
                       {movie.image ? (
-                        <img
+                        <Image
                           src={movie.image}
                           alt={`${movie.title} Poster`}
-                          className="w-full h-full object-cover"
+                          fill
+                          className="object-cover"
                           onError={(e) => {
                             // Fallback to placeholder if image fails to load
-                            e.currentTarget.src = "https://placehold.co/150x225/000000/FFFFFF?text=Movie"
+                            const target = e.target as HTMLImageElement
+                            target.src = "https://placehold.co/150x225/000000/FFFFFF?text=Movie"
                           }}
                         />
                       ) : (

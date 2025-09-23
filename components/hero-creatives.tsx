@@ -222,7 +222,7 @@ function RotatingText() {
     }, 2000)
 
     return () => clearInterval(interval)
-  }, [])
+  }, [roles.length])
 
   return (
     <div className="h-8 overflow-hidden">

@@ -308,7 +308,7 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              className={`w-2 h-2 sm:w-2.5 sm:h-2.5 lg:w-3 lg:h-3 rounded-full touch-manipulation ${
+              className={`w-1 h-1 sm:w-2.5 sm:h-2.5 lg:w-3 lg:h-3 rounded-full touch-manipulation ${
                 index === currentIndex ? "bg-white shadow-lg" : "bg-white/40"
               }`}
               aria-label={`Go to project ${index + 1}`}

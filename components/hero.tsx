@@ -155,7 +155,7 @@ function RotatingText() {
     }, 2000)
 
     return () => clearInterval(interval)
-  }, [])
+  }, [roles.length])
 
   return (
     <div className="h-6 sm:h-8 overflow-hidden">
@@ -240,7 +240,7 @@ export default function Hero() {
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center lg:text-left space-y-4 sm:space-y-6 lg:space-y-8">
+            className="text-center lg:text-left space-y-4 sm:space-y-6 lg:space-y-8"
           >
             <motion.h1
               className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold font-mono leading-tight"

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
-import { useRef, useState, useEffect } from "react"
+import { useRef, useState, useEffect, useCallback } from "react"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import PageLoader, { usePageLoader } from "./page-loader"
@@ -67,7 +67,7 @@ export default function Blog() {
   }
 
   // Auto-slide functionality
-  const startAutoSlide = () => {
+  const startAutoSlide = useCallback(() => {
     if (autoSlideRef.current) {
       clearTimeout(autoSlideRef.current)
     }
@@ -76,7 +76,7 @@ export default function Blog() {
         setCurrentPage((prev) => (prev + 1) % totalPages)
       }, 8000)
     }
-  }
+  }, [totalPages])
 
   const resetAutoSlide = () => {
     if (autoSlideRef.current) {
@@ -104,7 +104,7 @@ export default function Blog() {
         clearTimeout(autoSlideRef.current)
       }
     }
-  }, [currentPage])
+  }, [currentPage, startAutoSlide])
 
   return (
     <>
@@ -117,14 +117,14 @@ export default function Blog() {
           transition={{ duration: 0.8 }}
           className="text-center mb-8 sm:mb-12 lg:mb-16 xl:mb-20"
         >
-          <h2 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 lg:mb-8 font-mono">
+          <h2 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 sm:mb-6 lg:mb-8 font-mono">
             BLOG<span className="text-white/60">.POSTS</span>
           </h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-white/70 font-mono text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed px-2 sm:px-0"
+            className="hidden sm:block text-white/70 font-mono text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed px-2 sm:px-0"
           >
             Thoughts, insights, and experiences from my journey in technology, engineering, and creativity. 
             Sharing knowledge through detailed articles and personal reflections.
@@ -230,7 +230,7 @@ export default function Blog() {
                       setCurrentPage(index)
                       resetAutoSlide()
                     }}
-                    className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full touch-manipulation ${
+                    className={`w-1 h-1 sm:w-3 sm:h-3 rounded-full touch-manipulation ${
                       currentPage === index
                         ? "bg-white scale-110 sm:scale-125"
                         : "bg-white/30"

@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+// Mark this route as dynamic since it needs to handle search params
+export const dynamic = 'force-dynamic'
+
 interface GitHubCommit {
   sha: string
   message: string
@@ -10,9 +13,9 @@ interface GitHubCommit {
 
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url)
-    const username = searchParams.get('username') || 'bishnt'
-    const includeCommits = searchParams.get('commits') === 'true'
+    // Get search params without using request.url to avoid dynamic server usage
+    const username = request.nextUrl.searchParams.get('username') || 'bishnt'
+    const includeCommits = request.nextUrl.searchParams.get('commits') === 'true'
     
     // Try multiple methods to fetch GitHub contributions
     

@@ -58,7 +58,7 @@ export default function Education() {
           transition={{ duration: 0.8 }}
           className="text-center mb-8 sm:mb-10 lg:mb-12"
         >
-          <h2 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-5 lg:mb-6 font-mono">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-6 sm:mb-8 font-mono">
             EDUCATION<span className="text-white/60">.TREE</span>
           </h2>
           <motion.p

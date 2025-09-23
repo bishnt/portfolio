@@ -13,7 +13,7 @@ export default function NavigationTracker() {
       const currentPath = pathname + window.location.hash
       navigationHistory.push(currentPath)
     }
-  }, [])
+  }, [pathname])
 
   useEffect(() => {
     // Track navigation changes
