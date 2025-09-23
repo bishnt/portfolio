@@ -9,6 +9,7 @@ import Link from "next/link"
 import { Calendar, Clock, User, Tag, Github, ExternalLink } from "lucide-react"
 import Image from "next/image"
 import BackButton from "@/components/back-button"
+import FloatingMenu from "@/components/floating-menu"
 
 interface ProjectDetail {
   title: string
@@ -80,7 +81,9 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <>
+      <FloatingMenu />
+      <div className="min-h-screen bg-black text-white">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -291,6 +294,7 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
         </footer>
       </article>
     </div>
+    </>
   )
 }
 

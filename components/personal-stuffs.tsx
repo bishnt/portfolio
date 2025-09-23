@@ -127,7 +127,7 @@ export default function PersonalStuffs() {
       director: "Christopher Nolan",
       genre: "Biography, Drama, History",
       description: "The physics that was shown in this movie was just mind-blowing. I loved the way they portrayed the life of J. Robert Oppenheimer.",
-      image: "oppenheimer.jpg", // Placeholder for /oppenheimer.jpg
+      image: "/oppenheimer.jpg", // Placeholder for /oppenheimer.jpg
     },
   ]
 
@@ -296,7 +296,7 @@ export default function PersonalStuffs() {
           transition={{ duration: 0.8 }}
           className="text-center mb-12 sm:mb-16 lg:mb-20"
         >
-          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-6 sm:mb-8 font-mono">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-bold mb-6 sm:mb-8 font-mono">
             PERSONAL<span className="text-white/60">.STUFFS</span>
           </h2>
         </motion.div>

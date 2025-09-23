@@ -6,11 +6,13 @@ import Education from "@/components/education"
 import Blog from "@/components/blog"
 import Contact from "@/components/contact"
 import PersonalStuffs from "@/components/personal-stuffs"
+import FloatingMenu from "@/components/floating-menu"
 
 export default function Main() {
   return (
     <>
       <Navbar />
+      <FloatingMenu />
       <main className="bg-black text-white">
         <Hero />
         <About />

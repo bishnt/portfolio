@@ -9,6 +9,7 @@ import Contact from "@/components/contact"
 import PersonalStuffs from "@/components/personal-stuffs"
 import NavigationButton from "@/components/navigation-button"
 import { ScrollProgress, FloatingElements } from "@/components/scroll-animations"
+import FloatingMenu from "@/components/floating-menu"
 
 export default function CreativesPage() {
   return (
@@ -16,6 +17,7 @@ export default function CreativesPage() {
       <ScrollProgress />
       <FloatingElements />
       <Navbar pageType="beyond-engineering" />
+      <FloatingMenu />
       <main className="bg-black text-white pt-16">
         <HeroCreatives />
         <AboutFiltered pageType="beyond-engineering" />

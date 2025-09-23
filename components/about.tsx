@@ -66,7 +66,6 @@ ee: [
     name: "KiCad",
     logo: "https://avatars.githubusercontent.com/u/3374914?s=200&v=4",
   },
-,
   {
     name: "Arduino",
     logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/arduino/arduino-original.svg",
@@ -105,7 +104,7 @@ creative: [
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <BlurReveal className="text-center mb-12 sm:mb-16 lg:mb-20">
           <motion.h2 
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 lg:mb-12 font-mono"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-bold mb-6 sm:mb-8 lg:mb-12 font-mono"
             whileHover={{ scale: 1.02 }}
             transition={{ type: "spring", stiffness: 300 }}
           >

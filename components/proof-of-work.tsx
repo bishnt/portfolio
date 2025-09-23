@@ -257,18 +257,9 @@ export default function ProofOfWork() {
           transition={{ duration: 0.8 }}
           className="text-center mb-12 sm:mb-16 lg:mb-20"
         >
-          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-6 sm:mb-8 font-mono">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-bold mb-6 sm:mb-8 font-mono">
             PROOF<span className="text-white/60">.OF.WORK</span>
           </h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="hidden sm:block text-white/70 font-mono text-sm max-w-2xl mx-auto leading-relaxed mb-6"
-          >
-            A visual representation of my coding journey and contributions. Every green square represents 
-            hours of problem-solving, learning, and building innovative solutions.
-          </motion.p>
           
           {/* GitHub Link */}
           <motion.div

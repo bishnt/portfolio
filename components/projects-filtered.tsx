@@ -117,14 +117,14 @@ export default function ProjectsFiltered({ pageType }: ProjectsFilteredProps) {
           transition={{ duration: 0.8 }}
           className="text-center mb-12 sm:mb-16 lg:mb-20"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8 font-mono">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-bold mb-6 sm:mb-8 font-mono">
             {getPageTitle()}<span className="text-white/60">.SHOWCASE</span>
           </h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-white/70 font-mono text-sm max-w-2xl mx-auto leading-relaxed"
+            className="hidden sm:block text-white/70 font-mono text-sm max-w-2xl mx-auto leading-relaxed"
           >
             {pageType === 'cs' 
               ? "A collection of software projects showcasing my expertise in full-stack development, algorithms, and system design."

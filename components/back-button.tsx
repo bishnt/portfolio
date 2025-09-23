@@ -85,16 +85,17 @@ export default function BackButton({ fallbackHref, fallbackText, className = "" 
           }
         } else {
           // Navigate to homepage first, then scroll
-          router.push('/')
-          // Small delay to ensure page loads before scrolling
-          setTimeout(() => {
-            const element = document.getElementById(sectionId)
-            if (element) {
-              element.scrollIntoView({ behavior: 'smooth', block: 'start' })
-              // Update URL hash
-              window.history.replaceState(null, '', `/#${sectionId}`)
-            }
-          }, 100)
+          router.push(`/#${sectionId}`)
+        }
+      } else if (previousRoute.includes('#')) {
+        // Handle routes with hash that aren't just '/#section'
+        const [pathname, hash] = previousRoute.split('#')
+        if (pathname === '' || pathname === '/') {
+          // Navigate to homepage with hash
+          router.push(`/#${hash}`)
+        } else {
+          // Navigate to specific page with hash
+          router.push(previousRoute)
         }
       } else {
         // Regular route navigation
@@ -108,30 +109,20 @@ export default function BackButton({ fallbackHref, fallbackText, className = "" 
       setTimeout(() => {
         // Check if we're still on the same page after attempting to go back
         if (window.location.pathname === location.pathname) {
-          router.push(fallbackHref)
+          // Use fallback but preserve any section information
+          if (fallbackHref.startsWith('/#')) {
+            const sectionId = fallbackHref.substring(2)
+            router.push(`/#${sectionId}`)
+          } else {
+            router.push(fallbackHref)
+          }
         }
-      }, 100)
+      }, 150)
     } else {
       // Use fallback - handle section scrolling for fallback too
       if (fallbackHref.startsWith('/#')) {
         const sectionId = fallbackHref.substring(2)
-        
-        if (window.location.pathname === '/') {
-          const element = document.getElementById(sectionId)
-          if (element) {
-            element.scrollIntoView({ behavior: 'smooth', block: 'start' })
-            window.history.pushState(null, '', fallbackHref)
-          }
-        } else {
-          router.push('/')
-          setTimeout(() => {
-            const element = document.getElementById(sectionId)
-            if (element) {
-              element.scrollIntoView({ behavior: 'smooth', block: 'start' })
-              window.history.replaceState(null, '', fallbackHref)
-            }
-          }, 100)
-        }
+        router.push(`/#${sectionId}`)
       } else {
         router.push(fallbackHref)
       }

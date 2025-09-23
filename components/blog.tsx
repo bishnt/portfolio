@@ -117,18 +117,9 @@ export default function Blog() {
           transition={{ duration: 0.8 }}
           className="text-center mb-8 sm:mb-12 lg:mb-16 xl:mb-20"
         >
-          <h2 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 sm:mb-6 lg:mb-8 font-mono">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-bold mb-4 sm:mb-6 lg:mb-8 font-mono">
             BLOG<span className="text-white/60">.POSTS</span>
           </h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="hidden sm:block text-white/70 font-mono text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed px-2 sm:px-0"
-          >
-            Thoughts, insights, and experiences from my journey in technology, engineering, and creativity. 
-            Sharing knowledge through detailed articles and personal reflections.
-          </motion.p>
         </motion.div>
 
         {/* Blog Grid with Pagination */}
@@ -158,6 +149,11 @@ export default function Blog() {
                 onClick={(e) => {
                   if (typeof post.id === "string") {
                     startLoading()
+                    // Track navigation with current section context
+                    if (typeof window !== 'undefined') {
+                      const { navigationHistory } = require('../utils/navigation-history')
+                      navigationHistory.pushWithCurrentSection(`/blog/${post.id}`)
+                    }
                     // Stop loading after a short delay to allow for page transition
                     setTimeout(() => stopLoading(), 500)
                   } else {
@@ -210,19 +206,27 @@ export default function Blog() {
             <>
               <button
                 onClick={prevPage}
-                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-8 sm:-translate-x-12 w-8 h-8 sm:w-10 sm:h-10 border border-white/20 flex items-center justify-center rounded-full touch-manipulation"
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-8 sm:-translate-x-12 w-8 h-8 sm:w-10 sm:h-10 border border-white/20 flex items-center justify-center rounded-full"
+                style={{
+                  transition: 'none',
+                  animation: 'none'
+                }}
               >
-                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" style={{ transition: 'none' }} />
               </button>
               <button
                 onClick={nextPage}
-                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-8 sm:translate-x-12 w-8 h-8 sm:w-10 sm:h-10 border border-white/20 flex items-center justify-center rounded-full touch-manipulation"
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-8 sm:translate-x-12 w-8 h-8 sm:w-10 sm:h-10 border border-white/20 flex items-center justify-center rounded-full"
+                style={{
+                  transition: 'none',
+                  animation: 'none'
+                }}
               >
-                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
+                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" style={{ transition: 'none' }} />
               </button>
               
               {/* Page Indicators */}
-              <div className="flex justify-center gap-2 sm:gap-3 mt-6 sm:mt-8">
+              <div className="flex justify-center gap-1 sm:gap-2 mt-6 sm:mt-8">
                 {Array.from({ length: totalPages }, (_, index) => (
                   <button
                     key={index}
@@ -230,11 +234,19 @@ export default function Blog() {
                       setCurrentPage(index)
                       resetAutoSlide()
                     }}
-                    className={`w-1 h-1 sm:w-3 sm:h-3 rounded-full touch-manipulation ${
+                    className={`rounded-full ${
                       currentPage === index
-                        ? "bg-white scale-110 sm:scale-125"
+                        ? "bg-white"
                         : "bg-white/30"
                     }`}
+                    style={{
+                      width: '4px',
+                      height: '4px',
+                      minWidth: '4px',
+                      minHeight: '4px',
+                      transition: 'none',
+                      transform: 'none'
+                    }}
                   />
                 ))}
               </div>

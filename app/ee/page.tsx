@@ -7,6 +7,7 @@ import Blog from "@/components/blog"
 import Contact from "@/components/contact"
 import NavigationButton from "@/components/navigation-button"
 import { ScrollProgress, FloatingElements } from "@/components/scroll-animations"
+import FloatingMenu from "@/components/floating-menu"
 
 
 export default function ElectricalEngineeringPage() {
@@ -15,6 +16,7 @@ export default function ElectricalEngineeringPage() {
       <ScrollProgress />
       <FloatingElements />
       <Navbar pageType="ee" />
+      <FloatingMenu />
       
       <main className="bg-black text-white pt-16">
         <HeroEE />

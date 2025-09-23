@@ -202,22 +202,9 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
           transition={{ duration: 0.8 }}
           className="text-center mb-8 sm:mb-12 lg:mb-16 xl:mb-20"
         >
-          <h2 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 sm:mb-6 lg:mb-8 xl:mb-12 font-mono">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-bold mb-4 sm:mb-6 lg:mb-8 xl:mb-12 font-mono">
             ABOUT<span className="text-white/60">.ME</span>
           </h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="hidden sm:block text-white/70 font-mono text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed px-2 sm:px-0"
-          >
-            {pageType === 'cs' 
-              ? "A self-taught developer who learns by building. My foundations might be unconventional, but my enthusiasm for exploring new tech and creating interesting projects is unwavering."
-              : pageType === 'ee' 
-              ? "An EE student fascinated by how systems work, from basic circuits to complex power systems. Learning through curiosity and hands-on exploration."
-              : "Bringing ideas to life through visual storytelling, video production, and creative digital experiences."
-            }
-          </motion.p>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 xl:gap-16 xxl:gap-20 items-start">
@@ -321,30 +308,49 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
                 <>
                   <button
                     onClick={prevPage}
-                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 sm:-translate-x-8 w-6 h-6 sm:w-8 sm:h-8 border border-white/20 flex items-center justify-center rounded-full touch-manipulation"
+                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-6 sm:-translate-x-8 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-black/60 border border-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+                    style={{
+                      transform: 'translateY(-50%) translateX(-1.5rem)',
+                      transition: 'none',
+                      animation: 'none'
+                    }}
+                    aria-label="Previous skills page"
                   >
-                    <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4" />
+                    <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" style={{ transition: 'none' }} />
                   </button>
                   <button
                     onClick={nextPage}
-                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-6 sm:translate-x-8 w-6 h-6 sm:w-8 sm:h-8 border border-white/20 flex items-center justify-center rounded-full touch-manipulation"
+                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-6 sm:translate-x-8 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-black/60 border border-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+                    style={{
+                      transform: 'translateY(-50%) translateX(1.5rem)',
+                      transition: 'none',
+                      animation: 'none'
+                    }}
+                    aria-label="Next skills page"
                   >
-                    <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
+                    <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" style={{ transition: 'none' }} />
                   </button>
                   
                   {/* Page Indicators */}
-                  <div className="flex justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-4">
+                  <div className="flex justify-center gap-0.5 sm:gap-1 lg:gap-1.5 mt-3 sm:mt-4">
                     {getCurrentSkills().map((_, index) => (
                       <button
                         key={index}
                         onClick={() => {
                           setCurrentSkillPage(index)
                         }}
-                        className={`w-1 h-1 sm:w-2.5 sm:h-2.5 rounded-full touch-manipulation ${
-                          currentSkillPage === index
-                            ? "bg-white"
-                            : "bg-white/30"
+                        className={`rounded-full ${
+                          currentSkillPage === index ? "bg-white" : "bg-white/40"
                         }`}
+                        style={{
+                          width: '4px',
+                          height: '4px',
+                          minWidth: '4px',
+                          minHeight: '4px',
+                          transition: 'none',
+                          transform: 'none'
+                        }}
+                        aria-label={`Go to skills page ${index + 1}`}
                       />
                     ))}
                   </div>

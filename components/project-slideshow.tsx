@@ -250,6 +250,11 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
                     className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-3 bg-white text-black rounded-xl text-xs sm:text-sm font-mono shadow-lg touch-manipulation"
                     onClick={() => {
                       startLoading()
+                      // Track navigation with current section context
+                      if (typeof window !== 'undefined') {
+                        const { navigationHistory } = require('../utils/navigation-history')
+                        navigationHistory.pushWithCurrentSection(`/projects/${currentProject.slug}`)
+                      }
                       // Stop loading after a short delay to allow for page transition
                       setTimeout(() => stopLoading(), 500)
                     }}
@@ -285,32 +290,50 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
           </motion.div>
         </AnimatePresence>
 
-        {/* Navigation Arrows */}
+        {/* Navigation Arrows - No animations, completely static */}
         <button
           onClick={prevSlide}
-          className="absolute left-1 sm:left-2 lg:left-4 xl:left-8 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-black/60 border border-white/20 rounded-full flex items-center justify-center z-10 backdrop-blur-sm touch-manipulation"
+          className="absolute left-1 sm:left-2 lg:left-4 xl:left-8 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-black/60 border border-white/20 rounded-full flex items-center justify-center z-10 backdrop-blur-sm"
+          style={{
+            transform: 'translateY(-50%)',
+            transition: 'none',
+            animation: 'none'
+          }}
           aria-label="Previous project"
         >
-          <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
+          <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" style={{ transition: 'none' }} />
         </button>
 
         <button
           onClick={nextSlide}
-          className="absolute right-1 sm:right-2 lg:right-4 xl:right-8 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-black/60 border border-white/20 rounded-full flex items-center justify-center z-10 backdrop-blur-sm touch-manipulation"
+          className="absolute right-1 sm:right-2 lg:right-4 xl:right-8 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-black/60 border border-white/20 rounded-full flex items-center justify-center z-10 backdrop-blur-sm"
+          style={{
+            transform: 'translateY(-50%)',
+            transition: 'none',
+            animation: 'none'
+          }}
           aria-label="Next project"
         >
-          <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
+          <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" style={{ transition: 'none' }} />
         </button>
 
         {/* Dots Indicator */}
-        <div className="absolute bottom-4 sm:bottom-6 lg:bottom-8 left-1/2 -translate-x-1/2 flex gap-1 sm:gap-1.5 lg:gap-2">
+        <div className="absolute bottom-4 sm:bottom-6 lg:bottom-8 left-1/2 -translate-x-1/2 flex gap-0.5 sm:gap-1 lg:gap-1.5">
           {currentProjects.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              className={`w-1 h-1 sm:w-2.5 sm:h-2.5 lg:w-3 lg:h-3 rounded-full touch-manipulation ${
-                index === currentIndex ? "bg-white shadow-lg" : "bg-white/40"
+              className={`rounded-full ${
+                index === currentIndex ? "bg-white" : "bg-white/40"
               }`}
+              style={{
+                width: '4px',
+                height: '4px',
+                minWidth: '4px',
+                minHeight: '4px',
+                transition: 'none',
+                transform: 'none'
+              }}
               aria-label={`Go to project ${index + 1}`}
             />
           ))}

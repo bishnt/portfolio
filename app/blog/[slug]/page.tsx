@@ -8,6 +8,7 @@ import matter from "gray-matter"
 import Link from "next/link"
 import { Calendar, Clock, User, Tag } from "lucide-react"
 import BackButton from "@/components/back-button"
+import FloatingMenu from "@/components/floating-menu"
 
 interface BlogPost {
   title: string
@@ -73,7 +74,9 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <>
+      <FloatingMenu />
+      <div className="min-h-screen bg-black text-white">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -226,6 +229,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         </footer>
       </article>
     </div>
+    </>
   )
 }
 

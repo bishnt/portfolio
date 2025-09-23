@@ -8,6 +8,7 @@ import Blog from "@/components/blog"
 import Contact from "@/components/contact"
 import { ScrollProgress, FloatingElements } from "@/components/scroll-animations"
 import NavigationButton from "@/components/navigation-button"
+import FloatingMenu from "@/components/floating-menu"
 
 export default function ComputerSciencePage() {
   return (
@@ -15,6 +16,7 @@ export default function ComputerSciencePage() {
       <ScrollProgress />
       <FloatingElements />
       <Navbar pageType="cs" />
+      <FloatingMenu />
       <main className="bg-black text-white pt-16">
         <HeroCS />
         <AboutFiltered pageType="cs" />

@@ -58,14 +58,14 @@ export default function Education() {
           transition={{ duration: 0.8 }}
           className="text-center mb-8 sm:mb-10 lg:mb-12"
         >
-          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-6 sm:mb-8 font-mono">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-bold mb-6 sm:mb-8 font-mono">
             EDUCATION<span className="text-white/60">.TREE</span>
           </h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-white/70 font-mono text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed px-2 sm:px-0"
+            className="hidden sm:block text-white/70 font-mono text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed px-2 sm:px-0"
           >
             My academic journey visualized as a growing tree - each branch represents a milestone in my educational path, 
             from foundational learning to specialized engineering knowledge.
