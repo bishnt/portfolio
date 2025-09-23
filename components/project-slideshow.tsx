@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, ChevronRight, ExternalLink, Github, BookOpen } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import PageLoader, { usePageLoader } from "./page-loader"
 
 interface Project {
   id: string
@@ -24,6 +25,7 @@ interface ProjectSlideshowProps {
 
 export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const { isLoading, startLoading, stopLoading } = usePageLoader()
 
   // Actual portfolio projects from existing data
   const projects: Record<string, Project[]> = {
@@ -133,7 +135,9 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
   const currentProject = currentProjects[currentIndex]
 
   return (
-    <div className="relative w-full bg-black py-12 px-4">
+    <>
+      <PageLoader isLoading={isLoading} loadingText="Loading project details..." />
+      <div className="relative w-full bg-black py-12 px-4">
       <div className="w-full max-w-6xl mx-auto">
         <AnimatePresence mode="wait">
           <motion.div
@@ -244,6 +248,11 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
                   <Link
                     href={`/projects/${currentProject.slug}`}
                     className="flex items-center gap-3 px-6 py-3 bg-white text-black rounded-xl hover:bg-white/90 hover:scale-105 transition-all duration-300 text-sm font-mono group shadow-lg"
+                    onClick={() => {
+                      startLoading()
+                      // Stop loading after a short delay to allow for page transition
+                      setTimeout(() => stopLoading(), 500)
+                    }}
                   >
                     <BookOpen className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
                     Learn More
@@ -307,6 +316,7 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
           ))}
         </div>
       </div>
-    </div>
+      </div>
+    </>
   )
 }

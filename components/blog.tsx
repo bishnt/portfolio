@@ -5,6 +5,7 @@ import { useInView } from "framer-motion"
 import { useRef, useState, useEffect } from "react"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import PageLoader, { usePageLoader } from "./page-loader"
 
 export default function Blog() {
   const ref = useRef(null)
@@ -12,6 +13,7 @@ export default function Blog() {
   const [currentPage, setCurrentPage] = useState(0)
   const autoSlideRef = useRef<NodeJS.Timeout | null>(null)
   const POSTS_PER_PAGE = 6 // 2 rows × 3 columns
+  const { isLoading, startLoading, stopLoading } = usePageLoader()
 
   const blogPosts = [
     {
@@ -105,7 +107,9 @@ export default function Blog() {
   }, [currentPage])
 
   return (
-    <section id="blog" className="py-16 sm:py-20 lg:py-24 bg-black" ref={ref}>
+    <>
+      <PageLoader isLoading={isLoading} loadingText="Loading blog post..." />
+      <section id="blog" className="py-16 sm:py-20 lg:py-24 bg-black" ref={ref}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -149,7 +153,18 @@ export default function Blog() {
                 }}
                 className="border border-white/20 p-4 sm:p-6 hover:border-white/40 hover:scale-105 hover:shadow-xl hover:shadow-white/10 transition-all duration-300 group cursor-pointer"
               >
-                <Link href={typeof post.id === "string" ? `/blog/${post.id}` : "#"}>
+              <Link 
+                href={typeof post.id === "string" ? `/blog/${post.id}` : "#"}
+                onClick={(e) => {
+                  if (typeof post.id === "string") {
+                    startLoading()
+                    // Stop loading after a short delay to allow for page transition
+                    setTimeout(() => stopLoading(), 500)
+                  } else {
+                    e.preventDefault()
+                  }
+                }}
+              >
                   <div className="mb-4">
                     <div className="flex justify-between items-center mb-3">
                       <span className="text-xs px-2 py-1 border border-white/20 text-white/60 font-mono">
@@ -236,6 +251,7 @@ export default function Blog() {
 
 
       </div>
-    </section>
+      </section>
+    </>
   )
 }
