@@ -46,70 +46,58 @@ export default function ProofOfWork() {
   }, [])
 
   const fetchRecentCommits = async () => {
+    setCommitsLoading(true)
+    
+    // Start with mock data and then try to fetch real data
+    let commits = getMockCommits()
+    
     try {
-      setCommitsLoading(true)
+      const response = await fetch('https://api.github.com/users/bishnt/events/public?per_page=50')
       
-      // Try multiple approaches to fetch commits
-      let commits: GitHubCommit[] = []
-      
-      // Approach 1: GitHub Events API (public events)
-      try {
-        const response = await fetch('https://api.github.com/users/bishnt/events/public?per_page=100', {
-          headers: {
-            'Accept': 'application/vnd.github.v3+json',
-            'User-Agent': 'Portfolio-Website'
-          }
-        })
+      if (response.ok && response.status === 200) {
+        const events = await response.json()
         
-        if (response.ok) {
-          const events = await response.json()
+        if (Array.isArray(events) && events.length > 0) {
           const pushEvents = events
-            .filter((event: any) => event.type === 'PushEvent' && event.payload?.commits && event.payload.commits.length > 0)
+            .filter(event => 
+              event?.type === 'PushEvent' && 
+              event?.payload?.commits && 
+              Array.isArray(event.payload.commits) &&
+              event.payload.commits.length > 0
+            )
             .slice(0, 4)
-            .map((event: any) => {
-              const commit = event.payload.commits[0] // Get the first commit from the push
+            .map(event => {
+              const commit = event.payload.commits[0]
               return {
-                sha: commit.sha.substring(0, 7),
-                message: commit.message.split('\n')[0], // Get first line only
-                date: event.created_at,
-                repo: event.repo.name.split('/')[1], // Get repo name without username
-                url: `https://github.com/${event.repo.name}/commit/${commit.sha}`
+                sha: commit.sha?.substring(0, 7) || 'unknown',
+                message: commit.message?.split('\n')[0] || 'No message',
+                date: event.created_at || new Date().toISOString(),
+                repo: event.repo?.name?.split('/')[1] || 'repository',
+                url: `https://github.com/${event.repo?.name}/commit/${commit.sha}`
               }
             })
           
           if (pushEvents.length > 0) {
             commits = pushEvents
-            console.log('Successfully fetched GitHub commits:', commits.length)
           }
         }
-      } catch (error) {
-        console.log('GitHub Events API failed:', error)
       }
-      
-      // If no commits found, use mock data
-      if (commits.length === 0) {
-        console.log('No commits found, using mock data')
-        commits = getMockCommits()
-      }
-      
-      setGithubStats(prev => prev ? { ...prev, recentCommits: commits } : {
-        totalContributions: 0,
-        contributionCalendar: [],
-        recentCommits: commits
-      })
-      
     } catch (error) {
-      console.error('Error in fetchRecentCommits:', error)
-      // Always fallback to mock commits
-      const fallbackCommits = getMockCommits()
-      setGithubStats(prev => prev ? { ...prev, recentCommits: fallbackCommits } : {
-        totalContributions: 0,
-        contributionCalendar: [],
-        recentCommits: fallbackCommits
-      })
-    } finally {
-      setCommitsLoading(false)
+      // Silently fail and use mock data
+      console.log('Using mock commits data')
     }
+    
+    // Always set commits (either real or mock)
+    setGithubStats(prev => {
+      const newStats = {
+        totalContributions: prev?.totalContributions || 0,
+        contributionCalendar: prev?.contributionCalendar || [],
+        recentCommits: commits
+      }
+      return newStats
+    })
+    
+    setCommitsLoading(false)
   }
 
   const getMockCommits = (): GitHubCommit[] => [

@@ -279,7 +279,7 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
         {/* Navigation Arrows */}
         <button
           onClick={prevSlide}
-          className="absolute left-2 sm:left-4 lg:left-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-black/60 border border-white/20 rounded-full flex items-center justify-center hover:bg-black/80 hover:border-white/40 z-10 backdrop-blur-sm"
+          className="absolute left-2 sm:left-4 lg:left-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-black/60 border border-white/20 rounded-full flex items-center justify-center z-10 backdrop-blur-sm"
           aria-label="Previous project"
         >
           <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -287,7 +287,7 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
 
         <button
           onClick={nextSlide}
-          className="absolute right-2 sm:right-4 lg:right-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-black/60 border border-white/20 rounded-full flex items-center justify-center hover:bg-black/80 hover:border-white/40 z-10 backdrop-blur-sm"
+          className="absolute right-2 sm:right-4 lg:right-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-black/60 border border-white/20 rounded-full flex items-center justify-center z-10 backdrop-blur-sm"
           aria-label="Next project"
         >
           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -299,8 +299,8 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              className={`w-1.5 h-1.5 sm:w-2 sm:h-2 lg:w-3 lg:h-3 rounded-full transition-all duration-300 hover:scale-125 ${
-                index === currentIndex ? "bg-white shadow-lg" : "bg-white/40 hover:bg-white/60"
+              className={`w-1.5 h-1.5 sm:w-2 sm:h-2 lg:w-3 lg:h-3 rounded-full ${
+                index === currentIndex ? "bg-white shadow-lg" : "bg-white/40"
               }`}
               aria-label={`Go to project ${index + 1}`}
             />

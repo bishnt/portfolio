@@ -317,13 +317,13 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
                 <>
                   <button
                     onClick={prevPage}
-                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-8 w-8 h-8 border border-white/20 flex items-center justify-center hover:border-white/40 hover:bg-white/5 rounded-full"
+                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-8 w-8 h-8 border border-white/20 flex items-center justify-center rounded-full"
                   >
                     <ChevronLeft className="w-4 h-4" />
                   </button>
                   <button
                     onClick={nextPage}
-                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-8 w-8 h-8 border border-white/20 flex items-center justify-center hover:border-white/40 hover:bg-white/5 rounded-full"
+                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-8 w-8 h-8 border border-white/20 flex items-center justify-center rounded-full"
                   >
                     <ChevronRight className="w-4 h-4" />
                   </button>
@@ -336,10 +336,10 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
                         onClick={() => {
                           setCurrentSkillPage(index)
                         }}
-                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                        className={`w-2 h-2 rounded-full ${
                           currentSkillPage === index
-                            ? "bg-white scale-125"
-                            : "bg-white/30 hover:bg-white/50"
+                            ? "bg-white"
+                            : "bg-white/30"
                         }`}
                       />
                     ))}
