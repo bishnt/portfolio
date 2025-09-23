@@ -19,8 +19,8 @@ export default function ComputerSciencePage() {
         <HeroCS />
         <AboutFiltered pageType="cs" />
         <ProjectsFiltered pageType="cs" />
-        <Education />
         <ProofOfWork />
+        <Education />
         <Blog />
         <Contact />
 

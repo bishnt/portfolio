@@ -23,7 +23,7 @@ export default function Navbar({ pageType = 'home' }: NavbarProps) {
       let sections = ['home', 'about', 'projects', 'education', 'blog', 'contact']
       
       if (pageType === 'cs') {
-        sections = ['home', 'about', 'projects', 'education', 'proof-of-work', 'blog', 'contact']
+        sections = ['home', 'about', 'projects', 'proof-of-work', 'education', 'blog', 'contact']
       } else if (pageType === 'beyond-engineering') {
         sections = ['home', 'about', 'projects', 'education', 'social-feed', 'blog', 'contact']
       }
@@ -69,19 +69,20 @@ export default function Navbar({ pageType = 'home' }: NavbarProps) {
       { name: "Home", href: "#home" },
       { name: "About", href: "#about" },
       { name: "Projects", href: "#projects" },
-      { name: "Education", href: "#education" },
     ]
 
     if (pageType === 'cs') {
       return [
         ...baseItems,
         { name: "Proof of Work", href: "#proof-of-work" },
+        { name: "Education", href: "#education" },
         { name: "Blog", href: "#blog" },
         { name: "Contact", href: "#contact" },
       ]
     } else if (pageType === 'beyond-engineering') {
       return [
         ...baseItems,
+        { name: "Education", href: "#education" },
         { name: "Social Feed", href: "#social-feed" },
         { name: "Blog", href: "#blog" },
         { name: "Contact", href: "#contact" },
@@ -89,6 +90,7 @@ export default function Navbar({ pageType = 'home' }: NavbarProps) {
     } else {
       return [
         ...baseItems,
+        { name: "Education", href: "#education" },
         { name: "Blog", href: "#blog" },
         { name: "Contact", href: "#contact" },
       ]
