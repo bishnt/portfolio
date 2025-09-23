@@ -6,7 +6,8 @@ import { readFileSync } from "fs"
 import { join } from "path"
 import matter from "gray-matter"
 import Link from "next/link"
-import { ArrowLeft, Calendar, Clock, User, Tag } from "lucide-react"
+import { Calendar, Clock, User, Tag } from "lucide-react"
+import BackButton from "@/components/back-button"
 
 interface BlogPost {
   title: string
@@ -76,13 +77,10 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
       {/* Header */}
       <header className="sticky top-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <Link
-            href="/#blog"
-            className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors font-mono text-sm"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Portfolio
-          </Link>
+          <BackButton 
+            fallbackHref="/#blog"
+            fallbackText="Back to Portfolio"
+          />
         </div>
       </header>
 
@@ -219,12 +217,11 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                 })}
               </p>
             </div>
-            <Link
-              href="/#blog"
+            <BackButton 
+              fallbackHref="/#blog"
+              fallbackText="← Back to All Posts"
               className="px-6 py-3 border border-white/20 text-white hover:bg-white hover:text-black transition-all duration-300 font-mono text-sm"
-            >
-              ← Back to All Posts
-            </Link>
+            />
           </div>
         </footer>
       </article>

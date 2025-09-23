@@ -4,6 +4,7 @@ import { Inter, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
 import Navbar from "@/components/navbar"
 import { PerformanceOptimizer } from "@/components/performance-optimizer"
+import NavigationTracker from "@/components/navigation-tracker"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" })
@@ -78,6 +79,7 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
         <PerformanceOptimizer />
+        <NavigationTracker />
         {children}
       </body>
     </html>

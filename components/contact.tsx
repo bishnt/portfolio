@@ -104,35 +104,56 @@ export default function Contact() {
             <h3 className="text-xl sm:text-2xl font-bold mb-6 sm:mb-8 font-mono">{"> GET IN TOUCH"}</h3>
 
             <div className="space-y-4 sm:space-y-6">
-              <div className="flex items-center space-x-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 border border-white/20 flex items-center justify-center font-mono text-sm">
+              <motion.div 
+                className="flex items-center space-x-4 group cursor-pointer"
+                whileHover={{ x: 5 }}
+                transition={{ duration: 0.2 }}
+              >
+                <motion.div 
+                  className="w-10 h-10 sm:w-12 sm:h-12 border border-white/20 flex items-center justify-center font-mono text-sm group-hover:border-white/40 transition-colors duration-200"
+                  whileHover={{ rotate: 5 }}
+                >
                   @
-                </div>
+                </motion.div>
                 <div>
                   <div className="font-mono text-xs sm:text-sm text-white/60">EMAIL</div>
                   <div className="text-sm sm:text-base text-white">bishrant150@gmail.com</div>
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="flex items-center space-x-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 border border-white/20 flex items-center justify-center font-mono text-sm">
+              <motion.div 
+                className="flex items-center space-x-4 group cursor-pointer"
+                whileHover={{ x: 5 }}
+                transition={{ duration: 0.2 }}
+              >
+                <motion.div 
+                  className="w-10 h-10 sm:w-12 sm:h-12 border border-white/20 flex items-center justify-center font-mono text-sm group-hover:border-white/40 transition-colors duration-200"
+                  whileHover={{ rotate: 5 }}
+                >
                   in
-                </div>
+                </motion.div>
                 <div>
                   <div className="font-mono text-xs sm:text-sm text-white/60">LINKEDIN</div>
                   <div className="text-sm sm:text-base text-white">linkedin.com/in/bishnt</div>
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="flex items-center space-x-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 border border-white/20 flex items-center justify-center font-mono text-sm">
+              <motion.div 
+                className="flex items-center space-x-4 group cursor-pointer"
+                whileHover={{ x: 5 }}
+                transition={{ duration: 0.2 }}
+              >
+                <motion.div 
+                  className="w-10 h-10 sm:w-12 sm:h-12 border border-white/20 flex items-center justify-center font-mono text-sm group-hover:border-white/40 transition-colors duration-200"
+                  whileHover={{ rotate: 5 }}
+                >
                   {"</>"}
-                </div>
+                </motion.div>
                 <div>
                   <div className="font-mono text-xs sm:text-sm text-white/60">GITHUB</div>
                   <div className="text-sm sm:text-base text-white">github.com/bishnt</div>
                 </div>
-              </div>
+              </motion.div>
             </div>
 
             <motion.div
@@ -226,13 +247,16 @@ export default function Contact() {
                 </div>
               )}
 
-              <button
+              <motion.button
                 onClick={handleSubmit}
                 disabled={isSubmitting}
                 className="w-full px-6 sm:px-8 py-3 bg-white text-black hover:bg-white/90 transition-all duration-300 font-mono text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
                 {isSubmitting ? 'SENDING...' : 'SEND MESSAGE'}
-              </button>
+              </motion.button>
             </div>
           </motion.div>
         </div>

@@ -212,7 +212,11 @@ function SocialLinks() {
           target="_blank"
           rel="noopener noreferrer"
           className="w-10 h-10 border border-white/20 flex items-center justify-center hover:border-white/40 hover:bg-white/5 transition-all duration-300"
-          whileHover={{ scale: 1.1 }}
+          whileHover={{ 
+            scale: 1.1,
+            boxShadow: "0 0 15px rgba(255,255,255,0.3)",
+            borderColor: "rgba(255,255,255,0.6)"
+          }}
           whileTap={{ scale: 0.95 }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -329,16 +333,30 @@ export default function Hero() {
       <motion.div
         className="absolute top-20 right-4 lg:right-20 text-white/15 font-mono text-lg lg:text-2xl"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
+        animate={{ 
+          opacity: [0, 1, 1, 1],
+          scale: [1, 1.05, 1]
+        }}
+        transition={{ 
+          delay: 1,
+          opacity: { duration: 1 },
+          scale: { duration: 4, repeat: Number.POSITIVE_INFINITY }
+        }}
       >
         y = A sin(ωt + φ)
       </motion.div>
       <motion.div
         className="absolute bottom-32 left-4 lg:left-16 text-white/15 font-mono text-base lg:text-xl"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
+        animate={{ 
+          opacity: [0, 1, 1, 1],
+          scale: [1, 1.02, 1]
+        }}
+        transition={{ 
+          delay: 1.2,
+          opacity: { duration: 1 },
+          scale: { duration: 5, repeat: Number.POSITIVE_INFINITY }
+        }}
       >
         ∇²V = 0
       </motion.div>

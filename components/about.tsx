@@ -169,14 +169,11 @@ creative: [
                     <motion.button
                       variants={activeTab === tab.id ? morphClick : staggerItem}
                       onClick={() => setActiveTab(tab.id)}
-                      className={`px-4 py-2 rounded-full font-mono text-xs sm:text-sm transition-all duration-300 ${
+                      className={`px-4 py-2 rounded-full font-mono text-xs sm:text-sm ${
                         activeTab === tab.id
                           ? "bg-white text-black shadow-lg"
-                          : "bg-white/10 text-white hover:bg-white/20 border border-white/20"
+                          : "bg-white/10 text-white border border-white/20"
                       }`}
-                      whileHover={{ scale: 1.05, y: -2 }}
-                      whileTap={{ scale: 0.95, filter: "blur(1px)" }}
-                      transition={{ type: "spring", stiffness: 400, damping: 17 }}
                       animate={activeTab === tab.id ? "clicked" : "initial"}
                     >
                       <span className="mr-2">{tab.icon}</span>

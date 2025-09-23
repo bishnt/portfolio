@@ -6,8 +6,9 @@ import { readFileSync } from "fs"
 import { join } from "path"
 import matter from "gray-matter"
 import Link from "next/link"
-import { ArrowLeft, Calendar, Clock, User, Tag, Github, ExternalLink } from "lucide-react"
+import { Calendar, Clock, User, Tag, Github, ExternalLink } from "lucide-react"
 import Image from "next/image"
+import BackButton from "@/components/back-button"
 
 interface ProjectDetail {
   title: string
@@ -83,13 +84,10 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
       {/* Header */}
       <header className="sticky top-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <Link
-            href="/#projects"
-            className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors font-mono text-sm"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Projects
-          </Link>
+          <BackButton 
+            fallbackHref="/#projects"
+            fallbackText="Back to Projects"
+          />
         </div>
       </header>
 
@@ -284,12 +282,11 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
                 })}
               </p>
             </div>
-            <Link
-              href="/#projects"
+            <BackButton 
+              fallbackHref="/#projects"
+              fallbackText="← Back to All Projects"
               className="px-6 py-3 border border-white/20 text-white hover:bg-white hover:text-black transition-all duration-300 font-mono text-sm rounded-2xl"
-            >
-              ← Back to All Projects
-            </Link>
+            />
           </div>
         </footer>
       </article>

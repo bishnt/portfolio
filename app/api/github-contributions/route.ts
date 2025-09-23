@@ -1,9 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+interface GitHubCommit {
+  sha: string
+  message: string
+  date: string
+  repo: string
+  url: string
+}
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const username = searchParams.get('username') || 'bishnt'
+    const includeCommits = searchParams.get('commits') === 'true'
     
     // Try multiple methods to fetch GitHub contributions
     
@@ -61,12 +70,18 @@ export async function GET(request: NextRequest) {
               }))
             }))
             
-            return NextResponse.json({
+            const responseData: any = {
               success: true,
               source: 'github-graphql',
               totalContributions: calendar.totalContributions,
               contributions: weeks
-            })
+            }
+            
+            if (includeCommits) {
+              responseData.recentCommits = await fetchCommitsWithToken(username, token)
+            }
+            
+            return NextResponse.json(responseData)
           }
         }
       } catch (error) {
@@ -86,12 +101,18 @@ export async function GET(request: NextRequest) {
       if (response.ok) {
         const data = await response.json()
         if (data.contributions) {
-          return NextResponse.json({
+          const responseData: any = {
             success: true,
             source: 'contributions-api',
             totalContributions: data.total || calculateTotal(data.contributions),
             contributions: data.contributions
-          })
+          }
+          
+          if (includeCommits) {
+            responseData.recentCommits = await fetchCommitsFromEvents(username, token)
+          }
+          
+          return NextResponse.json(responseData)
         }
       }
     } catch (error) {
@@ -112,12 +133,18 @@ export async function GET(request: NextRequest) {
         const events = await response.json()
         const contributionData = processGitHubEvents(events)
         
-        return NextResponse.json({
+        const responseData: any = {
           success: true,
           source: 'github-events',
           totalContributions: contributionData.total,
           contributions: contributionData.weeks
-        })
+        }
+        
+        if (includeCommits) {
+          responseData.recentCommits = await fetchCommitsFromEvents(username, token)
+        }
+        
+        return NextResponse.json(responseData)
       }
     } catch (error) {
       console.log('GitHub Events API failed:', error)
@@ -135,12 +162,18 @@ export async function GET(request: NextRequest) {
       if (response.ok) {
         const data = await response.json()
         if (data.contributions) {
-          return NextResponse.json({
+          const responseData: any = {
             success: true,
             source: 'alternative-api',
             totalContributions: data.total || calculateTotal(data.contributions),
             contributions: data.contributions
-          })
+          }
+          
+          if (includeCommits) {
+            responseData.recentCommits = await fetchCommitsFromEvents(username, token)
+          }
+          
+          return NextResponse.json(responseData)
         }
       }
     } catch (error) {
@@ -149,12 +182,18 @@ export async function GET(request: NextRequest) {
 
     // If all methods fail, return mock data
     const mockData = generateMockData()
-    return NextResponse.json({
+    const responseData: any = {
       success: true,
       source: 'mock-data',
       totalContributions: mockData.total,
       contributions: mockData.weeks
-    })
+    }
+    
+    if (includeCommits) {
+      responseData.recentCommits = getMockCommits()
+    }
+    
+    return NextResponse.json(responseData)
 
   } catch (error) {
     console.error('API route error:', error)
@@ -235,6 +274,113 @@ function processGitHubEvents(events: any[]) {
   }
   
   return { weeks, total: totalCount }
+}
+
+async function fetchCommitsWithToken(username: string, token: string): Promise<GitHubCommit[]> {
+  try {
+    const response = await fetch(`https://api.github.com/users/${username}/events?per_page=50`, {
+      headers: {
+        'Accept': 'application/vnd.github.v3+json',
+        'Authorization': `Bearer ${token}`,
+        'User-Agent': 'Portfolio-Website'
+      }
+    })
+    
+    if (response.ok) {
+      const events = await response.json()
+      return processCommitsFromEvents(events)
+    }
+  } catch (error) {
+    console.log('Failed to fetch commits with token:', error)
+  }
+  
+  return getMockCommits()
+}
+
+async function fetchCommitsFromEvents(username: string, token?: string): Promise<GitHubCommit[]> {
+  try {
+    const headers: Record<string, string> = {
+      'Accept': 'application/vnd.github.v3+json',
+      'User-Agent': 'Portfolio-Website'
+    }
+    
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`
+    }
+    
+    const response = await fetch(`https://api.github.com/users/${username}/events/public?per_page=50`, {
+      headers
+    })
+    
+    if (response.ok) {
+      const events = await response.json()
+      return processCommitsFromEvents(events)
+    }
+  } catch (error) {
+    console.log('Failed to fetch commits from events:', error)
+  }
+  
+  return getMockCommits()
+}
+
+function processCommitsFromEvents(events: any[]): GitHubCommit[] {
+  if (!Array.isArray(events) || events.length === 0) {
+    return getMockCommits()
+  }
+  
+  const pushEvents = events
+    .filter(event => 
+      event?.type === 'PushEvent' && 
+      event?.payload?.commits && 
+      Array.isArray(event.payload.commits) &&
+      event.payload.commits.length > 0
+    )
+    .slice(0, 4)
+    .map(event => {
+      const commit = event.payload.commits[0]
+      return {
+        sha: commit.sha?.substring(0, 7) || 'unknown',
+        message: commit.message?.split('\n')[0] || 'No message',
+        date: event.created_at || new Date().toISOString(),
+        repo: event.repo?.name?.split('/')[1] || 'repository',
+        url: `https://github.com/${event.repo?.name}/commit/${commit.sha}`
+      }
+    })
+  
+  return pushEvents.length > 0 ? pushEvents : getMockCommits()
+}
+
+function getMockCommits(): GitHubCommit[] {
+  return [
+    {
+      sha: "8018b09",
+      message: "chore: add initial Dockerfile and requirements",
+      date: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
+      repo: "smart-grid-ai",
+      url: "https://github.com/bishnt/smart-grid-ai"
+    },
+    {
+      sha: "6a77e5e",
+      message: "fix: GitHub commits integration and remove glitchy skills animations",
+      date: new Date(Date.now() - 1000 * 60 * 60 * 6).toISOString(),
+      repo: "portfolio",
+      url: "https://github.com/bishnt/portfolio"
+    },
+    {
+      sha: "5238df0",
+      message: "feat: add pagination in multiple sections",
+      date: new Date(Date.now() - 1000 * 60 * 60 * 12).toISOString(),
+      repo: "portfolio",
+      url: "https://github.com/bishnt/portfolio"
+    },
+    {
+      sha: "b834a4b",
+      message: "feat: implement initial AI model structure",
+      date: new Date(Date.now() - 1000 * 60 * 60 * 18).toISOString(),
+      repo: "smart-grid-ai",
+      url: "https://github.com/bishnt/smart-grid-ai"
+    }
+  ]
 }
 
 function generateMockData() {

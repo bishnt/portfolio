@@ -175,7 +175,7 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
                       src={currentProject.image}
                       alt={currentProject.title}
                       fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      className="object-cover"
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 80vw, 60vw"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
@@ -234,7 +234,7 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
                   {currentProject.skills.map((skill) => (
                     <span
                       key={skill}
-                      className="px-3 py-1 bg-white/10 border border-white/20 rounded-lg font-mono text-sm backdrop-blur-sm hover:bg-white/20 transition-all duration-300"
+                      className="px-3 py-1 bg-white/10 border border-white/20 rounded-lg font-mono text-sm backdrop-blur-sm"
                     >
                       {skill}
                     </span>
@@ -247,14 +247,14 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
                 {currentProject.slug && (
                   <Link
                     href={`/projects/${currentProject.slug}`}
-                    className="flex items-center gap-3 px-6 py-3 bg-white text-black rounded-xl hover:bg-white/90 hover:scale-105 transition-all duration-300 text-sm font-mono group shadow-lg"
+                    className="flex items-center gap-3 px-6 py-3 bg-white text-black rounded-xl text-sm font-mono shadow-lg"
                     onClick={() => {
                       startLoading()
                       // Stop loading after a short delay to allow for page transition
                       setTimeout(() => stopLoading(), 500)
                     }}
                   >
-                    <BookOpen className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+                    <BookOpen className="w-5 h-5" />
                     Learn More
                   </Link>
                 )}
@@ -263,9 +263,9 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
                     href={currentProject.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 border border-white/30 rounded-lg hover:border-white/60 hover:bg-white/10 transition-all duration-300 text-sm font-mono backdrop-blur-sm group"
+                    className="flex items-center gap-2 px-4 py-2 border border-white/30 rounded-lg text-sm font-mono backdrop-blur-sm"
                   >
-                    <Github className="w-4 h-4 group-hover:rotate-12 transition-transform duration-300" />
+                    <Github className="w-4 h-4" />
                     Code
                   </a>
                 )}
@@ -274,9 +274,9 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
                     href={currentProject.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 border border-white/30 rounded-lg hover:border-white/60 hover:bg-white/10 transition-all duration-300 text-sm font-mono backdrop-blur-sm group"
+                    className="flex items-center gap-2 px-4 py-2 border border-white/30 rounded-lg text-sm font-mono backdrop-blur-sm"
                   >
-                    <ExternalLink className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+                    <ExternalLink className="w-4 h-4" />
                     
                   </a>
                 )}

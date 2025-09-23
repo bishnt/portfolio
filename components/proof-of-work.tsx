@@ -41,64 +41,9 @@ export default function ProofOfWork() {
 
   useEffect(() => {
     fetchGitHubData()
-    fetchRecentCommits()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const fetchRecentCommits = async () => {
-    setCommitsLoading(true)
-    
-    // Start with mock data and then try to fetch real data
-    let commits = getMockCommits()
-    
-    try {
-      const response = await fetch('https://api.github.com/users/bishnt/events/public?per_page=50')
-      
-      if (response.ok && response.status === 200) {
-        const events = await response.json()
-        
-        if (Array.isArray(events) && events.length > 0) {
-          const pushEvents = events
-            .filter(event => 
-              event?.type === 'PushEvent' && 
-              event?.payload?.commits && 
-              Array.isArray(event.payload.commits) &&
-              event.payload.commits.length > 0
-            )
-            .slice(0, 4)
-            .map(event => {
-              const commit = event.payload.commits[0]
-              return {
-                sha: commit.sha?.substring(0, 7) || 'unknown',
-                message: commit.message?.split('\n')[0] || 'No message',
-                date: event.created_at || new Date().toISOString(),
-                repo: event.repo?.name?.split('/')[1] || 'repository',
-                url: `https://github.com/${event.repo?.name}/commit/${commit.sha}`
-              }
-            })
-          
-          if (pushEvents.length > 0) {
-            commits = pushEvents
-          }
-        }
-      }
-    } catch (error) {
-      // Silently fail and use mock data
-      console.log('Using mock commits data')
-    }
-    
-    // Always set commits (either real or mock)
-    setGithubStats(prev => {
-      const newStats = {
-        totalContributions: prev?.totalContributions || 0,
-        contributionCalendar: prev?.contributionCalendar || [],
-        recentCommits: commits
-      }
-      return newStats
-    })
-    
-    setCommitsLoading(false)
-  }
 
   const getMockCommits = (): GitHubCommit[] => [
     {
@@ -132,8 +77,11 @@ export default function ProofOfWork() {
   ]
 
   const fetchGitHubData = async () => {
+    setCommitsLoading(true)
+    
     try {
-      const response = await fetch('/api/github-contributions?username=bishnt')
+      // Fetch both contributions and commits from the unified API
+      const response = await fetch('/api/github-contributions?username=bishnt&commits=true')
       if (response.ok) {
         const apiData = await response.json()
         
@@ -159,7 +107,7 @@ export default function ProofOfWork() {
           const githubData: GitHubStats = {
             totalContributions: apiData.totalContributions || contributionCalendar.reduce((sum, day) => sum + day.count, 0),
             contributionCalendar,
-            recentCommits: [] // Will be populated by fetchRecentCommits
+            recentCommits: apiData.recentCommits || getMockCommits()
           }
           
           setGithubStats(githubData)
@@ -174,6 +122,7 @@ export default function ProofOfWork() {
       setGithubStats(generateMockData())
     } finally {
       setLoading(false)
+      setCommitsLoading(false)
     }
   }
 

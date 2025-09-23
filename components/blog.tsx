@@ -210,13 +210,13 @@ export default function Blog() {
             <>
               <button
                 onClick={prevPage}
-                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 w-10 h-10 border border-white/20 flex items-center justify-center hover:border-white/40 hover:bg-white/5 transition-all duration-300 rounded-full"
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 w-10 h-10 border border-white/20 flex items-center justify-center rounded-full"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button
                 onClick={nextPage}
-                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 w-10 h-10 border border-white/20 flex items-center justify-center hover:border-white/40 hover:bg-white/5 transition-all duration-300 rounded-full"
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 w-10 h-10 border border-white/20 flex items-center justify-center rounded-full"
               >
                 <ChevronRight className="w-5 h-5" />
               </button>
@@ -230,10 +230,10 @@ export default function Blog() {
                       setCurrentPage(index)
                       resetAutoSlide()
                     }}
-                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    className={`w-3 h-3 rounded-full ${
                       currentPage === index
                         ? "bg-white scale-125"
-                        : "bg-white/30 hover:bg-white/50"
+                        : "bg-white/30"
                     }`}
                   />
                 ))}

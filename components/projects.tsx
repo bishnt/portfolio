@@ -117,14 +117,12 @@ export default function Projects() {
                   <motion.button
                     variants={staggerItem}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`px-4 sm:px-6 py-2 sm:py-3 rounded-full font-mono text-xs sm:text-sm transition-all duration-300 ${
+                    className={`px-4 sm:px-6 py-2 sm:py-3 rounded-full font-mono text-xs sm:text-sm ${
                       activeTab === tab.id
                         ? "bg-white text-black shadow-lg"
-                        : "bg-white/10 text-white hover:bg-white/20 border border-white/20"
+                        : "bg-white/10 text-white border border-white/20"
                     }`}
-                    whileHover={{ scale: 1.05, y: -2 }}
                     whileTap="clicked"
-                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
                   >
                     <span className="hidden sm:inline">{tab.label}</span>
                     <span className="sm:hidden">{tab.label.split(" ")[0]}</span>

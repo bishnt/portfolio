@@ -259,10 +259,10 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as 'cs' | 'ee' | 'creative')}
-                  className={`px-4 py-2 rounded-full font-mono text-xs sm:text-sm transition-all duration-300 ${
+                  className={`px-4 py-2 rounded-full font-mono text-xs sm:text-sm ${
                     activeTab === tab.id
                       ? "bg-white text-black shadow-lg"
-                      : "bg-white/10 text-white hover:bg-white/20 border border-white/20"
+                      : "bg-white/10 text-white border border-white/20"
                   }`}
                 >
                   <span className="mr-2">{tab.icon}</span>
@@ -295,7 +295,7 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
                           type: "spring",
                           stiffness: 300
                         }}
-                        className="border border-white/20 p-3 sm:p-4 hover:border-white/40 hover:scale-105 hover:shadow-lg hover:shadow-white/10 transition-all duration-300 flex items-center gap-3 group"
+                        className="border border-white/20 p-3 sm:p-4 flex items-center gap-3"
                       >
                         <img
                           src={skill.logo || "/placeholder.svg"}
