@@ -294,12 +294,12 @@ export default function ProjectSlideshow({ pageType }: ProjectSlideshowProps) {
         </button>
 
         {/* Dots Indicator */}
-        <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex gap-2 sm:gap-3">
+        <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex gap-1.5 sm:gap-2">
           {currentProjects.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 hover:scale-125 ${
+              className={`w-1.5 h-1.5 sm:w-2 sm:h-2 lg:w-3 lg:h-3 rounded-full transition-all duration-300 hover:scale-125 ${
                 index === currentIndex ? "bg-white shadow-lg" : "bg-white/40 hover:bg-white/60"
               }`}
               aria-label={`Go to project ${index + 1}`}

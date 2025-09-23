@@ -1,10 +1,15 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+
+interface Skill {
+  name: string
+  logo: string
+}
 
 interface AboutFilteredProps {
   pageType: 'cs' | 'ee' | 'beyond-engineering'
@@ -18,13 +23,13 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
   const autoSlideRef = useRef<NodeJS.Timeout | null>(null)
 
   // Get current skills array based on active tab
-  const getCurrentSkills = () => {
+  const getCurrentSkills = useCallback((): Skill[][] => {
     const skillsArray = skills[activeTab as keyof typeof skills]
-    return Array.isArray(skillsArray[0]) ? skillsArray : [skillsArray]
-  }
+    return skillsArray as Skill[][]
+  }, [activeTab])
 
   // Auto-slide functionality
-  const startAutoSlide = () => {
+  const startAutoSlide = useCallback(() => {
     if (autoSlideRef.current) {
       clearTimeout(autoSlideRef.current)
     }
@@ -34,7 +39,7 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
         setCurrentSkillPage((prev) => (prev + 1) % currentSkills.length)
       }, 8000)
     }
-  }
+  }, [getCurrentSkills])
 
   const resetAutoSlide = () => {
     if (autoSlideRef.current) {
@@ -64,7 +69,7 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
         clearTimeout(autoSlideRef.current)
       }
     }
-  }, [currentSkillPage, activeTab])
+  }, [currentSkillPage, activeTab, startAutoSlide])
 
   // Reset page when tab changes
   useEffect(() => {
@@ -259,13 +264,13 @@ export default function AboutFiltered({ pageType }: AboutFilteredProps) {
             </p>
 
             <p className="text-base sm:text-lg text-white/80 leading-relaxed">
-              Right now, I'm focused on {pageType === 'cs' ? 'full stack web development' : 
+              Right now, I&apos;m focused on {pageType === 'cs' ? 'full stack web development' : 
                                        pageType === 'ee' ? 'circuit design and embedded systems' : 
                                        'video production and visual design'}, building practical applications that solve real problems.
             </p>
 
             <p className="text-base sm:text-lg text-white/80 leading-relaxed">
-              In the long run, I'm interested in {pageType === 'cs' ? 'exploring AI/ML applications and system architecture' : 
+              In the long run, I&apos;m interested in {pageType === 'cs' ? 'exploring AI/ML applications and system architecture' : 
                                                 pageType === 'ee' ? 'renewable energy systems and IoT integration' : 
                                                 'expanding into motion graphics and 3D design'} to create innovative solutions.
             </p>

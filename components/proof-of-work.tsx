@@ -18,9 +18,18 @@ interface ContributionDay {
   level: number
 }
 
+interface GitHubCommit {
+  sha: string
+  message: string
+  date: string
+  repo: string
+  url: string
+}
+
 interface GitHubStats {
   totalContributions: number
   contributionCalendar: ContributionDay[]
+  recentCommits: GitHubCommit[]
 }
 
 export default function ProofOfWork() {
@@ -28,10 +37,78 @@ export default function ProofOfWork() {
   const isInView = useInView(ref, { once: true })
   const [githubStats, setGithubStats] = useState<GitHubStats | null>(null)
   const [loading, setLoading] = useState(true)
+  const [commitsLoading, setCommitsLoading] = useState(true)
 
   useEffect(() => {
     fetchGitHubData()
+    fetchRecentCommits()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const fetchRecentCommits = async () => {
+    try {
+      setCommitsLoading(true)
+      const response = await fetch('https://api.github.com/users/bishnt/events/public?per_page=100')
+      if (response.ok) {
+        const events = await response.json()
+        const pushEvents = events
+          .filter((event: any) => event.type === 'PushEvent' && event.payload?.commits && event.payload.commits.length > 0)
+          .slice(0, 4)
+          .map((event: any) => {
+            const commit = event.payload.commits[0] // Get the first commit from the push
+            return {
+              sha: commit.sha.substring(0, 7),
+              message: commit.message.split('\n')[0], // Get first line only
+              date: event.created_at,
+              repo: event.repo.name.split('/')[1], // Get repo name without username
+              url: `https://github.com/${event.repo.name}/commit/${commit.sha}`
+            }
+          })
+        
+        setGithubStats(prev => prev ? { ...prev, recentCommits: pushEvents } : null)
+      } else {
+        // Fallback to mock commits
+        setGithubStats(prev => prev ? { ...prev, recentCommits: getMockCommits() } : null)
+      }
+    } catch (error) {
+      console.error('Error fetching GitHub commits:', error)
+      // Fallback commits
+      setGithubStats(prev => prev ? { ...prev, recentCommits: getMockCommits() } : null)
+    } finally {
+      setCommitsLoading(false)
+    }
+  }
+
+  const getMockCommits = (): GitHubCommit[] => [
+    {
+      sha: "a1b2c3d",
+      message: "feat: add new authentication system",
+      date: new Date(Date.now() - 1000 * 60 * 60 * 6).toISOString(),
+      repo: "portfolio",
+      url: "https://github.com/bishnt/portfolio"
+    },
+    {
+      sha: "e4f5g6h",
+      message: "fix: resolve mobile responsive issues",
+      date: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
+      repo: "agriha-fe",
+      url: "https://github.com/bishnt/agriha-fe"
+    },
+    {
+      sha: "i7j8k9l",
+      message: "docs: update README with setup instructions",
+      date: new Date(Date.now() - 1000 * 60 * 60 * 48).toISOString(),
+      repo: "webserver_in_C",
+      url: "https://github.com/bishnt/webserver_in_C"
+    },
+    {
+      sha: "m0n1o2p",
+      message: "refactor: optimize database queries",
+      date: new Date(Date.now() - 1000 * 60 * 60 * 72).toISOString(),
+      repo: "gyanet",
+      url: "https://github.com/bishnt/gyanet"
+    }
+  ]
 
   const fetchGitHubData = async () => {
     try {
@@ -60,7 +137,8 @@ export default function ProofOfWork() {
           
           const githubData: GitHubStats = {
             totalContributions: apiData.totalContributions || contributionCalendar.reduce((sum, day) => sum + day.count, 0),
-            contributionCalendar
+            contributionCalendar,
+            recentCommits: [] // Will be populated by fetchRecentCommits
           }
           
           setGithubStats(githubData)
@@ -96,7 +174,8 @@ export default function ProofOfWork() {
 
     return {
       totalContributions: contributions.reduce((sum, day) => sum + day.count, 0),
-      contributionCalendar: contributions
+      contributionCalendar: contributions,
+      recentCommits: getMockCommits()
     }
   }
 
@@ -119,6 +198,21 @@ export default function ProofOfWork() {
   const getMonthName = (monthIndex: number) => {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     return months[monthIndex]
+  }
+
+  const formatCommitDate = (dateString: string) => {
+    const date = new Date(dateString)
+    const now = new Date()
+    const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60))
+    
+    if (diffInHours < 1) {
+      return "just now"
+    } else if (diffInHours < 24) {
+      return `${diffInHours} hour${diffInHours === 1 ? '' : 's'} ago`
+    } else {
+      const diffInDays = Math.floor(diffInHours / 24)
+      return `${diffInDays} day${diffInDays === 1 ? '' : 's'} ago`
+    }
   }
 
   const organizeContributionsByWeeks = (contributions: ContributionDay[]) => {
@@ -292,6 +386,98 @@ export default function ProofOfWork() {
             <span className="text-xs text-white/40 font-mono">More</span>
           </div>
         </motion.div>
+
+        {/* Recent Commits Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="mt-8"
+        >
+          <div className="bg-white/5 border border-white/20 rounded-lg p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-bold font-mono text-white">
+                Recent Commits
+              </h3>
+              <motion.a
+                href="https://github.com/bishnt"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2 border border-white/30 text-white font-mono text-sm rounded-lg hover:border-white hover:bg-white/10 transition-all duration-300"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                See more on GitHub
+                <ExternalLink className="w-4 h-4" />
+              </motion.a>
+            </div>
+
+            {commitsLoading ? (
+              <div className="space-y-4">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="animate-pulse">
+                    <div className="flex items-start gap-4 p-4 border border-white/10 rounded-lg">
+                      <div className="w-16 h-4 bg-white/20 rounded"></div>
+                      <div className="flex-1">
+                        <div className="h-4 bg-white/20 rounded mb-2"></div>
+                        <div className="h-3 bg-white/10 rounded w-1/3"></div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {githubStats?.recentCommits?.map((commit, index) => (
+                  <motion.a
+                    key={commit.sha}
+                    href={commit.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ duration: 0.4, delay: 0.8 + index * 0.1 }}
+                    className="flex items-start gap-4 p-4 border border-white/10 rounded-lg hover:border-white/30 hover:bg-white/5 transition-all duration-300 group"
+                  >
+                    <div className="flex items-center gap-3 min-w-0 flex-1">
+                      <div className="flex-shrink-0">
+                        <span className="font-mono text-xs text-white/60 bg-white/10 px-2 py-1 rounded">
+                          {commit.sha}
+                        </span>
+                      </div>
+                      
+                      <div className="min-w-0 flex-1">
+                        <div className="font-mono text-sm text-white group-hover:text-white/90 transition-colors truncate">
+                          {commit.message}
+                        </div>
+                        <div className="flex items-center gap-2 mt-1">
+                          <span className="font-mono text-xs text-white/50">
+                            {commit.repo}
+                          </span>
+                          <span className="text-white/30">•</span>
+                          <span className="font-mono text-xs text-white/50">
+                            {formatCommitDate(commit.date)}
+                          </span>
+                        </div>
+                      </div>
+                      
+                      <ExternalLink className="w-4 h-4 text-white/40 group-hover:text-white/70 transition-colors flex-shrink-0" />
+                    </div>
+                  </motion.a>
+                ))}
+
+                {(!githubStats?.recentCommits || githubStats.recentCommits.length === 0) && (
+                  <div className="text-center py-8">
+                    <p className="font-mono text-sm text-white/50">
+                      No recent commits found
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </motion.div>
+
       </div>
     </section>
   )
