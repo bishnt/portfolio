@@ -130,7 +130,7 @@ export default function Navbar({ pageType = 'home' }: NavbarProps) {
                 transition: { duration: 0.1 }
               }}
             >
-              <Link href="/">Bish_</Link>
+              <Link href="/">Bishrant</Link>
             </motion.div>
           </Magnetic>
 
