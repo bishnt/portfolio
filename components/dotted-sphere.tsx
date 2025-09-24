@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
 
+// Responsive dotted sphere with gentle rotation (no interactivity)
 export default function DottedSphere() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -13,116 +13,107 @@ export default function DottedSphere() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    // Set canvas size
-    const updateCanvasSize = () => {
+    let animationId = 0
+
+    // Sphere data
+    let centerX = 0
+    let centerY = 0
+    let radius = 0
+    const dotCount = 2200 // increased density
+    type Dot = { ox: number; oy: number; oz: number }
+    let dots: Dot[] = []
+
+    // Resize and regenerate
+    const regenerate = () => {
       const rect = canvas.getBoundingClientRect()
-      canvas.width = rect.width * window.devicePixelRatio
-      canvas.height = rect.height * window.devicePixelRatio
-      ctx.scale(window.devicePixelRatio, window.devicePixelRatio)
-    }
+      const dpr = window.devicePixelRatio || 1
+      canvas.width = Math.max(1, Math.floor(rect.width * dpr))
+      canvas.height = Math.max(1, Math.floor(rect.height * dpr))
+      ctx.setTransform(1, 0, 0, 1, 0, 0)
+      ctx.scale(dpr, dpr)
 
-    updateCanvasSize()
-    window.addEventListener('resize', updateCanvasSize)
+      centerX = rect.width / 2
+      centerY = rect.height / 2
+      radius = Math.min(centerX, centerY) * 0.95 * 0.9 // 10% smaller
 
-    // Sphere configuration
-    const centerX = canvas.width / (2 * window.devicePixelRatio)
-    const centerY = canvas.height / (2 * window.devicePixelRatio)
-    const radius = Math.min(centerX, centerY) * 0.6
-    const dotCount = 800
-    const dots: Array<{
-      x: number
-      y: number
-      z: number
-      originalX: number
-      originalY: number
-      originalZ: number
-      opacity: number
-    }> = []
-
-    // Generate dots on sphere surface
+      // Fibonacci sphere distribution for uniformity
+      dots = []
+      const goldenAngle = Math.PI * (3 - Math.sqrt(5))
     for (let i = 0; i < dotCount; i++) {
-      const theta = Math.random() * Math.PI * 2
-      const phi = Math.acos(2 * Math.random() - 1)
-      
-      const x = radius * Math.sin(phi) * Math.cos(theta)
-      const y = radius * Math.sin(phi) * Math.sin(theta)
-      const z = radius * Math.cos(phi)
-      
-      dots.push({
-        x: centerX + x,
-        y: centerY + y,
-        z,
-        originalX: centerX + x,
-        originalY: centerY + y,
-        originalZ: z,
-        opacity: Math.random() * 0.8 + 0.2
-      })
+        const t = i / dotCount
+        const inclination = Math.acos(1 - 2 * t)
+        const azimuth = goldenAngle * i
+        const x = Math.sin(inclination) * Math.cos(azimuth)
+        const y = Math.sin(inclination) * Math.sin(azimuth)
+        const z = Math.cos(inclination)
+        dots.push({ ox: x, oy: y, oz: z })
+      }
     }
 
-    let rotationY = 0
-    let rotationX = 0
+    regenerate()
+    const onResize = () => regenerate()
+    window.addEventListener('resize', onResize)
 
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width / window.devicePixelRatio, canvas.height / window.devicePixelRatio)
+    // Animation state
+    let rotX = 0
+    let rotY = 0
+
+    const render = () => {
+      const rect = canvas.getBoundingClientRect()
+      ctx.clearRect(0, 0, rect.width, rect.height)
+
+      // Slow idle rotation
+      rotY += 0.006
+      rotX += 0.003
       
-      rotationY += 0.005
-      rotationX += 0.002
-      
-      dots.forEach((dot, index) => {
-        // Apply rotation
-        const cosY = Math.cos(rotationY)
-        const sinY = Math.sin(rotationY)
-        const cosX = Math.cos(rotationX)
-        const sinX = Math.sin(rotationX)
-        
-        // Rotate around Y axis
-        const x1 = (dot.originalX - centerX) * cosY - dot.originalZ * sinY
-        const z1 = (dot.originalX - centerX) * sinY + dot.originalZ * cosY
-        
-        // Rotate around X axis
-        const y1 = (dot.originalY - centerY) * cosX - z1 * sinX
-        const z2 = (dot.originalY - centerY) * sinX + z1 * cosX
-        
-        dot.x = centerX + x1
-        dot.y = centerY + y1
-        dot.z = z2
-        
-        // Calculate opacity based on z position (depth)
-        const depthOpacity = (z2 + radius) / (2 * radius)
-        dot.opacity = Math.max(0.1, Math.min(0.8, depthOpacity * 0.8))
-        
-        // Calculate dot size based on depth
-        const dotSize = Math.max(0.5, 2 - (z2 + radius) / (2 * radius))
-        
-        ctx.globalAlpha = dot.opacity
+
+      for (let i = 0; i < dots.length; i++) {
+        const d = dots[i]
+        // Base position on unit sphere
+        let x = d.ox
+        let y = d.oy
+        let z = d.oz
+
+        // Rotate around X and Y
+        const cosY = Math.cos(rotY), sinY = Math.sin(rotY)
+        const cosX = Math.cos(rotX), sinX = Math.sin(rotX)
+        // Y rotation
+        let rx = x * cosY - z * sinY
+        let rz = x * sinY + z * cosY
+        // X rotation
+        let ry = y * cosX - rz * sinX
+        rz = y * sinX + rz * cosX
+
+        // Project to screen center
+        const finalX = centerX + rx * radius
+        const finalY = centerY + ry * radius
+
+        // Depth-based alpha and size
+        const depth = (rz + 1) * 0.5
+        const alpha = 0.2 + depth * 0.7
+        const size = 0.7 + depth * 1.2 // smaller dots overall
+
+        ctx.globalAlpha = alpha
         ctx.fillStyle = '#ffffff'
         ctx.beginPath()
-        ctx.arc(dot.x, dot.y, dotSize, 0, Math.PI * 2)
+        ctx.arc(finalX, finalY, size, 0, Math.PI * 2)
         ctx.fill()
-      })
+      }
       
-      requestAnimationFrame(animate)
+      animationId = requestAnimationFrame(render)
     }
 
-    animate()
+    animationId = requestAnimationFrame(render)
 
     return () => {
-      window.removeEventListener('resize', updateCanvasSize)
+      cancelAnimationFrame(animationId)
+      window.removeEventListener('resize', onResize)
     }
   }, [])
 
   return (
-    <motion.div
-      className="absolute inset-0 flex items-center justify-center pointer-events-none"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 2, delay: 0.5 }}
-    >
-      <canvas
-        ref={canvasRef}
-        className="w-full h-full max-w-lg max-h-lg"
-        style={{ filter: 'blur(0.5px)' }}
-      />
-    </motion.div>
+    <div className="absolute inset-0">
+      <canvas ref={canvasRef} className="w-full h-full" />
+    </div>
   )
 }
